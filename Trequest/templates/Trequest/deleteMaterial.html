@@ -1,0 +1,47 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}User Management{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1"  style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-check"></i> Make New Request</h3>
+          </div>
+            <!-- /.card-header -->
+           
+           <div class="card-body">
+            <div class="row">
+              <form action="" method="POST">
+                  {%csrf_token%}
+                  <p>are you sure to delete {{term.name}}?</p>
+                  <a href="{% url 'material-manage' %}" class="btn-primary">No</a>
+                  <button type="submit" class="btn-danger">Yes</button>
+              </form>
+                      
+               
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+             
+            </div>
+            <!-- /.row -->
+
+           
+          </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+{%endblock content%}

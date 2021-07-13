@@ -1,0 +1,80 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}View Request{% endblock %}
+{% block content %}
+<div class="content-wrapper mt-2">
+  <section class="content">
+    <div class="container-fluid">
+    <div class="row mt-2">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header" style="background:#003e80;color:#fff">
+                <h3 class="card-title">New Request</h3>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap ">
+                  <thead>
+                    <tr>
+                       
+                    
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Department</th>
+                      <th>From</th>
+                      <th>Destination</th>
+                      <th>Number</th>
+                      <th>Sent on</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  {% for trans in transport %}
+                    {% if request.user.school == trans.passenger.school %}  
+                  <tbody>
+                    <tr>
+                       <td>{{trans.passenger.first_name}}</td>
+                       <td>{{trans.passenger.last_name}}</td>
+                       <td>{{trans.passenger.department}}</td>
+                       <td>{{trans.start_from}}</td>
+                       <td>{{trans.destination}}</td>
+                       <td>{{trans.passenger_numbers}}</td>
+                       <td>{{trans.created_at}}</td>
+                     
+                       <td>{{trans.status3}}</td>
+					             <td>
+					             <a href="{% url 'school-approve-request' trans.id %}" class="btn btn-info btn-sm"><i class="fa fa-check"></i> Approve</a>
+					            
+                       <button class="btn btn-danger"> <i class="fa fa-trash"></i></button>
+					             </td>
+                    </tr>
+                  </tbody>
+                   {% endif %} 
+                {% endfor %}
+              
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        
+          
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock content %}

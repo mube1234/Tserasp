@@ -1,0 +1,83 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}Approve Request{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1" style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-check-square"></i> Tsho Approve  Request</h3>
+          </div>
+            <!-- /.card-header -->
+           
+           <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+               <p> <b>Full Name :</b> {{approve.passenger.get_full_name}}</p>
+
+                 <p> <b>Phone :</b> {{approve.passenger.phone}}</p>
+                  <p> <b>School :</b> {{user.school}}</p>
+                <p> <b>Department :</b> {{user.department}}</p>
+                  <p> <b>Total person :</b> {{approve.passenger_numbers}}</p>
+                 
+                 
+
+              </div>
+              <div class="col-md-6">
+               <p> <b>Start From :</b> {{approve.start_from}}</p>
+                <p> <b>To :</b> {{approve.destination}}</p>
+                <p> <b>Start Date :</b> {{approve.start_date}}</p>
+                <p> <b>End Date :</b> {{approve.end_date}}</p>
+                  <p> <b>Reason :</b> {{approve.reason}}</p>
+                   <p> <b>Sent On :</b> {{approve.created_at}}</p>
+                  <p> <b>Status :</b> {{approve.status}}</p>
+                 
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+                {% if messages %}
+                   {% for message in messages %}
+                     <div class="panel panel-success" style="background:green;color:white;padding: 8px;">
+                        <strong>Done!</strong> <small>{{message}}</small>
+                      </div>
+                    {% endfor %}
+                {% endif %}
+                  <form class="" action="" method="POST">
+                      {% csrf_token %}
+                      {{form|crispy}}
+
+                      <label> Email:</label><input class="form-control" type="Email" name="email" readonly  value=" {{approve.passenger.email}}" ><br>
+                      <label>Subject:</label><input class="form-control" type="text" name="subject" value="Your Trip Date and Time" readonly="True"><br>
+
+                       <label> Date with Vehicle:</label><textarea class="form-control" name="message" required></textarea><br>
+                      <button class="btn btn-info " type="Submit" style="float: right;">Approve</button>
+                    
+                  </form>
+                      
+               
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+             
+            </div>
+            <!-- /.row -->
+
+           
+          </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+{% endblock content %}

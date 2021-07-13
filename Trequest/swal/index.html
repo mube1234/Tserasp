@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sweet alert</title>
+	<link rel="stylesheet" type="text/css" href="node_modules/sweetalert2/dist/sweetalert2.css">
+	
+</head>
+<body>
+   <center><h1>Swal</h1>
+   <button onClick="sweetalertclick()" type="button" class="btn">Try me 1</button>
+    <button onClick="sweetalertclick2()" type="button" class="btn">Try me 2</button>
+   </center>
+<script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+   <script type="text/javascript">
+   	function sweetalertclick() {
+
+   	     Swal.fire({
+  title: 'Select Your role',
+  input: 'select',
+  inputOptions: {
+    'a': 'Student',
+    'b': 'Teacher',
+    'c': 'Staff'
+  },
+  inputPlaceholder: 'required',
+  showCancelButton: true,
+  inputValidator: function (value) {
+    return new Promise(function (resolve, reject) {
+      if (value !== '') {
+        resolve();
+      } else {
+        resolve('You need to select a role');
+      }
+    });
+  }
+}).then(function (result) {
+  if (result.isConfirmed) {
+    Swal.fire({
+      icon: 'success',
+      html: 'You selected: ' + result.value
+    });
+  }
+});
+   	}
+      function sweetalertclick2() {
+        Swal.fire({
+      icon: 'success',
+      html: '<h4>Done</h4>'
+    });
+
+      }
+
+   </script>
+</body>
+</html>

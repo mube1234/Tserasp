@@ -1,0 +1,145 @@
+{% extends 'Trequest/base.html' %}
+{% load static %}
+{% block title %}Homepage{% endblock %}
+{% block content %}
+  <div class="content-wrapper">
+    <div class="content-header"></div>
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="fa fa-car "></i></span>
+
+            <a href="">
+                <div class="info-box-content">
+                    <h5>New Request</h5>
+                  {% if request.user.role == 'TSHO' %}
+                       <center><p style="font-size: 22px">{{ tsho_pend }}</p></center>
+
+                {% elif request.user.role == 'DepartmentHead'  %}
+
+
+                      <center><p style="font-size: 22px">{{dep_pend}}</p></center>
+
+
+                 {% elif request.user.role == 'SchoolDean' %}
+                       <center><p style="font-size: 22px">{{ sch_pend }}</p></center>
+                 {% else %}
+                     <span class="info-box-number">Loading...</span>
+                {% endif %}
+            </div>
+            </a>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+          <!-- ./col -->
+      <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-blue">
+                <i class="ion ion-ios-people-outline"></i></span>
+
+            <div class="info-box-content">
+              <h5>Accepted Request</h5>
+                <center><p style="font-size: 22px">{{ app }}</p></center>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+          <!-- ./col -->
+         <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box" >
+            <span  class="info-box-icon bg-gradient-gray">
+              <i  class="ion ion-ios-gear-outline"></i>
+            </span>
+
+            <div class="info-box-content">
+             <h5>Notifications</h5>
+              <center><p style="font-size: 22px">23</p></center>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+          <!-- ./col -->
+          <!-- ./col -->
+         <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green">
+                <i class="fa fa-car"></i>
+            </span>
+
+           <a href="{% url 'vehicle-manage' %}">
+                <div class="info-box-content">
+              <h5>Active Vehicle</h5>
+                <center><p style="font-size: 22px">{{ vehicle_count }}</p></center>
+            </div>
+           </a>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+          <!-- ./col -->
+         
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="card">
+            <div class="card-header">
+              <a href="#" class="card-title">Today's Schedule</a>
+              <a href="{% url 'create-schedule'  %}"  style="float: right">
+                  <i class="fas fa-plus"></i> Add Schedule
+              </a>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                 <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap ">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Shift</th>
+                      <th>Time</th>
+                      <th>Driver Name</th>
+                      <th>Place</th>
+                      <th>Service Type</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  {% for sch in schedule %}
+                  <tbody>
+                    <tr>
+                       <td>{{sch.date}}</td>
+                       <td>{{sch.shift}}</td>
+                       <td>{{sch.time}}</td>
+                       <td>{{sch.driver}}</td>
+                       <td>{{sch.place}}</td>
+                       <td>{{sch.service_type}}</td>
+                        <td>
+                             <a href="">
+                                   <i class="fas fa-eye"></i>
+                              </a> &nbsp;&nbsp; &nbsp;&nbsp;
+                           {% if sch.author == request.user %}
+                               <a href="">
+                                   <i class="fas fa-edit"></i>
+                              </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                  </tbody>
+                {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% endblock content  %}

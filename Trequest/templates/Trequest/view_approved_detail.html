@@ -1,0 +1,58 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}Approved Request{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1" style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-check-square"></i> Approved  Request</h3>
+          </div>
+            <!-- /.card-header -->
+
+           <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+               <p> <b>Full Name :</b> {{trans.passenger.get_full_name}}</p>
+                <p> <b>Email :</b> {{trans.passenger.email}}</p>
+                 <p> <b>Phone :</b> {{trans.passenger.phone}}</p>
+                  <p> <b>School :</b> {{trans.passenger.school}}</p>
+                <p> <b>Department :</b> {{trans.passenger.department}}</p>
+                  <p> <b>Total person :</b> {{trans.passenger_numbers}}</p>
+
+
+
+              </div>
+              <div class="col-md-6">
+               <p> <b>Start From :</b> {{trans.start_from}}</p>
+                <p> <b>To :</b> {{trans.destination}}</p>
+                <p> <b>Start Date :</b> {{trans.start_date}}</p>
+                <p> <b>End Date :</b> {{trans.end_date}}</p>
+                  <p> <b>Reason :</b> {{trans.reason}}</p>
+                   <p> <b>Sent On :</b> {{trans.created_at}}</p>
+                  <p> <b>From TSHO :</b> <i style="color: #00b44e;font-weight: bold">{{trans.status}}</i></p>
+                  <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{trans.status2}}</i></p>
+                  <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{trans.status3}}</i></p>
+              </div>
+            </div>
+            <hr>
+  <center> <button class="btn btn-primary" style=";background:#003e80 ">
+        <i class="fas fa-download"></i>
+           Print</button></center>
+
+          </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}

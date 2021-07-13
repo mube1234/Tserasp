@@ -1,0 +1,44 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}Make Request{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1" style="background:#008058;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-check"></i> Assign The Required things</h3>
+          </div>
+            <!-- /.card-header -->
+            <hr>
+            <div class="card-body col-md-6">
+               
+
+
+               <form class="" action="" method="POST">
+                      {% csrf_token %}
+                       <label>Email:</label><input class="form-control" type="Email" name="email" readonly  value=" {{app.passenger.email}}"><br>
+                      <label>Subject:</label><input class="form-control" type="text" name="subject" value="Your Trip Date and Time" readonly="True"><br>
+
+                       <label>Vehicle and Driver :</label><textarea class="form-control" name="message"></textarea><br>
+                      
+                      <button class="btn btn-info" type="Submit">Submit</button>
+                    
+                  </form>
+                      
+            </div>
+           
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+{% endblock content %}

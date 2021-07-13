@@ -1,0 +1,64 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}User Registrations{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1" style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="far fa-cars"></i> User Registration</h3>
+            </div>
+            <!-- /.card-header -->
+             <div class="card-body">
+             	    {% if messages %}
+                        {% for message in messages %}
+                           <div class="panel panel-success" style="background:green;color:white;">
+                              <strong>Done!</strong> <small>{{message}}</small>
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                   <div class="col-md-6">
+                      <form action="" method="post">
+                         {% csrf_token %}
+                         {{ user_form|crispy }}
+                         <button class="btn btn-primary" type="submit" >Register</button>
+                       </form> 
+                    </div>
+                  </div>
+        
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="swal-modal" role="dialog" aria-modal="true">
+    <div class="swal-title" style="">Update  Person</div>
+    <div class="swal-text" style="">Person Updated Successfully!</div>
+    <div class="swal-footer">
+      <div class="swal-button-container">
+
+    <button class="swal-button swal-button--confirm">OK</button>
+
+    <div class="swal-button__loader">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+  </div>
+</div>
+</div>
+  
+{% endblock content %}
+
+
+
+
