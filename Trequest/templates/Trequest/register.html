@@ -13,19 +13,23 @@
             </div>
             <!-- /.card-header -->
              <div class="card-body">
-             	    {% if messages %}
-                        {% for message in messages %}
-                           <div class="panel panel-success" style="background:green;color:white;">
-                              <strong>Done!</strong> <small>{{message}}</small>
-                          </div>
-                        {% endfor %}
-                      {% endif %}
                    <div class="col-md-6">
                       <form action="" method="post">
                          {% csrf_token %}
                          {{ user_form|crispy }}
+                          <input type="hidden" name="alert" value="{{alert}}" readonly>
                          <button class="btn btn-primary" type="submit" >Register</button>
-                       </form> 
+                       </form>
+<script>
+        $( document ).ready(function() {
+        if (document.UserRegistrationForm.alert.value==1){
+        swal("¡Bien hecho!", "El registro fue exitoso.", "success")
+        }
+        if (document.UserRegistrationForm.alert.value==0){
+        swal("¡Oops!", "Algo salió mal.", "error")
+        }
+        });
+</script>
                     </div>
                   </div>
         

@@ -123,7 +123,7 @@ class Vehicle(models.Model):
     vehicle_type = models.CharField(max_length=200, choices=type_of_vehicle)
     plate_number = models.CharField(max_length=20, unique=True)
     status = models.CharField(max_length=200, choices=STATUS, default='Not Occupied')
-    driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True)
+    driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True,blank=True)
     date_entered = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

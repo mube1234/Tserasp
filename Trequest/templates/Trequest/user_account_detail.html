@@ -1,0 +1,51 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}user detail{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1" style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-check"></i> User Profile</h3>
+          </div>
+            <!-- /.card-header -->
+
+           <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+
+               <p> <b>Full Name :</b> {{user.user.get_full_name}}</p>
+                <p> <b>Email :</b> {{user.user.email}}</p>
+                 <p> <b>Phone :</b> {{user.user.phone}}</p>
+                  <p> <b>Username :</b> {{user.user.username}}</p>
+
+              </div>
+              <div class="col-md-6">
+                <p> <b>School :</b> {{user.user.school}}</p>
+                <p> <b>Department :</b> {{user.user.department}}</p>
+                 <p> <b>Role :</b> {{user.user.role}}</p>
+                  <p> <b>Sex :</b> {{user.sex}}</p>
+                   <p> <b>Address :</b> {{user.location}}</p>
+
+                  <a href="" class="btn btn-danger">Delete </a>
+
+
+              </div>
+            </div>
+            <hr>
+          </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}

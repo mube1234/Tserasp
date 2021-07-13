@@ -9,7 +9,7 @@
         <div class="col-md-12 ">
           <div class="card">
             <div class="card-header mb-1" style="background:#003e80;color:#fff">
-                <h3 class="card-title"><i class="fa  fa-check"></i> Register new vehicle</h3>
+                <h3 class="card-title"><i class="fa  fa-check"></i> Update vehicle Info</h3>
           </div>
             <!-- /.card-header -->
             <hr>
@@ -19,19 +19,19 @@
                   <form class="" action="" method="POST">
                       {% csrf_token %}
                       {{form|crispy}}<br>
-                      <button class="btn btn-info" type="Submit">Submit</button>
-                    
+                      <button class="btn btn-primary" type="Submit">Update</button>
+
                   </form>
-                      
-               
+
+
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->
-             
+
             </div>
             <!-- /.row -->
 
-           
+
           </div>
           </div>
           <!-- /.card -->
@@ -43,5 +43,5 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
+
 {% endblock content %}

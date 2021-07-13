@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-12 ">
           <div class="card">
-            <div class="card-header mb-1" style="background:#008058;color:#fff">
+            <div class="card-header mb-1" style="background:#003e80;color:#fff">
                 <h3 class="card-title"><i class="far fa-cars"></i> User Management</h3>
 
                
@@ -18,26 +18,16 @@
             <div class="card-body">
               <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4"></div>
               <div class="row">
-                <div class="col-sm-12 col-md-6">
-                  <div class="dataTables_length" id="example1_length">
-                    <label>Show 
-                      <select name="example1_length" aria-controls="example1" class="custom-select custom-select-sm form-control form-control-sm">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                      </select> entries</label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div id="example1_filter" class="dataTables_filter">
-                      <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1">
-                      </label>
+                  <div class="col-sm-12">
+
+                    <div id="example1_filter" class="form-inline">
+                      <input type="search" class="form-control " placeholder="Search for users" aria-controls="example1">
+                        <button class="btn btn-default"> <i class="  fas fa-search"></i></button>
+
                     </div>
                   </div>
                 </div>
-
-              <table id="example1" class="table table-bordered table-striped DataTable" role="grid" aria-describedby="example1_info">
+              <table id="example1" class="table table-bordered table-striped DataTable mt-1" role="grid" aria-describedby="example1_info">
                 <thead>
                 <tr>
                 
@@ -63,11 +53,12 @@
                   <td>{{acc.email}}</td>
                   <td>{{acc.school}}</td>
                   <td>{{acc.department}}</td>
-				          <td><button class="btn btn-link"> <i class="nav-icon far fa-edit"></i></button></td>
+				          <td><a href="{% url 'detail-account' acc.username %}" class="btn btn-link"> <i class="nav-icon far fa-edit"></i></a></td>
                 </tr>
                {% endfor %}
               </table>
             </div>
+            <div>{{ total_account }} Users available</div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->

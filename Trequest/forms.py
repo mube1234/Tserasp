@@ -6,13 +6,13 @@ from .models import *
 class UserRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = MyUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role')
+        fields = ('first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role')
 
 
 class MyUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm):
         model = MyUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role',)
+        fields = ('first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role',)
 
 
 class VehicleRegisterForm(forms.ModelForm):

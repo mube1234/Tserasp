@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Trequest.apps.TrequestConfig',
     'crispy_forms',
+    'django_filters',
     
 ]
 
