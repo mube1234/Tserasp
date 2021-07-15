@@ -1,0 +1,57 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}Request Detail{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1" style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-check-circle"></i> Request Detail</h3>
+          </div>
+            <!-- /.card-header -->
+
+           <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+               <p> <b>Full Name :</b> {{myrequest_detail.passenger.get_full_name}}</p>
+                <p> <b>Email :</b> {{myrequest_detail.passenger.email}}</p>
+                 <p> <b>Phone :</b> {{myrequest_detail.passenger.phone}}</p>
+                  <p> <b>School :</b> {{myrequest_detail.passenger.school}}</p>
+                <p> <b>Department :</b> {{myrequest_detail.passenger.department}}</p>
+                  <p> <b>Total pasengers :</b> {{myrequest_detail.passenger_numbers}}</p>
+                  <p> <b>Passengers with you :</b> {{myrequest_detail.list_of_passengers}}</p>
+
+
+
+              </div>
+              <div class="col-md-6">
+               <p> <b>Start From :</b> {{myrequest_detail.start_from}}</p>
+                <p> <b>To :</b> {{myrequest_detail.destination}}</p>
+                <p> <b>Start Date :</b> {{myrequest_detail.start_date}}</p>
+                <p> <b>End Date :</b> {{myrequest_detail.end_date}}</p>
+                  <p> <b>Reason :</b> {{myrequest_detail.reason}}</p>
+                   <p> <b>Sent On :</b> {{myrequest_detail.created_at}}</p>
+                  <p> <b>From TSHO :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status}}</i></p>
+                  <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status2}}</i></p>
+                  <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status3}}</i></p>
+              </div>
+            </div>
+            <hr>
+  <center> <a href="{% url 'my-request' %}" class="btn btn-primary" style=";background:#003e80 ">Back</a></center>
+
+          </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}

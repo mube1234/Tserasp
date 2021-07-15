@@ -34,6 +34,11 @@
  <link rel = "icon" href =
 "https://image.flaticon.com/icons/png/512/3124/3124364.png"
         type = "image/x-icon">
+{# js for delete #}
+
+
+
+
 
 </head>
 <style>
@@ -117,9 +122,11 @@
       <div class="user-panel mt-3 pb-3 mb-3s">
             <a href="{% url 'index' %}">
               <div style="text-align: center;">
-                <img src="{% static 'dist/img/astu_logo.svg' %}" alt="Astu Logo" class="brand-image img-circle elevation-3"
-                       style="height:120px;width:120px;background: white">
-                        <h5 style="margin-top: 10px;color: white"><strong>{{request.user.role}}</strong></h5>
+                <img src="{% static 'dist/img/astu_logo.svg' %}"
+                     alt="Astu Logo"
+                     style="width: 60%;height: auto;background: white"
+                     class="brand-image img-circle elevation-3">
+                        <h5 style="margin-top: 10px;color: white;font-size:2vw;"><strong>{{request.user.role}}</strong></h5>
             </div>
             </a>
       </div>
@@ -240,6 +247,15 @@
               </li>
             </ul>
           </li>
+           <li class="nav-item has-treeview">
+            <a href="{% url 'history' %}" class="list nav-link">
+              <i class="side nav-icon far fa-bell"></i>
+              <p style="color: white">
+                History
+              </p>
+            </a>
+          </li>
+
         {% if request.user.role == 'StoreManager' %}
               <li class="nav-item has-treeview">
             <a href="#" class="list nav-link">
@@ -294,12 +310,7 @@
                   <p style="color: white">Add Schedule</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Update schedule</p>
-                </a>
-              </li>
+
               <li class="nav-item">
                 <a href="pages/tables/jsgrid.html" class="list nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -321,13 +332,13 @@
               <li class="nav-item">
                 <a href="{% url 'register' %}" class="list nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Register New User</p>
+                  <p style="color: white">Register</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'account' %}" class="list nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">User Account Management</p>
+                  <p style="color: white">Account Management</p>
                 </a>
               </li>
 
@@ -395,7 +406,7 @@
   </aside>
 
 <div>
-  </div><!-- ./wrapper -->
+  </div>
       <!-- to add other parts section we use this content -->
         {% block content %}
 
@@ -434,18 +445,24 @@
 <script src="{% static 'dist/js/demo.js' %}"></script>
 
 <!-- for display messages -->
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{##}
 <script src="{% static 'plugins/bootstrap/js/jquery3.3.1.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
-{% if messages %}
-  <script>
-      {% for message in messages %}
-          $(document).ready(function () {
-              $('.toast').toast('show');
-          });
-      {% endfor %}
-  </script>
-{% endif %}
 
+{# delete confirmation #}
+<script>
+      $(document).ready(function()
+     {
+      $(".delete").click(function()
+          {
+          return confirm("Are you sure to delete this user?")
+          });
+      $(".deleteVehicle").click(function()
+          {
+          return confirm("Are you sure to delete this vehicle?")
+          });
+    });
+     </script>
 {% include 'Trequest/message.html' %}

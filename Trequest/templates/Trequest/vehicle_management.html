@@ -18,23 +18,17 @@
             <div class="card-body">
               <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4"></div>
               <div class="row">
-                <div class="col-sm-12 col-md-6">
-                  <div class="dataTables_length" id="example1_length">
-                    <label>Show
-                      <select name="example1_length" aria-controls="example1" class="custom-select custom-select-sm form-control form-control-sm">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                      </select> entries</label>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                     </div>
                   </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div id="example1_filter" class="dataTables_filter">
-                      <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1">
-                      </label>
-                    </div>
-                  </div>
+                </div>
+              </div>
                 </div>
 
               <table id="example1" class="table table-bordered table-striped DataTable" role="grid" aria-describedby="example1_info">
@@ -57,7 +51,7 @@
                   <td>{{veh.status }}</td>
                   <td><a href="{% url 'detail-account' veh.driver  %}">{{veh.driver.user.get_full_name}}</a> </td>
                     <td><a href="{% url 'edit-vehicle' veh.id %}" class="btn btn-link"> <i class=" far fa-edit"></i></a>
-                    <button class="btn btn-link"> <i class=" fa fa-trash"></i></button></td>
+                    <a href="{% url 'delete-vehicle' veh.id %}" class="deleteVehicle btn btn-link"> <i class=" fa fa-trash"></i></a></td>
                 </tr>
                {% endfor %}
               </table>

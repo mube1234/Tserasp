@@ -5,7 +5,7 @@
 <div class="content-wrapper mt-2">
   <section class="content">
     <div class="container-fluid">
-    <div class="row mt-2">
+       <div class="row mt-2">
           <div class="col-12">
             <div class="card">
               <div class="card-header" style="background:#003e80;color:#fff">
@@ -52,7 +52,7 @@
                                  <td>{{my.status3}}</td>
                                  <td>{{my.status}}</td>
                                  <td>
-                                     <button class="btn btn-info btn-sm">Detail</button>
+                                     <a href="{% url 'detail-request' my.id %}"  class="btn btn-info btn-sm">Detail</a>
                                      <button class="btn btn-danger btn-sm">Cancel</button>
                                  </td>
                                    </tr>
@@ -60,10 +60,9 @@
                       {% else %}
                           <div class="alert alert-danger">
                              <p>There No is prevous trip history</p>
-                          </div>   
-                      {% endif %}       
-					              
-                  
+                          </div>
+                      {% endif %}
+
                   </tbody>
                 </table>
               </div>

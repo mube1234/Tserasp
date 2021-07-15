@@ -21,9 +21,11 @@
                   <div class="col-sm-12">
 
                     <div id="example1_filter" class="form-inline">
-                      <input type="search" class="form-control " placeholder="Search for users" aria-controls="example1">
-                        <button class="btn btn-default"> <i class="  fas fa-search"></i></button>
+                      <form action="" method="get">
+                         {{myfilter.form}}
+                      <button class="btn btn-default" type="submit"> <i class="  fas fa-search"></i></button>
 
+                    </form>
                     </div>
                   </div>
                 </div>
@@ -35,7 +37,6 @@
                   <th>Username</th>
                   <th>Role</th>
                   <th>Phone</th>
-                  <th>Email</th>
                   <th>School</th>
                   <th>Department</th>
                   <th>Action</th>
@@ -50,10 +51,10 @@
                   <td>{{acc.username}}</td>
                   <td>{{acc.role}}</td>
                   <td>{{acc.phone}}</td>
-                  <td>{{acc.email}}</td>
                   <td>{{acc.school}}</td>
                   <td>{{acc.department}}</td>
-				          <td><a href="{% url 'detail-account' acc.username %}" class="btn btn-link"> <i class="nav-icon far fa-edit"></i></a></td>
+                    <td><a href="{% url 'detail-account' acc.username %}" class="btn btn-link"> <i class="nav-icon far fa-edit"></i></a>
+                        <a href="{% url 'delete-account' acc.id %}" class="delete btn btn-link"> <i class="nav-icon fa fa-trash"></i></a></td>
                 </tr>
                {% endfor %}
               </table>

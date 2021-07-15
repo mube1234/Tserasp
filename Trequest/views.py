@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from Trequest.forms import *
 from django.core.mail import send_mail
-from . filters import MaterialFilter
+from .filters import MaterialFilter, UserFilter
 import random
 import string
+
 
 def signin(request):
     if request.method == 'POST':
@@ -60,25 +61,30 @@ def view_request(request):
 
 @login_required(login_url='login')
 def vehicle_management(request):
-    vehicle=Vehicle.objects.all()
-    context = {'vehicle':vehicle}
-    return render(request,'Trequest/vehicle_management.html',context)
+    vehicle = Vehicle.objects.all()
+    context = {'vehicle': vehicle}
+    return render(request, 'Trequest/vehicle_management.html', context)
+@login_required(login_url='login')
+def history(request):
+     return render(request, 'Trequest/history.html')
 
-def edit_vehicle(request,id):
-    vehicle=Vehicle.objects.get(id=id)
+def edit_vehicle(request, id):
+    vehicle = Vehicle.objects.get(id=id)
     if request.method == 'POST':
-        form = VehicleRegisterForm(request.POST,instance=vehicle)
+        form = VehicleRegisterForm(request.POST, instance=vehicle)
         if form.is_valid():
-            # Because your model requires that user is present, we validate the form and
-            # save it without commiting, manually assigning the user to the object and resaving
-            obj = form.save(commit=False)
-            obj.adder = request.user
-            obj.save()
+            alert = 1
+            form.save()
             messages.success(request, 'Vehicle updated Successfully!')
             return redirect('vehicle-manage')
+        else:
+            alert=0
     else:
+        alert = None
         form = VehicleRegisterForm(instance=vehicle)
-    context = {'form': form}
+
+    context = {'form': form,
+               'alert':alert}
     return render(request, 'Trequest/update_vehicle.html', context)
 
 
@@ -99,25 +105,28 @@ def create_account(request):
         if user_form.is_valid():
             username = 'tserasp'.join(random.choice(string.ascii_uppercase + string.digits) for x in range(2))
             instance = user_form.save(commit=False)
-            instance.username=username
+            instance.username = username
             instance.save()
             role = user_form.cleaned_data.get('role')
             if role == 'Driver':
                 Driver.objects.create(user=instance)
             messages.success(request, 'Account Created Successfully!')
-            alert = 1
             return redirect('account')
-        else:
-            alert = 0
-
     else:
-        alert=None
         user_form = UserRegistrationForm()
-    context={'user_form': user_form,
-             'alert':alert}
+    context = {'user_form': user_form}
     return render(request, 'Trequest/register.html', context)
 
-
+def delete_account(request,id):
+    account=get_object_or_404(MyUser,id=id)
+    account.delete()
+    messages.success(request, 'Account deleted Successfully!')
+    return redirect('account')
+def delete_vehicle(request,id):
+    veh=get_object_or_404(Vehicle,id=id)
+    veh.delete()
+    messages.success(request, 'Vehicle deleted Successfully!')
+    return redirect('vehicle-manage')
 @login_required(login_url='login')
 def make_request(request):
     form = MakeRequestForm()
@@ -153,7 +162,6 @@ def vehicle_register(request):
         form = VehicleRegisterForm()
     context = {'form': form}
     return render(request, 'Trequest/register_vehicle.html', context)
-
 
 
 @login_required(login_url='login')
@@ -267,17 +275,28 @@ def my_request(request):
     myrequest = TransportRequest.objects.filter(passenger=request.user)
     context = {'myrequest': myrequest}
     return render(request, 'Trequest/myrequest.html', context)
-
+@login_required(login_url='login')
+def my_request_detail(request,id):
+    myrequest_detail = TransportRequest.objects.get(id=id)
+    context = {'myrequest_detail': myrequest_detail}
+    return render(request, 'Trequest/my_request_detail.html', context)
 
 def account_management(request):
     account = MyUser.objects.all().order_by('-date_registered')
     total_account = account.count()
-    context = {'account': account, 'total_account': total_account}
+    myfilter = UserFilter(request.GET, queryset=account)
+    account = myfilter.qs
+    context = {'account': account,
+               'total_account': total_account,
+               'myfilter':myfilter}
     return render(request, 'Trequest/account_management.html', context)
-def account_detail(request,username):
-    user=Profile.objects.get(user__username=username)
-    context={'user':user}
+
+
+def account_detail(request, username):
+    user = Profile.objects.get(user__username=username)
+    context = {'user': user}
     return render(request, 'Trequest/user_account_detail.html', context)
+
 
 # def send_email(request,id):
 #     app=TransportRequest.objects.get(id=id)
@@ -306,18 +325,21 @@ def create_schedule(request):
         form = CreateScheduleForm()
     context = {'form': form}
     return render(request, 'Trequest/create_schedule.html', context)
-def update_schedule(request,id):
-    schedule=Schedule.objects.get(id=id)
+
+
+def update_schedule(request, id):
+    schedule = Schedule.objects.get(id=id)
     if request.method == 'POST':
-        form=CreateScheduleForm(request.POST,instance=schedule)
+        form = CreateScheduleForm(request.POST, instance=schedule)
         if form.is_valid():
             form.save()
-            messages.success(request,'Schedule updated Successfully')
+            messages.success(request, 'Schedule updated Successfully')
             return redirect('index')
     else:
         form = CreateScheduleForm(instance=schedule)
-    context={'form':form}
+    context = {'form': form}
     return render(request, 'Trequest/update_schedule.html', context)
+
 
 # by naol
 def deletematerial(request, pk):
@@ -337,6 +359,7 @@ def Updatematerial(request, pk):
         form = AddMaterialForm(request.POST, instance=material)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Material updated Successfully!')
             return redirect('material-manage')
     context = {'form': form}
     return render(request, 'Trequest/AddMaterialForm.html', context)
@@ -348,7 +371,8 @@ def AddMaterial(request):
         form = AddMaterialForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            messages.success(request, 'Material added Successfully!')
+            return redirect('material-manage')
 
     context = {'form': form}
     return render(request, 'Trequest/AddMaterialForm.html', context)
@@ -359,6 +383,5 @@ def material_management(request):
     material = Material.objects.all()
     myfilter = MaterialFilter(request.GET, queryset=material)
     material = myfilter.qs
-    context = {'material': material,'myfilter':myfilter}
+    context = {'material': material, 'myfilter': myfilter}
     return render(request, 'Trequest/material_management.html', context)
-

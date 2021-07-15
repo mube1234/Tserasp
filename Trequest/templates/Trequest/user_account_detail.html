@@ -30,7 +30,7 @@
                   <p> <b>Sex :</b> {{user.sex}}</p>
                    <p> <b>Address :</b> {{user.location}}</p>
 
-                  <a href="" class="btn btn-danger">Delete </a>
+                  <a href="{% url 'delete-account' user.user.id %}" class="delete btn btn-danger">Delete </a>
 
 
               </div>

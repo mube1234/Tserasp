@@ -14,22 +14,14 @@
             <!-- /.card-header -->
              <div class="card-body">
                    <div class="col-md-6">
+
                       <form action="" method="post">
                          {% csrf_token %}
                          {{ user_form|crispy }}
                           <input type="hidden" name="alert" value="{{alert}}" readonly>
                          <button class="btn btn-primary" type="submit" >Register</button>
                        </form>
-<script>
-        $( document ).ready(function() {
-        if (document.UserRegistrationForm.alert.value==1){
-        swal("¡Bien hecho!", "El registro fue exitoso.", "success")
-        }
-        if (document.UserRegistrationForm.alert.value==0){
-        swal("¡Oops!", "Algo salió mal.", "error")
-        }
-        });
-</script>
+
                     </div>
                   </div>
         
@@ -40,26 +32,25 @@
       </div>
       <!-- /.row -->
     </section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-  <div class="swal-modal" role="dialog" aria-modal="true">
-    <div class="swal-title" style="">Update  Person</div>
-    <div class="swal-text" style="">Person Updated Successfully!</div>
-    <div class="swal-footer">
-      <div class="swal-button-container">
+{% if messages %}
+  <script>
+      {% for message in messages %}
 
-    <button class="swal-button swal-button--confirm">OK</button>
+        $( document ).ready(function() {
+        if (document.UserRegistrationForm.alert.value == 1)
+        {
+                swal("¡Bien hecho!", "El registro fue exitoso.", "success")
+        }
+        if (document.UserRegistrationForm.alert.value == 0)
+        {
+            swal("¡Oops!", "Algo salió mal.", "error")
+        }
+        });
+      {% endfor %}
+  </script>
+{% endif %}
 
-    <div class="swal-button__loader">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-
-  </div>
-</div>
-</div>
   
 {% endblock content %}
 
