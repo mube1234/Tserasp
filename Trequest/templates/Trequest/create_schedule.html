@@ -1,9 +1,10 @@
 {% extends 'Trequest/base.html' %}
 {% load static%}
 {% block title %}Create Schedule{% endblock %}
-{% block content %}
 {% load crispy_forms_tags %}
-<div class="content-wrapper mt-2">
+{% block content %}
+
+     <div class="content-wrapper mt-2">
     <section class="content">
       <div class="row">
         <div class="col-md-12 ">
@@ -22,7 +23,7 @@
                       {% csrf_token %}
                       {{form|crispy}}<br>
 
-                      <button class="btn btn-info " type="Submit">Create</button>
+                      <button class="our-btn btn btn-info " type="Submit">Create</button>
 
                   </form>
 
@@ -44,6 +45,5 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
+  <!-- /.content
 {% endblock content %}

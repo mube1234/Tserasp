@@ -1,14 +1,15 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from  django.contrib.auth.forms import PasswordChangeForm
 from Trequest.forms import *
 from django.core.mail import send_mail
 from .filters import MaterialFilter, UserFilter
 import random
 import string
-
+from django.http.response import JsonResponse
 
 def signin(request):
     if request.method == 'POST':
@@ -24,9 +25,67 @@ def signin(request):
     return render(request, 'Trequest/login.html')
 
 
+def create_account(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            username = 'tserasp'.join(random.choice(string.ascii_uppercase + string.digits) for x in range(2))
+            instance = user_form.save(commit=False)
+            instance.username = username
+            instance.save()
+            role = user_form.cleaned_data.get('role')
+            if role == 'Driver':
+                Driver.objects.create(user=instance)
+            messages.success(request, 'Account Created Successfully!')
+            return redirect('account')
+    else:
+        user_form = UserRegistrationForm()
+    context = {'user_form': user_form}
+    return render(request, 'Trequest/register.html', context)
+
+# AJAX
+def load_department(request):
+    school_id = request.GET.get('school_id')
+    departments = Department.objects.filter(school_id=school_id).order_by('name')
+    context={'departments':departments}
+    return render(request, 'Trequest/department_dropdown_list_options.html', context)
+    # print(list(departments.values('id','name')))
+    # return JsonResponse(list(departments.values('id', 'name')), safe=False)
+
+def edit_account(request):
+    if request.method == 'POST':
+        a_form = UserAccountEditForm(request.POST, instance=request.user)
+        p_form=UserProfileEditForm(request.POST,instance=request.user.passenger)
+        if a_form.is_valid() and p_form.is_valid():
+            a_form.save()
+            p_form.save()
+            messages.success(request, 'Profile updated Successfully!')
+            return redirect('profile')
+
+    else:
+        a_form = UserAccountEditForm(request.POST, instance=request.user)
+        p_form=UserProfileEditForm(request.POST,instance=request.user.passenger)
+
+    context = {'a_form': a_form,'p_form':p_form}
+    return render(request, 'Trequest/edit_account.html', context)
+
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+@login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        form=PasswordChangeForm(request.user,request.POST)
+        if form.is_valid():
+            user=form.save()
+            update_session_auth_hash(request,user)
+            messages.success(request, 'Password Changed successfully')
+            return redirect('change-password')
+    else:
+        form=PasswordChangeForm(request.user)
+    context={'form':form}
+    return render(request,'Trequest/change_password.html',context)
 
 
 @login_required(login_url='login')
@@ -68,25 +127,43 @@ def vehicle_management(request):
 def history(request):
      return render(request, 'Trequest/history.html')
 
+
+ #  vehicle related
+@login_required(login_url='login')
+def vehicle_register(request):
+    if request.method == 'POST':
+        form = VehicleRegisterForm(request.POST)
+        if form.is_valid():
+            # Because your model requires that user is present, we validate the form and
+            # save it without commiting, manually assigning the user to the object and resaving
+            obj = form.save(commit=False)
+            obj.adder = request.user
+            obj.save()
+            messages.success(request, 'Vehicle registered Successfully!')
+            return redirect('vehicle-manage')
+    else:
+        form = VehicleRegisterForm()
+    context = {'form': form}
+    return render(request, 'Trequest/register_vehicle.html', context)
+
 def edit_vehicle(request, id):
     vehicle = Vehicle.objects.get(id=id)
     if request.method == 'POST':
         form = VehicleRegisterForm(request.POST, instance=vehicle)
         if form.is_valid():
-            alert = 1
             form.save()
             messages.success(request, 'Vehicle updated Successfully!')
             return redirect('vehicle-manage')
-        else:
-            alert=0
+
     else:
-        alert = None
         form = VehicleRegisterForm(instance=vehicle)
 
-    context = {'form': form,
-               'alert':alert}
+    context = {'form': form}
     return render(request, 'Trequest/update_vehicle.html', context)
 
+@login_required(login_url='login')
+def repaired_vehicle(request):
+    return render(request,'Trequest/repaired_vehicle.html')
 
 @login_required(login_url='login')
 def material_management(request):
@@ -99,23 +176,6 @@ def profile(request):
     return render(request, 'Trequest/profile.html')
 
 
-def create_account(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            username = 'tserasp'.join(random.choice(string.ascii_uppercase + string.digits) for x in range(2))
-            instance = user_form.save(commit=False)
-            instance.username = username
-            instance.save()
-            role = user_form.cleaned_data.get('role')
-            if role == 'Driver':
-                Driver.objects.create(user=instance)
-            messages.success(request, 'Account Created Successfully!')
-            return redirect('account')
-    else:
-        user_form = UserRegistrationForm()
-    context = {'user_form': user_form}
-    return render(request, 'Trequest/register.html', context)
 
 def delete_account(request,id):
     account=get_object_or_404(MyUser,id=id)
@@ -146,40 +206,24 @@ def make_request(request):
     return render(request, 'Trequest/make_request.html', context)
 
 
-@login_required(login_url='login')
-def vehicle_register(request):
-    if request.method == 'POST':
-        form = VehicleRegisterForm(request.POST)
-        if form.is_valid():
-            # Because your model requires that user is present, we validate the form and
-            # save it without commiting, manually assigning the user to the object and resaving
-            obj = form.save(commit=False)
-            obj.adder = request.user
-            obj.save()
-            messages.success(request, 'Vehicle registered Successfully!')
-            return redirect('vehicle-register')
-    else:
-        form = VehicleRegisterForm()
-    context = {'form': form}
-    return render(request, 'Trequest/register_vehicle.html', context)
 
 
-@login_required(login_url='login')
-def tsho_assign_request(request, id):
-    app = TransportRequest.objects.get(id=id)
-    if request.method == 'POST':
-        request_form = ApproveRequestForm(request.POST)
-        if request_form.is_valid():
-            obj = request_form.save(commit=False)
-            obj.user = app
-            obj.save()
-            return send_email(request)
-            messages.success(request, 'Request Approve Successfully!')
-            return redirect('tsho-view-approved-request')
-    else:
-        request_form = ApproveRequestForm()
-    context = {'form': request_form, 'app': app}
-    return render(request, 'Trequest/assign_approved_request.html', context)
+# @login_required(login_url='login')
+# def tsho_assign_request(request, id):
+#     app = TransportRequest.objects.get(id=id)
+#     if request.method == 'POST':
+#         request_form = ApproveRequestForm(request.POST)
+#         if request_form.is_valid():
+#             obj = request_form.save(commit=False)
+#             obj.user = app
+#             obj.save()
+#             return send_email(request)
+#             messages.success(request, 'Request Approve Successfully!')
+#             return redirect('tsho-view-approved-request')
+#     else:
+#         request_form = ApproveRequestForm()
+#     context = {'form': request_form, 'app': app}
+#     return render(request, 'Trequest/assign_approved_request.html', context)
 
 
 def department_view_request(request):
@@ -231,6 +275,7 @@ def department_approve_request(request, id):
         form = DepartmentApproveForm(request.POST, instance=approve)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Request approved Successfully!')
             return redirect('department-view-approved-request')
     else:
         form = DepartmentApproveForm(instance=approve)
@@ -239,6 +284,7 @@ def department_approve_request(request, id):
 
 
 def tsho_approve_request(request, id):
+    vehicle=Vehicle.objects.filter(currently='Inside')
     approve = get_object_or_404(TransportRequest, id=id)
     if request.method == 'POST':
         form = TshoApproveForm(request.POST, instance=approve)
@@ -246,16 +292,22 @@ def tsho_approve_request(request, id):
             form.save()
             # for sending email to respective user
             subject = request.POST.get('subject')
-            message = request.POST.get('message')
+            date = request.POST.get('message')
+            time=request.POST.get('message2')
+            driver=request.POST.get('driver')
+            # phone=request.POST.get('driver2')
+            message="Your driver name: "+ driver + "\n" + "Date of your trip: " + date + "\n "+ "Time of your trip: " + time 
             email = request.POST.get('email')
             send_mail(subject, message, settings.EMAIL_HOST_USER,
                       [email], fail_silently=False)
             return render(request, 'Trequest/email_sent.html', {'email': email})
     else:
         form = TshoApproveForm(instance=approve)
-    context = {'form': form, 'approve': approve}
+    context = {'form': form,
+                'approve': approve,
+                'vehicle':vehicle
+              }
     return render(request, 'Trequest/tsho_approve_request.html', context)
-
 
 def school_approve_request(request, id):
     approve = get_object_or_404(TransportRequest, id=id)
@@ -263,6 +315,7 @@ def school_approve_request(request, id):
         form = SchoolApproveForm(request.POST, instance=approve)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Request approved Successfully!')
             return redirect('school-view-approved-request')
     else:
         form = SchoolApproveForm(instance=approve)
@@ -325,7 +378,6 @@ def create_schedule(request):
         form = CreateScheduleForm()
     context = {'form': form}
     return render(request, 'Trequest/create_schedule.html', context)
-
 
 def update_schedule(request, id):
     schedule = Schedule.objects.get(id=id)

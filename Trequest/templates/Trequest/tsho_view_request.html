@@ -23,6 +23,7 @@
               <!-- /.card-header -->
 
               <div class="card-body table-responsive p-0">
+                {% if transport %}
                 <table class="table table-hover text-nowrap ">
                   <thead>
                     <tr>
@@ -41,7 +42,7 @@
                   </thead>
 
 
-           
+    
                 
                   {% for trans in transport %}
                     
@@ -67,6 +68,9 @@
                 {% endfor %}
               
                 </table>
+                {% else %}
+                <div class="alert alert-danger"><center><h3>There is no request yet</h3></center></div>
+                {% endif %}    
               </div>
               <!-- /.card-body -->
             </div>

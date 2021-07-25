@@ -1,4 +1,7 @@
 from django.urls import path
+# for password reset
+from django.contrib.auth import views as auth_views 
+
 from . import views
 urlpatterns = [
     path('', views.signin, name='login'),
@@ -9,10 +12,13 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('account/manage', views.account_management, name='account'),
     path('account/delete/<int:id>', views.delete_account, name='delete-account'),
+    path('account/edit/',views.edit_account,name='edit-account'),
     path('account-detail/<str:username>', views.account_detail, name='detail-account'),
     path('logout/', views.user_logout, name='logout'),
-
-    # request related
+    path('change_password/',views.change_password,name='change-password'),
+    path('ajax/load_department',views.load_department,name='ajax_load_department'),
+  
+    #vehicle request related
     path('request/tshoview', views.tsho_view_request, name="tsho-view-request"),
     path('request/tshoapproved', views.tsho_view_approved_request, name="tsho-view-approved-request"),
     path('request/departmentview', views.department_view_request, name="department-view-request"),
@@ -28,6 +34,7 @@ urlpatterns = [
     path('request/my_request/detail/<str:id>', views.my_request_detail, name="detail-request"),
     path('request/make', views.make_request, name="make-request"),
     path('request/tshoapprove/<str:id>', views.tsho_approve_request, name="tsho-approve-request"),
+    path('vehicle/repaired',views.repaired_vehicle,name='repaired-vehicle'),
 
     # vehicle  related
     path('vehicle/', views.vehicle_management, name="vehicle-manage"),
@@ -39,7 +46,7 @@ urlpatterns = [
     path('schedule/add', views.create_schedule, name="create-schedule"),
     path('schedule/update/<str:id>', views.update_schedule, name="update-schedule"),
 
-    # material related
+    # material record related
     path('material/', views.material_management, name="material-manage"),
     path('addMaterial/', views.AddMaterial, name='AddMaterial'),
     path('material/', views.material_management, name="material-manage"),
@@ -47,6 +54,12 @@ urlpatterns = [
     path('deletematerial/<str:pk>/', views.deletematerial, name="delete_material"),
 
     # history
-
      path('history/', views.history, name="history"),
+
+    #  password reset
+    path('password_reset/',auth_views.PasswordResetView.as_view(template_name="Trequest/password_reset_form.html"),name='password-reset'),
+    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name="Trequest/password_reset_done.html"),name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="Trequest/password_reset_confirm.html"),name='password_reset_confirm'),
+    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(template_name="Trequest/password_reset_complete.html"),name='password_reset_complete'),
+    
 ]

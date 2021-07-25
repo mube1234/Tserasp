@@ -18,5 +18,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('Trequest.urls'))
+    path('',include('Trequest.urls')),
+    path('api/', include('Trequest.api.urls'))
 ]

@@ -23,6 +23,7 @@
                 <p> <b>Department :</b> {{myrequest_detail.passenger.department}}</p>
                   <p> <b>Total pasengers :</b> {{myrequest_detail.passenger_numbers}}</p>
                   <p> <b>Passengers with you :</b> {{myrequest_detail.list_of_passengers}}</p>
+                  <p> <b>Sent On :</b> {{myrequest_detail.created_at}}</p>
 
 
 
@@ -32,11 +33,15 @@
                 <p> <b>To :</b> {{myrequest_detail.destination}}</p>
                 <p> <b>Start Date :</b> {{myrequest_detail.start_date}}</p>
                 <p> <b>End Date :</b> {{myrequest_detail.end_date}}</p>
-                  <p> <b>Reason :</b> {{myrequest_detail.reason}}</p>
-                   <p> <b>Sent On :</b> {{myrequest_detail.created_at}}</p>
+               
+                  
                   <p> <b>From TSHO :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status}}</i></p>
                   <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status2}}</i></p>
                   <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status3}}</i></p>
+                  <div style="box-shadow: 2px 2px 2px 2px;padding: 5px;">
+                    <p> <b>Reason :</b> {{myrequest_detail.reason|safe}}</p>
+                  </div>
+                 
               </div>
             </div>
             <hr>

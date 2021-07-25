@@ -18,8 +18,10 @@ admin.site.register(TransportRequest)
 admin.site.register(Vehicle)
 admin.site.register(ApproveRequest)
 admin.site.register(Schedule)
-#admin.site.register(AssignedVehicle)
-# admin.site.register(TransportRequest)
-# admin.site.register(Vehicle)
-# admin.site.register(Material)
-# admin.site.register(MaterialRequest)
+admin.site.register(School)
+admin.site.register(Department)
+admin.site.register(Material)
+
+
+
+

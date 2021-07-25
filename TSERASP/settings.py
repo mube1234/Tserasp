@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Trequest.apps.TrequestConfig',
     'crispy_forms',
+    'ckeditor',
     'django_filters',
+    'rest_framework',
+    'simple_history',
     
 ]
 
@@ -51,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'TSERASP.urls'
@@ -153,3 +157,5 @@ EMAIL_HOST_PASSWORD = ''
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+    

@@ -1,8 +1,9 @@
 {% extends 'Trequest/base.html' %}
-{% load static%}
-{% block title %}Approved Request{% endblock %}
+{% load static %}
+{% block title %} Approved Request  {% endblock %}
 {% block content %}
 {% load crispy_forms_tags %}
+
 <div class="content-wrapper mt-2">
     <section class="content">
       <div class="row">
@@ -15,7 +16,8 @@
 
            <div class="card-body">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
+                <h3 style="background-color: rgb(150, 149, 204);padding: 5px;width: 70%;color: white;">Users Information</h3><hr>
                <p> <b>Full Name :</b> {{trans.passenger.get_full_name}}</p>
                 <p> <b>Email :</b> {{trans.passenger.email}}</p>
                  <p> <b>Phone :</b> {{trans.passenger.phone}}</p>
@@ -26,7 +28,8 @@
 
 
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
+                <h3 style="background-color: rgb(150, 149, 204);padding: 5px;width: 70%;color: white;">Trip Information</h3><hr>
                <p> <b>Start From :</b> {{trans.start_from}}</p>
                 <p> <b>To :</b> {{trans.destination}}</p>
                 <p> <b>Start Date :</b> {{trans.start_date}}</p>
@@ -37,13 +40,20 @@
                   <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{trans.status2}}</i></p>
                   <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{trans.status3}}</i></p>
               </div>
-            </div>
+              <div class="col-md-4">
+                  <h3 style="background-color: rgb(150, 149, 204);padding: 5px;width: 80%;color: white;">Vehicle Information</h3><hr>
+                  <p> <b>Driver Full name :</b> {{trans.start_from}}</p>
+                  <p> <b>Assigned date :</b> {{trans.destination}}</p>
+                  <p> <b>Assigned time:</b> {{trans.start_date}}</p>
+                  <p> <b>vehicle type :</b> {{trans.end_date}}</p>
+                  <p> <b>vehicle plate no :</b> {{trans.reason}}</p>
+                  
+              </div>
             <hr>
-  <center> <button class="btn btn-primary" style=";background:#003e80 ">
-        <i class="fas fa-download"></i>
-           Print</button></center>
-
           </div>
+          <button class="our-btn btn btn-primary" style="float: right; ">
+            <i class="fas fa-download"></i>
+               Print</button>
           </div>
           <!-- /.card -->
         </div>

@@ -2,14 +2,29 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-
+from ckeditor.fields import RichTextField
 from TSERASP import settings
+from simple_history.models import HistoricalRecords
 
+# defining the users school name
+class School(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True,unique=True)
+
+    def __str__(self):
+        return self.name
+
+# defining the users department
+class Department(models.Model):
+    school=models.ForeignKey(School,on_delete=models.CASCADE)
+    name=models.CharField(max_length=100,null=True,blank=True,unique=True)
+
+    def __str__(self):
+        return self.name
 
 class MyUser(AbstractUser):
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
-    email = models.EmailField(null=True)
+    email = models.EmailField(null=True,blank=True)
     ROLE = (
         ('Passenger', 'Passenger'),
         ('TSHO', 'TSHO'),
@@ -20,36 +35,36 @@ class MyUser(AbstractUser):
         ('DepartmentHead', 'Department Head'),
         ('VicePresident', 'Vice President'),
     )
-    School = (
-        ('SOEEC', 'SOEEC'),
-        ('SOMCME', 'SOMCME'),
-        ('SOCEA', 'SOCEA'),
-        ('SOANS', 'SOANS'),
-    )
-    Department = (
-        ('CSE', 'CSE'),
-        ('ECE', 'ECE'),
-        ('EPCE', 'EPCE'),
-        ('MCE', 'MCE'),
-        ('MSE', 'MSE'),
-        ('CHE', 'CHE'),
-        ('CE', 'CE'),
-        ('WRE', 'WRE'),
-        ('ARCH', 'ARCH'),
-        ('Maths', 'Maths'),
-        ('Pysics', 'Pysics'),
-        ('Chemistry', 'Chemistry'),
-        ('Bio', 'Bio'),
-        ('Geology', 'Geology')
-    )
+    # School = (
+    #     ('SOEEC', 'SOEEC'),
+    #     ('SOMCME', 'SOMCME'),
+    #     ('SOCEA', 'SOCEA'),
+    #     ('SOANS', 'SOANS'),
+    # )
+    # Department = (
+    #     ('CSE', 'CSE'),
+    #     ('ECE', 'ECE'),
+    #     ('EPCE', 'EPCE'),
+    #     ('MCE', 'MCE'),
+    #     ('MSE', 'MSE'),
+    #     ('CHE', 'CHE'),
+    #     ('CE', 'CE'),
+    #     ('WRE', 'WRE'),
+    #     ('ARCH', 'ARCH'),
+    #     ('Maths', 'Maths'),
+    #     ('Pysics', 'Pysics'),
+    #     ('Chemistry', 'Chemistry'),
+    #     ('Bio', 'Bio'),
+    #     ('Geology', 'Geology')
+    # )
 
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{10,15}$',
         message='Phone number must be entered in the format : 0987654321 or +251987654321 up to 15 digits allowed'
     )
     phone = models.CharField(validators=[phone_regex], max_length=15, blank=True)
-    department = models.CharField(max_length=200, choices=Department, null=True, blank=True)
-    school = models.CharField(max_length=200, choices=School, null=True, blank=True)
+    school = models.ForeignKey(School,on_delete=models.SET_NULL,blank=True,null=True)
+    department = models.ForeignKey(Department,on_delete=models.SET_NULL,blank=True,null=True)
     role = models.CharField(max_length=200, choices=ROLE)
     date_registered = models.DateField(auto_now_add=True,null=True)
 
@@ -70,12 +85,6 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.first_name + "  "+ self.user.last_name + "  " + 'detail'
 
-
-# konrad zuse =1938=world fully programmable computer = german
-# 1960
-#
-# 1971 john draper =phone call
-
 class Driver(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee')
     occupation = models.CharField(max_length=200, null=True)
@@ -94,7 +103,7 @@ class TransportRequest(models.Model):
     passenger = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_request')
     start_from = models.CharField(max_length=200)
     destination = models.CharField(max_length=200)
-    reason = models.TextField(max_length=400)
+    reason = RichTextField(blank=True,null=True)
     passenger_numbers = models.PositiveIntegerField(default=1)
     list_of_passengers=models.TextField(max_length=400,null=True,blank=True)
     start_date = models.DateTimeField()
@@ -113,6 +122,10 @@ class Vehicle(models.Model):
         ('Not Occupied', 'Not Occupied'),
         ('Occupied', 'Occupied'),
     )
+    current = (
+        ('Outside', 'Outside'),
+        ('Inside', 'Inside'),
+    )
     type_of_vehicle = (
         ('minibus', 'minibus'),
         ('bus', 'bus'),
@@ -123,8 +136,10 @@ class Vehicle(models.Model):
     vehicle_type = models.CharField(max_length=200, choices=type_of_vehicle)
     plate_number = models.CharField(max_length=20, unique=True)
     status = models.CharField(max_length=200, choices=STATUS, default='Not Occupied')
+   
     driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True,blank=True)
     date_entered = models.DateTimeField(auto_now_add=True, null=True)
+    currently=models.CharField(max_length=200,choices=current,default='Inside')
 
     def __str__(self):
         return self.plate_number
@@ -170,6 +185,10 @@ class Material(models.Model):
     quantity=models.PositiveIntegerField()
     date_created = models.DateField( auto_now_add=  True, null=True)
     updated_at = models.DateTimeField(null=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.name
 
 # class Material(models.Model):
 #     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')

@@ -1,13 +1,27 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
+from django.forms import widgets
 from .models import *
+
 class UserRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = MyUser
-        fields = ('first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role')
+        fields = ['first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role']  
 
+# overwritting the init method to identify the respective department
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['department'].queryset = Department.objects.none()     
+
+        if 'school' in self.data:
+            try:
+                school_id = int(self.data.get('school'))
+                self.fields['department'].queryset = Department.objects.filter(school_id=school_id).order_by('name')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty deprt queryset
+        elif self.instance.pk:
+            self.fields['department'].queryset = self.instance.school.department_set.order_by('name')
 
 class MyUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm):
@@ -15,6 +29,17 @@ class MyUserChangeForm(UserChangeForm):
         fields = ('first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role',)
 
 
+
+class UserAccountEditForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['username','first_name', 'last_name', 'email', 'phone']
+
+        
+class UserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['sex', 'bio', 'location', 'birth_date']
 class VehicleRegisterForm(forms.ModelForm):
     class Meta:
         model = Vehicle
@@ -101,6 +126,7 @@ class CreateScheduleForm(forms.ModelForm):
             'date': forms.DateInput(format=('%m/%d/%Y'),
                                     attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                            'type': 'date'}),
+            'time':forms.TimeInput(attrs={'type':'time'})
 
         }
 
@@ -111,7 +137,7 @@ class AddMaterialForm(forms.ModelForm):
         model = Material
         fields = ['name', 'type_of', 'quantity']
 
-#####end who naol done for this project.
+#####end which naol done for this project.
 # class PassengerRegistrationForm(forms.ModelForm):
 #     class Meta:
 #         model = Passenger

@@ -39,6 +39,7 @@
                   <th>Plate Number</th>
                   <th>Status</th>
                   <th>Driver</th>
+                  <th>Currently</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -49,6 +50,7 @@
                   <td>{{veh.vehicle_type}}</td>
                   <td>{{veh.plate_number}}</td>
                   <td>{{veh.status }}</td>
+                  <td>{{  veh.currently }}</td>
                   <td><a href="{% url 'detail-account' veh.driver  %}">{{veh.driver.user.get_full_name}}</a> </td>
                     <td><a href="{% url 'edit-vehicle' veh.id %}" class="btn btn-link"> <i class=" far fa-edit"></i></a>
                     <a href="{% url 'delete-vehicle' veh.id %}" class="deleteVehicle btn btn-link"> <i class=" fa fa-trash"></i></a></td>

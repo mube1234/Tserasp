@@ -31,9 +31,12 @@
                 <p> <b>To :</b> {{approve.destination}}</p>
                 <p> <b>Start Date :</b> {{approve.start_date}}</p>
                 <p> <b>End Date :</b> {{approve.end_date}}</p>
-                  <p> <b>Reason :</b> {{approve.reason}}</p>
+                 
                    <p> <b>Sent On :</b> {{approve.created_at}}</p>
                   <p> <b>Status :</b> {{approve.status}}</p>
+                  <div  style="box-shadow: 2px 2px 2px 2px;padding: 5px;">
+                    <p> <b>Reason :</b> {{approve.reason|safe}}</p>
+                  </div>
                  
               </div>
             </div>
@@ -52,11 +55,23 @@
                       {{form|crispy}}
 
                       <label> Email:</label><input class="form-control" type="Email" name="email" readonly  value=" {{approve.passenger.email}}" ><br>
-                      <label>Subject:</label><input class="form-control" type="text" name="subject" value="Your Trip Date and Time" readonly="True"><br>
+                     
+                      <input type="text" value="Your trip date and time" name="subject" hidden=True>
 
-                       <label> Date with Vehicle:</label><textarea class="form-control" name="message" required></textarea><br>
+                      <label>Driver Name:</label>
+                      <select name="driver" class="form-control">
+                        <option>----</option>
+                        {% for entry in vehicle %}
+                            <option value="{{ entry.driver.user.get_full_name }}">{{ entry.driver.user.get_full_name}}&nbsp;&nbsp;   </option>
+                        {% endfor %}
+                        </select>
+                        <br>
+                     
+                      
+                          <label> Date </label><input name="message"  name="message" type="date" class="form-control"  required><br>
+                          <label> Time </label><input name="message2" type="time" class="form-control" required><br>
                       <button class="btn btn-info " type="Submit" style="float: right;">Approve</button>
-                    
+                      
                   </form>
                       
                

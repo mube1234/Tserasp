@@ -14,21 +14,27 @@
           <div class="info-box">
             <span class="info-box-icon bg-info"><i class="fa fa-car "></i></span>
 
-            <a href="">
+          
                 <div class="info-box-content">
-                    <h5>New Request</h5>
+                  
                   {% if request.user.role == 'TSHO' %}
-                       <center><p style="font-size: 22px">{{ tsho_pend }}</p></center>
-
-                {% elif request.user.role == 'DepartmentHead'  %}
-
-
-                      <center><p style="font-size: 22px">{{dep_pend}}</p></center>
-
-
+                     <a href="{% url 'tsho-view-request' %}">
+                            <h5>New Request</h5>
+                            <center><p style="font-size: 22px">{{ tsho_pend }}</p></center>
+                    </a>
+                   {% elif request.user.role == 'DepartmentHead'  %}
+                      <a href="{% url 'department-view-request' %}">
+                         <h5>New Request</h5>
+                          <center><p style="font-size: 22px">{{dep_pend}}</p></center>
+                    </a>
+                      
                  {% elif request.user.role == 'SchoolDean' %}
+                 <a href="{% url 'school-view-request' %}">
+                       <h5>New Request</h5>
                        <center><p style="font-size: 22px">{{ sch_pend }}</p></center>
+                  </a>
                  {% else %}
+                      <h5>New Request</h5>
                      <span class="info-box-number">Loading...</span>
                 {% endif %}
             </div>
@@ -119,7 +125,7 @@
                        <td>{{sch.date}}</td>
                        <td>{{sch.shift}}</td>
                        <td>{{sch.time}}</td>
-                       <td>{{sch.driver}}</td>
+                       <td>{{sch.driver.user.get_full_name}}</td>
                        <td>{{sch.place}}</td>
                        <td>{{sch.service_type}}</td>
                         <td>

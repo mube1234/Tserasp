@@ -23,11 +23,10 @@
               <!-- /.card-header -->
 
               <div class="card-body table-responsive p-0">
+             {% if transport %}
                 <table class="table table-hover text-nowrap ">
                   <thead>
                     <tr>
-                       
-                    
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Department</th>
@@ -40,30 +39,34 @@
                     </tr>
                   </thead>
 
-                  {% for trans in transport %}
-                    {% if request.user.school == trans.passenger.school %}  
-                  <tbody>
-                    <tr>
-                       <td>{{trans.passenger.first_name}}</td>
-                       <td>{{trans.passenger.last_name}}</td>
-                       <td>{{trans.passenger.department}}</td>
-                       <td>{{trans.start_from}}</td>
-                       <td>{{trans.destination}}</td>
-                       <td>{{trans.passenger_numbers}}</td>
-                       <td>{{trans.created_at}}</td>
-                     
-                       <td>{{trans.status3}}</td>
-					             <td>
-					             <a href="{% url 'school-approve-request' trans.id %}" class="btn btn-info btn-sm"><i class="fa fa-check"></i> Approve</a>
-					            
-                       <button class="btn btn-danger"> <i class="fa fa-trash"></i></button>
-					             </td>
-                    </tr>
-                  </tbody>
-                   {% endif %} 
-                {% endfor %}
-              
+                 
+                        {% for trans in transport %}
+                        {% if request.user.school == trans.passenger.school %}  
+                      <tbody>
+                        <tr>
+                            <td>{{trans.passenger.first_name}}</td>
+                            <td>{{trans.passenger.last_name}}</td>
+                            <td>{{trans.passenger.department}}</td>
+                            <td>{{trans.start_from}}</td>
+                            <td>{{trans.destination}}</td>
+                            <td>{{trans.passenger_numbers}}</td>
+                            <td>{{trans.created_at}}</td>
+                          
+                            <td>{{trans.status3}}</td>
+                            <td>
+                            <a href="{% url 'school-approve-request' trans.id %}" class="btn btn-info btn-sm"><i class="fa fa-check"></i> Approve</a>
+                          
+                            <button class="btn btn-danger"> <i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                      </tbody>
+                        {% endif %} 
+                    {% endfor %}
+               
                 </table>
+                {% else %}
+                <div class="alert alert-danger"><center><h3>There is no request yet</h3></center></div>
+                {% endif %}
               </div>
               <!-- /.card-body -->
             </div>

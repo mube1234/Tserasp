@@ -29,10 +29,10 @@
 </tr>
 </thead>
 <tbody>
-{%for i in material%}
+{%for i in material %}
 <tr>
 <td>{{i.name}}</td>
-<td>{{i.type}}</td>
+<td>{{i.type_of}}</td>
 <td>{{i.quantity}}</td>
 <td>
 <a href="{%url 'Updatematerial' i.id%}" class="btn btn-primary">Update</a>

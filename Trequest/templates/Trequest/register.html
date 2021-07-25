@@ -9,22 +9,20 @@
         <div class="col-md-12 ">
           <div class="card">
             <div class="card-header mb-1" style="background:#003e80;color:#fff">
-                <h3 class="card-title"><i class="far fa-cars"></i> User Registration</h3>
+                <h3 class="card-title"><i class="fa fa-plus"></i>&nbsp; User Registration</h3>
             </div>
             <!-- /.card-header -->
              <div class="card-body">
                    <div class="col-md-6">
 
-                      <form action="" method="post">
-                         {% csrf_token %}
-                         {{ user_form|crispy }}
-                          <input type="hidden" name="alert" value="{{alert}}" readonly>
-                         <button class="btn btn-primary" type="submit" >Register</button>
+                      <form action="" method="post" id="userForm" data-department-url="{% url 'ajax_load_department' %}" nonvalidate>
+                            {% csrf_token %}
+                            {{ user_form|crispy }}
+                            <button class="btn btn-primary" type="submit" >Register</button>
                        </form>
 
                     </div>
                   </div>
-        
           </div>
           <!-- /.card -->
         </div>
@@ -33,23 +31,34 @@
       <!-- /.row -->
     </section>
   </div>
-{% if messages %}
+  <script src="{% static 'plugins/jquery/jquery-3.3.1.min.js' %}"></script>
   <script>
-      {% for message in messages %}
+    $("#id_school").change(function () {
+        var url = $("#userForm").attr("data-department-url");  // get the url of the `load_department` view
+        var schoolId = $(this).val();  // get the selected School ID from the HTML input
 
-        $( document ).ready(function() {
-        if (document.UserRegistrationForm.alert.value == 1)
-        {
-                swal("¡Bien hecho!", "El registro fue exitoso.", "success")
-        }
-        if (document.UserRegistrationForm.alert.value == 0)
-        {
-            swal("¡Oops!", "Algo salió mal.", "error")
-        }
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= /myuser/ajax/load-department/ )
+            data: {
+                'school_id': schoolId       // add the school id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_departmet` view function
+                $("#id_department").html(data);  // replace the contents of the department input with the data that came from the server
+                /*
+
+                let html_data = '<option value="">---------</option>';
+                data.forEach(function (department) {
+                    html_data += `<option value="${department.id}">${department.name}</option>`
+                });
+                console.log(html_data);
+                $("#id_department").html(html_data);
+
+                */
+            }
         });
-      {% endfor %}
-  </script>
-{% endif %}
+
+    });
+</script>
 
   
 {% endblock content %}
