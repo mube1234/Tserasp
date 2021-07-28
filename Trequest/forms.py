@@ -117,11 +117,11 @@ class AddMaterialForm(forms.ModelForm):
 
 
 
-class MaterialRequestForm(forms.ModelForm):
-    class Meta:
-        model = MaterialRequest
-        fields = ['name', 'RequestedBy', 'OldMaterial',
-                  'NewMaterial', 'Amount', 'status']
+# class MaterialRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = MaterialRequest
+#         fields = ['name', 'RequestedBy', 'OldMaterial',
+#                   'NewMaterial', 'Amount', 'status']
 
 
 

@@ -175,14 +175,14 @@ class Material(models.Model):
 # material request model
 class MaterialRequest(models.Model):
     # material name
-    name = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
-    # the person requesting the material
-    RequestedBy = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='StoreManager')
-    OldMaterial = models.CharField(max_length=200)
-    NewMaterial = models.CharField(max_length=200)
-    Amount = models.CharField(max_length=200)
+    new_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='new_material')
+    new_material_model = models.CharField(max_length=200)
+    quantity_of_new = models.PositiveIntegerField()
+    old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
+    quantity_of_old=models.PositiveIntegerField()
+    old_material_model=models.CharField(max_length=200)
+    vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)
     status = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True)
-    # model = models.CharField()
 
 
 
@@ -215,36 +215,9 @@ class MaterialRequest(models.Model):
 
 
 
-# class Material(models.Model):
-#     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
-#     name=models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity=models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.name
-# # class Schedule(models.Model):
-# #     service_type=models.CharField(max_length=)
-# #
-# # class ReassignSchedule(models.Model):
-# #     re_assigned_to=models.ForeignKey(Schedule,on_delete=models.CASCADE)
-# class MaterialRequest(models.Model):
-#     STATUS = (('Pending','Pending'),
-#             ('Approved','Approved'),)
-#     user=models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matrequest')
-#     name = models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity = models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     status = models.CharField(max_length=200, choices=STATUS, default='Pending')
-#
-#     def __str__(self):
-#         return self.name
-# # class RepairedVehicle(models.Model):
-# # class Profile(models.Model):
-# # class Evaluation(models.Model):
+
+
+
 
 
 
