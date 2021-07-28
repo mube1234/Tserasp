@@ -28,6 +28,7 @@ urlpatterns = [
     path('request/my_request/detail/<str:id>', views.my_request_detail, name="detail-request"),
     path('request/make', views.make_request, name="make-request"),
     path('request/tshoapprove/<str:id>', views.tsho_approve_request, name="tsho-approve-request"),
+    path('request/materialrequest', views.material_request, name="material-request"),
 
     # vehicle  related
     path('vehicle/', views.vehicle_management, name="vehicle-manage"),

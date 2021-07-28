@@ -171,6 +171,50 @@ class Material(models.Model):
     date_created = models.DateField( auto_now_add=  True, null=True)
     updated_at = models.DateTimeField(null=True)
 
+
+# material request model
+class MaterialRequest(models.Model):
+    # material name
+    name = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
+    # the person requesting the material
+    RequestedBy = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='StoreManager')
+    OldMaterial = models.CharField(max_length=200)
+    NewMaterial = models.CharField(max_length=200)
+    Amount = models.CharField(max_length=200)
+    status = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True)
+    # model = models.CharField()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # class Material(models.Model):
 #     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
 #     name=models.CharField(max_length=200)
@@ -201,3 +245,6 @@ class Material(models.Model):
 # # class RepairedVehicle(models.Model):
 # # class Profile(models.Model):
 # # class Evaluation(models.Model):
+
+
+

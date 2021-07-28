@@ -385,3 +385,22 @@ def material_management(request):
     material = myfilter.qs
     context = {'material': material, 'myfilter': myfilter}
     return render(request, 'Trequest/material_management.html', context)
+
+def material_request(request):
+    form = MakeRequestForm()
+    if request.method == 'POST':
+        form = MakeRequestForm(request.POST)
+        if form.is_valid():
+            # Because your model requires that user is present, we validate the form and
+            # save it without commiting, manually assigning the user to the object and resaving
+            obj = form.save(commit=False)
+            obj.passenger = request.user
+            obj.save()
+            messages.success(request, 'Request sent Successfully!')
+            return redirect('my-request')
+    else:
+        form = MakeRequestForm()
+    context = {'form': form}
+    return render(request, 'Trequest/make_request.html', context)
+
+
