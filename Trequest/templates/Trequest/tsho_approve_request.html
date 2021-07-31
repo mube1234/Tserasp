@@ -5,83 +5,70 @@
 {% load crispy_forms_tags %}
 <div class="content-wrapper mt-2">
     <section class="content">
-      <div class="row">
-        <div class="col-md-12 ">
           <div class="card">
             <div class="card-header mb-1" style="background:#003e80;color:#fff">
                 <h3 class="card-title"><i class="fa  fa-check-square"></i> Tsho Approve  Request</h3>
           </div>
             <!-- /.card-header -->
-           
            <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-               <p> <b>Full Name :</b> {{approve.passenger.get_full_name}}</p>
-
-                 <p> <b>Phone :</b> {{approve.passenger.phone}}</p>
-                  <p> <b>School :</b> {{user.school}}</p>
-                <p> <b>Department :</b> {{user.department}}</p>
-                  <p> <b>Total person :</b> {{approve.passenger_numbers}}</p>
-                 
-                 
-
-              </div>
-              <div class="col-md-6">
-               <p> <b>Start From :</b> {{approve.start_from}}</p>
-                <p> <b>To :</b> {{approve.destination}}</p>
-                <p> <b>Start Date :</b> {{approve.start_date}}</p>
-                <p> <b>End Date :</b> {{approve.end_date}}</p>
-                 
-                   <p> <b>Sent On :</b> {{approve.created_at}}</p>
-                  <p> <b>Status :</b> {{approve.status}}</p>
-                  <div  style="box-shadow: 2px 2px 2px 2px;padding: 5px;">
-                    <p> <b>Reason :</b> {{approve.reason|safe}}</p>
+              <div class="card">
+                    <div class="card-header">
+                       <h5>Detail User Informartion</h5>
+                    </div>
+                   <div class="card-body">
+                        <p> <b>Full Name :</b> {{approve.passenger.get_full_name}}</p>
+                        <p> <b>Phone :</b> {{approve.passenger.phone}}</p>
+                        <p> <b>School :</b> {{user.school}}</p>
+                        <p> <b>Department :</b> {{user.department}}</p>
+                        <p> <b>Total person :</b> {{approve.passenger_numbers}}</p>
+                        <p> <b>Start From :</b> {{approve.start_from}}</p>
+                        <p> <b>To :</b> {{approve.destination}}</p>
+                        <p> <b>Start Date :</b> {{approve.start_date}}</p>
+                        <p> <b>End Date :</b> {{approve.end_date}}</p>
+                        <p> <b>Sent On :</b> {{approve.created_at}}</p>
+                        <p> <b>Status :</b> {{approve.status}}</p>
+                        <div style="position: relative;"> <b>Reason :</b> {{approve.reason|safe}}</div>
                   </div>
-                 
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="card">
+                      <div class="card-header">
+                         <h5>Assigning Driver date and time of trip</h5>
+                      </div>
+                     <div class="card-body">
+                      <form class="" action="" method="POST">
+                        {% csrf_token %}
+                      
+                        <br>
+                        
+                        <label> Email:</label><input class="form-control" type="Email" name="email" readonly  value=" {{approve.passenger.email}}" ><br>
+                        <input type="text" value="Your trip date and time" name="subject" hidden=True>
+
+                         <label>Driver Name:</label>
+                        <select name="driver" class="form-control">
+                            <option>----</option>
+                            {% for entry in vehicle %}
+                                <option value="{{ entry.driver.user.username }}">{{ entry.driver.user.get_full_name}} ------------ {{ entry.vehicle_type}}   </option>
+        
+                            {% endfor %}
+                        </select>
+                        <p>
+                        <br>
+                      <label>Trip Date </label><input name="message"  name="message" type="date" class="form-control"  required><br>
+                      <label>Trip Time </label><input name="message2" type="time" class="form-control" required><br>
+                      {{form|crispy}}
+                      <button class=" our-btn btn btn-info " type="Submit" style="float: right;">Approve</button>
+                  
+                   </form>
+                  </div>
               </div>
             </div>
             <hr>
-            <div class="row">
-              <div class="col-md-6">
-                {% if messages %}
-                   {% for message in messages %}
-                     <div class="panel panel-success" style="background:green;color:white;padding: 8px;">
-                        <strong>Done!</strong> <small>{{message}}</small>
-                      </div>
-                    {% endfor %}
-                {% endif %}
-                  <form class="" action="" method="POST">
-                      {% csrf_token %}
-                      {{form|crispy}}
-
-                      <label> Email:</label><input class="form-control" type="Email" name="email" readonly  value=" {{approve.passenger.email}}" ><br>
-                     
-                      <input type="text" value="Your trip date and time" name="subject" hidden=True>
-
-                      <label>Driver Name:</label>
-                      <select name="driver" class="form-control">
-                        <option>----</option>
-                        {% for entry in vehicle %}
-                            <option value="{{ entry.driver.user.get_full_name }}">{{ entry.driver.user.get_full_name}}&nbsp;&nbsp;   </option>
-                        {% endfor %}
-                        </select>
-                        <br>
-                     
-                      
-                          <label> Date </label><input name="message"  name="message" type="date" class="form-control"  required><br>
-                          <label> Time </label><input name="message2" type="time" class="form-control" required><br>
-                      <button class="btn btn-info " type="Submit" style="float: right;">Approve</button>
-                      
-                  </form>
-                      
-               
-                <!-- /.form-group -->
-              </div>
-              <!-- /.col -->
-             
-            </div>
-            <!-- /.row -->
-
+           
            
           </div>
           </div>
@@ -89,7 +76,7 @@
         </div>
         <!-- /.col -->
       </div>
-      <!-- /.row -->
+  
     </section>
     <!-- /.content -->
   </div>

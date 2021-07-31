@@ -43,18 +43,11 @@
             <hr>
             <div class="row">
               <div class="col-md-6">
-                {% if messages %}
-                   {% for message in messages %}
-                     <div class="panel panel-success" style="background:green;color:white;padding: 8px;">
-                        <strong>Done!</strong> <small>{{message}}</small>
-                      </div>
-                    {% endfor %}
-                {% endif %}
                   <form class="" action="" method="POST">
                       {% csrf_token %}
                       {{form|crispy}}
 
-                      <button class="btn btn-info " type="Submit" style="float: right;">Approve</button>
+                      <button class="our-btn btn btn-info " type="Submit" style="float: right;">Approve</button>
                     
                   </form>
                       

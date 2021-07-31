@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
 from TSERASP import settings
-from simple_history.models import HistoricalRecords
+
 
 # defining the users school name
 class School(models.Model):
@@ -112,7 +112,9 @@ class TransportRequest(models.Model):
     status = models.CharField(max_length=200, default='Pending', choices=STATUS)
     status2 = models.CharField(max_length=200, default='Pending', choices=STATUS)
     status3 = models.CharField(max_length=200, default='Pending', choices=STATUS)
-
+# status=TSHO
+# status2=department
+# status3=School
     def __str__(self):
         return self.start_from + ' to ' + self.destination
 
@@ -136,21 +138,12 @@ class Vehicle(models.Model):
     vehicle_type = models.CharField(max_length=200, choices=type_of_vehicle)
     plate_number = models.CharField(max_length=20, unique=True)
     status = models.CharField(max_length=200, choices=STATUS, default='Not Occupied')
-   
     driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True,blank=True)
     date_entered = models.DateTimeField(auto_now_add=True, null=True)
     currently=models.CharField(max_length=200,choices=current,default='Inside')
 
     def __str__(self):
         return self.plate_number
-
-
-# class AssignedVehicle(models.Model):
-
-#      my_vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE)
-#      date_recieved=models.DateTimeField(auto_now_add=True)
-#      def __str__(self):
-#         return  self.my_vehicle.vehicle_type 
 
 class ApproveRequest(models.Model):
     user = models.OneToOneField(TransportRequest, on_delete=models.CASCADE)
@@ -185,38 +178,9 @@ class Material(models.Model):
     quantity=models.PositiveIntegerField()
     date_created = models.DateField( auto_now_add=  True, null=True)
     updated_at = models.DateTimeField(null=True)
-    history = HistoricalRecords()
+    
 
     def __str__(self):
         return self.name
 
-# class Material(models.Model):
-#     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
-#     name=models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity=models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.name
-# # class Schedule(models.Model):
-# #     service_type=models.CharField(max_length=)
-# #
-# # class ReassignSchedule(models.Model):
-# #     re_assigned_to=models.ForeignKey(Schedule,on_delete=models.CASCADE)
-# class MaterialRequest(models.Model):
-#     STATUS = (('Pending','Pending'),
-#             ('Approved','Approved'),)
-#     user=models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matrequest')
-#     name = models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity = models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     status = models.CharField(max_length=200, choices=STATUS, default='Pending')
-#
-#     def __str__(self):
-#         return self.name
-# # class RepairedVehicle(models.Model):
-# # class Profile(models.Model):
-# # class Evaluation(models.Model):
+

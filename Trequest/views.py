@@ -11,6 +11,7 @@ import random
 import string
 from django.http.response import JsonResponse
 
+# registered users can login in to the system
 def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -24,7 +25,7 @@ def signin(request):
 
     return render(request, 'Trequest/login.html')
 
-
+# creating account for the users
 def create_account(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -52,6 +53,7 @@ def load_department(request):
     # print(list(departments.values('id','name')))
     # return JsonResponse(list(departments.values('id', 'name')), safe=False)
 
+#editing/updating user account 
 def edit_account(request):
     if request.method == 'POST':
         a_form = UserAccountEditForm(request.POST, instance=request.user)
@@ -63,8 +65,8 @@ def edit_account(request):
             return redirect('profile')
 
     else:
-        a_form = UserAccountEditForm(request.POST, instance=request.user)
-        p_form=UserProfileEditForm(request.POST,instance=request.user.passenger)
+        a_form = UserAccountEditForm(instance=request.user)
+        p_form=UserProfileEditForm(instance=request.user.passenger)
 
     context = {'a_form': a_form,'p_form':p_form}
     return render(request, 'Trequest/edit_account.html', context)
@@ -91,13 +93,13 @@ def change_password(request):
 @login_required(login_url='login')
 def index(request):
     schedule = Schedule.objects.all().order_by('-date')
-    approved_request = TransportRequest.objects.filter(status='Approved')
+    total_user = MyUser.objects.all()
     tsho_pending_request = TransportRequest.objects.filter(status='Pending', status2='Approved', status3='Approved')
     dep_pending_request = TransportRequest.objects.filter(status2='Pending',
-                                                          passenger__department=request.user.department)
+                            passenger__department=request.user.department).exclude(passenger__role="DepartmentHead")
     sch_pending_request = TransportRequest.objects.filter(status3='Pending', status2='Approved',
-                                                          passenger__school=request.user.school)
-    app = approved_request.count()
+                                passenger__school=request.user.school).exclude(passenger__role="SchoolDean")
+    app = total_user.count()
     tsho_pend = tsho_pending_request.count()
     dep_pend = dep_pending_request.count()
     sch_pend = sch_pending_request.count()
@@ -227,7 +229,9 @@ def make_request(request):
 
 
 def department_view_request(request):
-    transport = TransportRequest.objects.filter(status2='Pending').order_by('-created_at')
+    transport1 = TransportRequest.objects.filter(status2='Pending').order_by('-created_at')
+    # exclude the request sent from department to not visible to them selves
+    transport=transport1.exclude(passenger__role = "DepartmentHead").order_by('-created_at') 
     context = {'transport': transport}
     return render(request, 'Trequest/department_view_request.html', context)
 
@@ -239,7 +243,9 @@ def department_view_approved_request(request):
 
 
 def school_view_request(request):
-    transport = TransportRequest.objects.filter(status2='Approved', status3='Pending').order_by('-created_at')
+    transport1 = TransportRequest.objects.filter(status2='Approved', status3='Pending')
+    # exclude the request sent from school to not visible to them selves
+    transport=transport1.exclude(passenger__role = "SchoolDean").order_by('-created_at') 
     context = {'transport': transport}
     return render(request, 'Trequest/school_view_request.html', context)
 
@@ -283,8 +289,9 @@ def department_approve_request(request, id):
     return render(request, 'Trequest/department_approve_request.html', context)
 
 
+
 def tsho_approve_request(request, id):
-    vehicle=Vehicle.objects.filter(currently='Inside')
+    vehicle=Vehicle.objects.filter(currently='Inside',status='Occupied')
     approve = get_object_or_404(TransportRequest, id=id)
     if request.method == 'POST':
         form = TshoApproveForm(request.POST, instance=approve)
@@ -294,9 +301,13 @@ def tsho_approve_request(request, id):
             subject = request.POST.get('subject')
             date = request.POST.get('message')
             time=request.POST.get('message2')
-            driver=request.POST.get('driver')
-            # phone=request.POST.get('driver2')
-            message="Your driver name: "+ driver + "\n" + "Date of your trip: " + date + "\n "+ "Time of your trip: " + time 
+            new_driver=request.POST.get('driver')
+            driver_fname=MyUser.objects.get(username=new_driver).first_name
+            driver_lname=MyUser.objects.get(username=new_driver).last_name
+            driver_full_name=driver_fname + " "+ driver_lname
+            driver_phone=MyUser.objects.get(username=new_driver).phone
+            vehicle_plate=Vehicle.objects.get(driver__user__username=new_driver).plate_number
+            message="Your driver name: "+  driver_full_name + "\n" + "Driver phone number: " + driver_phone + "\n "+ "Date of your trip: " + date + "\n "+ "Time of your trip: " + time + "\n "+ "Your vehicle plate number: " + vehicle_plate
             email = request.POST.get('email')
             send_mail(subject, message, settings.EMAIL_HOST_USER,
                       [email], fail_silently=False)

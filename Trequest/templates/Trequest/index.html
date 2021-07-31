@@ -12,7 +12,7 @@
                 <div class="row">
           <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-info"><i class="fa fa-car "></i></span>
+            <span class="info-box-icon bg-info"><i class="fa fa-cart-plus "></i></span>
 
           
                 <div class="info-box-content">
@@ -20,18 +20,18 @@
                   {% if request.user.role == 'TSHO' %}
                      <a href="{% url 'tsho-view-request' %}">
                             <h5>New Request</h5>
-                            <center><p style="font-size: 22px">{{ tsho_pend }}</p></center>
+                            <center><p style="font-size: 22px" class="counter">{{ tsho_pend }}</p></center>
                     </a>
                    {% elif request.user.role == 'DepartmentHead'  %}
                       <a href="{% url 'department-view-request' %}">
                          <h5>New Request</h5>
-                          <center><p style="font-size: 22px">{{dep_pend}}</p></center>
+                          <center><p style="font-size: 22px" class="counter">{{dep_pend}}</p></center>
                     </a>
                       
                  {% elif request.user.role == 'SchoolDean' %}
                  <a href="{% url 'school-view-request' %}">
                        <h5>New Request</h5>
-                       <center><p style="font-size: 22px">{{ sch_pend }}</p></center>
+                       <center><p style="font-size: 22px" class="counter">{{ sch_pend }}</p></center>
                   </a>
                  {% else %}
                       <h5>New Request</h5>
@@ -45,28 +45,30 @@
         </div>
           <!-- ./col -->
       <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-blue">
-                <i class="ion ion-ios-people-outline"></i></span>
-
-            <div class="info-box-content">
-              <h5>Accepted Request</h5>
-                <center><p style="font-size: 22px">{{ app }}</p></center>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
+             <a href="{% url 'account' %}">
+              <div class="info-box">
+                <span class="info-box-icon bg-blue">
+                    <i class="fa fa-users"></i></span>
+    
+                <div class="info-box-content">
+                  <h5>Total Users</h5>
+                    <center><p style="font-size: 22px"  class="counter">{{ app }}</p></center>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+             </a>
           <!-- /.info-box -->
         </div>
           <!-- ./col -->
          <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box" >
             <span  class="info-box-icon bg-gradient-gray">
-              <i  class="ion ion-ios-gear-outline"></i>
+              <i  class="fa fa-bell"></i>
             </span>
 
             <div class="info-box-content">
              <h5>Notifications</h5>
-              <center><p style="font-size: 22px">23</p></center>
+              <center><p style="font-size: 22px"  class="counter">23</p></center>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -83,7 +85,7 @@
            <a href="{% url 'vehicle-manage' %}">
                 <div class="info-box-content">
               <h5>Active Vehicle</h5>
-                <center><p style="font-size: 22px">{{ vehicle_count }}</p></center>
+                <center><p style="font-size: 22px"  class="counter">{{ vehicle_count }}</p></center>
             </div>
            </a>
             <!-- /.info-box-content -->
@@ -150,4 +152,21 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+ 
+
+ <!-- ========== COMMON JS FILES for counting up ========== -->
+ <script src="{% static 'plugins/jquery/jqueryforcount.js' %}"></script> 
+ <script src="{% static 'plugins/jquery/jquery.counterup.min.js' %}"></script>
+ <script src="{% static 'plugins/jquery/waypoints.min.js' %}"></script>  
+  <!-- counting the number of request and vehicle aswellas notifications -->
+  <script>
+   jQuery(document).ready(function($) {
+  $('.counter').counterUp({
+    delay: 20,
+    time: 3000,
+  });
+});
+
+
+</script>
   {% endblock content  %}

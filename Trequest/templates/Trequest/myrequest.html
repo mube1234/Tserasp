@@ -31,8 +31,13 @@
                       <th>Passenger No</th>
                       <th>Start Date</th>
                       <th>End  Date</th>
-                      <th>Department</th>
+                    {% if request.user.role != "DepartmentHead" and  request.user.role != "SchoolDean" %}
+                       <th>Department</th>
+                    {% endif %}
+                    {% if request.user.role != "SchoolDean" %}
                       <th>School</th>
+                    {% endif %}
+    
                       <th>TSHO</th>
                       <th>Action</th>
                     </tr>
@@ -48,11 +53,15 @@
                                  <td>{{my.passenger_numbers}}</td>
                                  <td>{{my.start_date|date:"F d, Y"}}</td>
                                  <td>{{my.end_date|date:"F d, Y"}}</td>
-                                 <td>{{my.status2}}</td>
+                             {% if request.user.role != "DepartmentHead" and  request.user.role != "SchoolDean" %}
+                                  <td>{{my.status2}}</td>
+                            {% endif %}
+                            {% if request.user.role != "SchoolDean" %}
                                  <td>{{my.status3}}</td>
+                           {% endif %}
                                  <td>{{my.status}}</td>
                                  <td>
-                                     <a href="{% url 'detail-request' my.id %}"  class="btn btn-info btn-sm">Detail</a>
+                                     <a href="{% url 'detail-request' my.id %}"  class=" btn btn-success btn-sm">View</a>
                                      <button class="btn btn-danger btn-sm">Cancel</button>
                                  </td>
                                    </tr>

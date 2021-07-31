@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_filters',
     'rest_framework',
-    'simple_history',
+    
     
 ]
 

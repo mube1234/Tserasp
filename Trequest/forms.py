@@ -29,17 +29,19 @@ class MyUserChangeForm(UserChangeForm):
         fields = ('first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role',)
 
 
-
+# form for editing user account which filled during registration
 class UserAccountEditForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ['username','first_name', 'last_name', 'email', 'phone']
 
-        
+#form for editing Myuser profile         
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['sex', 'bio', 'location', 'birth_date']
+
+#form for registring vehicle        
 class VehicleRegisterForm(forms.ModelForm):
     class Meta:
         model = Vehicle
@@ -48,7 +50,7 @@ class VehicleRegisterForm(forms.ModelForm):
             'adder': forms.Select(attrs={'type': ''})
         }
 
-
+#form for making request or for applying for request
 class MakeRequestForm(forms.ModelForm):
     class Meta:
         model = TransportRequest
@@ -105,10 +107,10 @@ class SchoolApproveForm(forms.ModelForm):
 class TshoApproveForm(forms.ModelForm):
     class Meta:
         model = TransportRequest
-        fields = ['status2']
+        fields = ['status']
         widgets = {
 
-            'status2': forms.TextInput(attrs={'type': 'hidden'}),
+            'status': forms.Select()
         }
 
 

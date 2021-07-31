@@ -20,8 +20,8 @@
                 <p> <b>Email :</b> {{approve.passenger.email}}</p>
                  <p> <b>Phone :</b> {{approve.passenger.phone}}</p>
                   <p> <b>School :</b> {{user.school}}</p>
-                <p> <b>Department :</b> {{user.department}}</p>
-                  <p> <b>Total person :</b> {{approve.passenger_numbers}}</p>
+                   <p> <b>Department :</b> {{user.department}}</p>
+                    <p> <b>Total person :</b> {{approve.passenger_numbers}}</p>
                  
                  
 
@@ -35,7 +35,7 @@
                    <p> <b>Sent On :</b> {{approve.created_at}}</p>
                   <p> <b>Status :</b> {{approve.status3}}</p>
                   <div  style="box-shadow: 2px 2px 2px 2px;padding: 5px;">
-                    <p> <b>Reason :</b> {{approve.reason}}</p>
+                    <p> <b>Reason :</b> {{approve.reason|safe}}</p>
                   </div>
                  
               </div>
@@ -43,13 +43,7 @@
             <hr>
             <div class="row">
               <div class="col-md-6">
-                {% if messages %}
-                   {% for message in messages %}
-                     <div class="panel panel-success" style="background:green;color:white;padding: 8px;">
-                        <strong>Done!</strong> <small>{{message}}</small>
-                      </div>
-                    {% endfor %}
-                {% endif %}
+            
                   <form class="" action="" method="POST">
                       {% csrf_token %}
                       {{form|crispy}}
