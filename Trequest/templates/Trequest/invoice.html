@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pdf test</title>
+</head>
+<body>
+    <h1 style="color: #00b44e; font:24px ">Adama science and Technology approved certifacate</h1>
+    <hr>
+    <br>
+    <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+           <p> <b>Full Name :</b> {{requestpdf.passenger.get_full_name}}</p>
+            <p> <b>Email :</b> {{requestpdf.passenger.email}}</p>
+             <p> <b>Phone :</b> {{requestpdf.passenger.phone}}</p>
+              <p> <b>School :</b> {{requestpdf.passenger.school}}</p>
+            <p> <b>Department :</b> {{requestpdf.passenger.department}}</p>
+              <p> <b>Total person :</b> {{requestpdf.passenger_numbers}}</p>
+
+
+
+          </div>
+          <div class="col-md-6">
+
+    <p> <b>Start From :</b> {{requestpdf.start_from}}</p>
+                <p> <b>To :</b> {{requestpdf.destination}}</p>
+                <p> <b>Start Date :</b> {{requestpdf.start_date}}</p>
+                <p> <b>End Date :</b> {{requestpdf.end_date}}</p>
+                  <p> <b>Reason :</b> {{requestpdf.reason}}</p>
+                   <p> <b>Sent On :</b> {{requestpdf.created_at}}</p>
+                  <p> <b>From TSHO :</b> <i style="color: #00b44e;font-weight: bold">{{requestpdf.status}}</i></p>
+                  <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{requestpdf.status2}}</i></p>
+                  <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{requestpdf.status3}}</i></p>
+             
+   
+                </div>
+            </div>              
+</body>
+</html>

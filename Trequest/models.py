@@ -2,8 +2,18 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+##naol
+from simple_history.models import HistoricalRecords
+
+#end by naol add
+
 
 from TSERASP import settings
+
+from simple_history import register
+from django.contrib.auth.models import User
+
+register(User)
 
 
 class MyUser(AbstractUser):
@@ -170,6 +180,16 @@ class Material(models.Model):
     quantity=models.PositiveIntegerField()
     date_created = models.DateField( auto_now_add=  True, null=True)
     updated_at = models.DateTimeField(null=True)
+
+    
+    history = HistoricalRecords()
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
 
 # class Material(models.Model):
 #     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')

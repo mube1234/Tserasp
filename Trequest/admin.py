@@ -3,6 +3,8 @@ from .models import *
 from .forms import *
 from django.contrib.auth.admin import UserAdmin
 from .forms import UserRegistrationForm, MyUserChangeForm
+#naol
+from simple_history.admin import SimpleHistoryAdmin
 
 
 class MyUserAdmin(UserAdmin):
@@ -21,5 +23,5 @@ admin.site.register(Schedule)
 #admin.site.register(AssignedVehicle)
 # admin.site.register(TransportRequest)
 # admin.site.register(Vehicle)
-# admin.site.register(Material)
+admin.site.register(Material)
 # admin.site.register(MaterialRequest)
