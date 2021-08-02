@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.http import request
 from ckeditor.fields import RichTextField
 from TSERASP import settings
 
@@ -117,8 +118,19 @@ class TransportRequest(models.Model):
 # status3=School
     def __str__(self):
         return self.start_from + ' to ' + self.destination
+    
+    class Meta:
+        ordering = ['-id'] 
 
+# notifications for viewing new request
+class Notifications(models.Model):
+    # sender_id=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    request_id=models.ForeignKey(TransportRequest,on_delete=models.CASCADE,related_name='trequest')
+    is_viewed=models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.request_id.passenger.first_name)
+    
 class Vehicle(models.Model):
     STATUS = (
         ('Not Occupied', 'Not Occupied'),

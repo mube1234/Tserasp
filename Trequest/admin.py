@@ -26,8 +26,9 @@ admin.site.register(Schedule)
 admin.site.register(School)
 admin.site.register(Department)
 admin.site.register(Material)
+admin.site.register(Notifications)
 
-
+#  for log entry
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):
     date_hierarchy = 'action_time'

@@ -102,9 +102,11 @@
              {% if request.user.role == 'TSHO' %}
                   <a href="{% url 'create-schedule'  %}"  style="float: right">
                   <i class="fas fa-plus"></i> Add Schedule
+                
               </a>
               {% endif %}
             </div>
+            
             <!-- /.card-header -->
             <div class="card-body">
                  <div class="card-body table-responsive p-0">
@@ -163,7 +165,7 @@
    jQuery(document).ready(function($) {
   $('.counter').counterUp({
     delay: 20,
-    time: 3000,
+    time: 2000,
   });
 });
 

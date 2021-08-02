@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,re_path
 # for password reset
 from django.contrib.auth import views as auth_views 
 
@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.signin, name='login'),
     path('home/', views.index, name='index'),
+    re_path(r'/', views.notifications, name='notify'),
 
     # account related
     path('register/', views.create_account, name='register'),

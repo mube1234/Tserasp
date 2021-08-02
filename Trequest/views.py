@@ -105,12 +105,16 @@ def index(request):
     sch_pend = sch_pending_request.count()
     vehicle = Vehicle.objects.all()
     vehicle_count = vehicle.count()
+
+    
+
     context = {'schedule': schedule,
                'vehicle_count': vehicle_count,
                'app': app,
                'tsho_pend': tsho_pend,
                'dep_pend': dep_pend,
-               'sch_pend': sch_pend
+               'sch_pend': sch_pend,
+               'not_count':not_count,
                }
     return render(request, 'Trequest/index.html', context)
 
@@ -200,6 +204,22 @@ def make_request(request):
             obj = form.save(commit=False)
             obj.passenger = request.user
             obj.save()
+            #user =TransportRequest.objects.get(passenger=request.user)
+            role= MyUser.objects.get(username=request.user).role
+           
+
+            if role == 'DepartmentHead':
+               
+                #TransportRequest.objects.create(status2="Approved")
+                #status2 = TransportRequest.objects.get(status2="Approved")
+                s2 = TransportRequest.objects.filter(passenger=request.user)[0:1]
+                TransportRequest.objects.filter(id__in=s2).update(status2 = "Approved")
+                # status2=s2.status2
+            if role == 'SchoolDean':
+                s2 = TransportRequest.objects.filter(passenger=request.user)[0:1]
+                TransportRequest.objects.filter(id__in=s2).update(status2 = "Approved",status3="Approved")
+                
+                # status2.save()
             messages.success(request, 'Request sent Successfully!')
             return redirect('my-request')
     else:
@@ -229,7 +249,7 @@ def make_request(request):
 
 
 def department_view_request(request):
-    transport1 = TransportRequest.objects.filter(status2='Pending').order_by('-created_at')
+    transport1 = TransportRequest.objects.filter(status2='Pending')
     # exclude the request sent from department to not visible to them selves
     transport=transport1.exclude(passenger__role = "DepartmentHead").order_by('-created_at') 
     context = {'transport': transport}
@@ -336,7 +356,7 @@ def school_approve_request(request, id):
 
 @login_required(login_url='login')
 def my_request(request):
-    myrequest = TransportRequest.objects.filter(passenger=request.user)
+    myrequest = TransportRequest.objects.filter(passenger=request.user).order_by("-created_at")
     context = {'myrequest': myrequest}
     return render(request, 'Trequest/myrequest.html', context)
 @login_required(login_url='login')
@@ -448,3 +468,11 @@ def material_management(request):
     material = myfilter.qs
     context = {'material': material, 'myfilter': myfilter}
     return render(request, 'Trequest/material_management.html', context)
+
+def notifications(request):
+   
+    notifications=Notifications.objects.filter(is_viewed = False)
+    not_count=notifications.count()
+    context={'notifications':notifications,'not_count':not_count}
+    return render(request, 'Trequest/notifications.html', context)
+    
