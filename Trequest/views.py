@@ -448,3 +448,13 @@ def material_management(request):
     material = myfilter.qs
     context = {'material': material, 'myfilter': myfilter}
     return render(request, 'Trequest/material_management.html', context)
+
+def material_request(request):
+    form = MaterialRequestForm()
+    if request.method == 'POST':
+        form = MaterialRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Request sent successfully')
+
+    return render(request, 'Trequest/MaterialRequest.html')
