@@ -184,3 +184,18 @@ class Material(models.Model):
         return self.name
 
 
+class MaterialRequest(models.Model):
+    # material name
+    new_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='new_material')
+    new_material_model = models.CharField(max_length=200)
+    quantity_of_new = models.PositiveIntegerField()
+    old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
+    quantity_of_old=models.PositiveIntegerField()
+    old_material_model=models.CharField(max_length=200)
+    vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)
+    status = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True)
+
+    def __str__(self):
+        return self.new_material_name
+
+
