@@ -218,8 +218,15 @@ class DriverEvaluation(models.Model):
         ('4',4),
         ('5',5),
 
+<<<<<<< HEAD
     )
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name='drivers_name')
     rating=models.CharField(max_length=1,choices=select)
     duser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='evaluator')
     trip = models.ForeignKey(TransportRequest,on_delete=models.CASCADE, related_name='trip_name',null=True)
+=======
+
+    
+
+
+>>>>>>> e378ad9e8501ca84f5651b003982ea4f7542152f
