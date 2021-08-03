@@ -197,5 +197,17 @@ class MaterialRequest(models.Model):
 
     def __str__(self):
         return self.new_material_name
+# evaluate Driver
+class DriverEvaluation(models.Model):
+    select=(
+        ('1',1),
+        ('2',2),
+        ('3',3),
+        ('4',4),
+        ('5',5),
 
-
+    )
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name='drivers_name')
+    rating=models.CharField(max_length=1,choices=select)
+    duser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='evaluator')
+    trip = models.ForeignKey(TransportRequest,on_delete=models.CASCADE, related_name='trip_name')

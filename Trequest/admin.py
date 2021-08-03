@@ -26,7 +26,7 @@ admin.site.register(Schedule)
 admin.site.register(School)
 admin.site.register(Department)
 admin.site.register(Material)
-
+admin.site.register(DriverEvaluation)
 
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):
