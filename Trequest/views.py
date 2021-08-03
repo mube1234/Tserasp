@@ -485,3 +485,18 @@ def material_request(request):
             messages.success(request, 'Request sent successfully')
 
     return render(request, 'Trequest/MaterialRequest.html')
+# Driver Evaluation View
+@login_required(login_url='login')
+def evaluate(request):
+    if request.method == 'POST':
+        form = EvaluateDriverForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.duser = request.user
+            form.save()
+            messages.success(request, 'Rated Successfully!')
+            return redirect('index')
+    else:
+        form = EvaluateDriverForm()
+    context = {'form': form}
+    return render(request, 'Trequest/evaluate_driver.html', context)

@@ -29,6 +29,8 @@ admin.site.register(Material)
 admin.site.register(Notifications)
 
 #  for log entry
+admin.site.register(DriverEvaluation)
+
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):
     date_hierarchy = 'action_time'
