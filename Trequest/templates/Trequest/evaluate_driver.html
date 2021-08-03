@@ -22,12 +22,6 @@
                       {% csrf_token %}
                       {{form|crispy}}<br>
 
-                    <select>
-                        {% for i in user_request %}
-                            <option>{{i.start_from }}</option>
-                        {% endfor %}
-                    </select>
-
                       <button class="btn btn-info " type="Submit">Submit</button>
 
                   </form>
