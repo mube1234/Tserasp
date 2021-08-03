@@ -1,47 +1,79 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <title>
-        {% block title %} {% endblock %}
-  </title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href=" https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{% static 'plugins/jqvmap/jqvmap.min.css' %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css' %}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{% static 'plugins/summernote/summernote-bs4.css' %}">
-  <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
- <link rel = "icon" href ="https://image.flaticon.com/icons/png/512/3124/3124364.png" type = "image/x-icon">
-<!-- 
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/fontawesome-free/css/all.min.css' %}"
+    />
+    <!-- Ionicons -->
+    <link
+      rel="stylesheet"
+      href=" https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+    />
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}"
+    />
+    <!-- iCheck -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}"
+    />
+    <!-- JQVMap -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/jqvmap/jqvmap.min.css' %}"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}" />
+    <!-- overlayScrollbars -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}"
+    />
+    <!-- Daterange picker -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/daterangepicker/daterangepicker.css' %}"
+    />
+    <!-- summernote -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/summernote/summernote-bs4.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}"
+    />
+    <!-- Google Font: Source Sans Pro -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="https://image.flaticon.com/icons/png/512/3124/3124364.png"
+      type="image/x-icon"
+    />
+    <!-- 
  <link rel="stylesheet" type="text/css" href="{% static 'dist/js/sweetalert2.css' %}">
  <script src="{% static 'dist/js/sweetalert2.all.min.js' %}"></script> -->
 
-<style>
-    .side{
+    <style>
+      .side {
         color: white;
-    }
-    .list:hover{
+      }
+      .list:hover {
         background: rgba(148, 169, 165, 0.49);
     }
   .our-btn:hover{
@@ -56,361 +88,393 @@
 </style>
 
 </head>
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"
+              ><i class="fas fa-bars"></i
+            ></a>
+          </li>
+        </ul>
 
-<body class="hold-transition sidebar-mini layout-fixed"  >
-<div class="wrapper">
+        {% if request.user.school %}
+        <h6 style="margin-left: 10px">{{request.user.school}}</h6>
+        {% else %} {% endif %} {% if request.user.department %}
+        <h6 style="margin-left: 10px">>> {{request.user.department}}</h6>
+        {% else %} {% endif %}
 
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light" >
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-      </li>
-
-    </ul>
-
-    {% if request.user.school %}
-        <h6 style="margin-left: 10px;">{{request.user.school}}</h6>
-       {% else %}
-    {% endif %}
-    {% if request.user.department %}
-        <h6 style="margin-left: 10px;"> >> {{request.user.department}}</h6>
-       {% else %}
-    {% endif %}
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#"><i class="far fa-user"></i></a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
-           <a href="{% url 'profile' %}"  class="dropdown-item btn btn-link" ><div class="fas fa-user"></div>&nbsp; {{request.user.get_full_name}}</a>
-            <a href="{% url 'change-password' %}" class="dropdown-item btn btn-link"><div class="fas fa-lock"></div>&nbsp;  Change password</a>
-              <a  href="{% url 'logout' %}" class="dropdown-item btn btn-link"><div class="fa fa-power-off"></div>&nbsp;  Logout</a>
-        </div>
-      </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-danger navbar-badge">{{not_count}}</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">{{not_count}} Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-
-    </ul>
-  </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-<aside class="main-sidebar  elevation-4" style="background: #003e80;color: white">
-   <div class="sidebar" style="color: white">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3s">
-            <a href="{% url 'index' %}">
-              <div style="text-align: center;">
-                <img src="{% static 'dist/img/astu_logo.svg' %}"
-                     alt="Astu Logo"
-                     style="width: 60%;height: auto;background: white"
-                     class="brand-image img-circle elevation-3">
-                        <h5 style="margin-top: 10px;color: white;font-size:2vw;"><strong>{{request.user.role}}</strong></h5>
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+          <!-- Messages Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#"
+              ><i class="far fa-user"></i
+            ></a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <a href="{% url 'profile' %}" class="dropdown-item btn btn-link"
+                ><div class="fas fa-user"></div>
+                &nbsp; {{request.user.get_full_name}}</a
+              >
+              <a
+                href="{% url 'change-password' %}"
+                class="dropdown-item btn btn-link"
+                ><div class="fas fa-lock"></div>
+                &nbsp; Change password</a
+              >
+              <a href="{% url 'logout' %}" class="dropdown-item btn btn-link"
+                ><div class="fa fa-power-off"></div>
+                &nbsp; Logout</a
+              >
             </div>
-            </a>
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav>
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" >
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open" >
-            <a href="{% url 'index' %}" class="list nav-link">
-              <i class="side nav-icon fas fa-tachometer-alt"></i>
-              <p style="color: white">
-                Dashboard
-              </p>
-            </a>
-
           </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="list nav-link">
-              <i class="side nav-icon fa fa-cart-plus"></i>
-              <p style="color: white">
-                Request
-                <i class="fas fa-angle-right right"></i>
-
-              </p>
+          <!-- Notifications Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-bell"></i>
+              <span class="badge badge-danger navbar-badge">15</span>
             </a>
-            <ul class="nav nav-treeview">
-              {% if request.user.role != 'TSHO' %}    
-              <li class="nav-item">
-                <a href="{% url 'make-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Make Request</p>
-                </a>
-              </li>
-              {% endif %}
-            {% if request.user.role == 'TSHO' %}
-              <li class="nav-item">
-                <a href="{% url 'tsho-view-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">New Request</p>
-                     <span class="badge badge-info right" style="background: green"></span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'tsho-view-approved-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Approved Request</p>
-                </a>
-              </li>
-            {% elif request.user.role == 'DepartmentHead' %}
-              <li class="nav-item">
-                <a href="{% url 'department-view-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">New Request</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'department-view-approved-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Approved Request</p>
-                </a>
-              </li>
-              {% elif request.user.role == 'SchoolDean' %}
-              <li class="nav-item">
-                <a href="{% url 'school-view-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">New Request</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'school-view-approved-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Approved Request</p>
-                </a>
-              </li>
-              {% else %}
-
-            {% endif %}
-            {% if request.user.role != 'TSHO' %}    
-              <li class="nav-item">
-                <a href="{% url 'my-request' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">My Request</p>
-                </a>
-              </li>
-              {% endif %}
-
-
-            </ul>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header"
+                >15 Notifications</span
+              >
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                <span class="float-right text-muted text-sm">3 mins</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-users mr-2"></i> 8 friend requests
+                <span class="float-right text-muted text-sm">12 hours</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-file mr-2"></i> 3 new reports
+                <span class="float-right text-muted text-sm">2 days</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer"
+                >See All Notifications</a
+              >
+            </div>
           </li>
-          <li class=" nav-item has-treeview">
-            <a href="#" class="list nav-link">
-              <i class="side nav-icon fas fa-car"></i>
-              <p style="color: white">
-                Vehicle
-                <i class="right fas fa-angle-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'vehicle-register' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Register Vehicle</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'vehicle-manage' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Vehicle Management</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'repaired-vehicle' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Repaired Vehicle</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-           <li class="nav-item has-treeview">
-            <a href="{% url 'history' %}" class="list nav-link">
-              <i class="side nav-icon far fa-bell"></i>
-              <p style="color: white">
-                History
-              </p>
-            </a>
-          </li>
-
-        {% if request.user.role == 'StoreManager' %}
-              <li class="nav-item has-treeview">
-            <a href="#" class="list nav-link">
-              <i class="side nav-icon fas fa-tree"></i>
-              <p style="color: white">
-                Material
-                <i class="fas fa-angle-right right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="{% url 'AddMaterial' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Add Material</p>
-                </a>
-              </li>
-               <li class="nav-item">
-                <a href="{% url 'material-manage' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Material Management</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Request Material</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">View Material request</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-         {% endif %}
-          <li class="nav-item has-treeview">
-            <a href="#" class="list nav-link">
-              <i class="side nav-icon fas fa-table"></i>
-              <p style="color: white">
-                Schedule
-                <i class="fas fa-angle-right right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'create-schedule' %}" class="list nav-link">
-                  <i class=" far fa-circle nav-icon"></i>
-                  <p style="color: white">Add Schedule</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                <p style="color: white">Manage Schedule</p>
-                </a>
-              </li>
-
-            </ul>
-          </li>
-          <li class="nav-header">Users and account management</li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="list nav-link">
-              <i class="side nav-icon fas fa-user"></i>
-              <p style="color: white">Users
-                <i class="fas fa-angle-right right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'register' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Register</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'account' %}" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Account Management</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-         
-          <li class="nav-item has-treeview">
-            <a href="#" class="list nav-link">
-              <i class="side nav-icon fas fa-book"></i>
-              <p style="color: white">
-                Employee
-                <i class="fas fa-angle-right right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white">Evaluation </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="list nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p style="color: white"> History</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+      <!-- /.navbar -->
 
-<div>
-  </div>
+      <!-- Main Sidebar Container -->
+      <aside
+        class="main-sidebar elevation-4"
+        style="background: #003e80; color: white"
+      >
+        <div class="sidebar" style="color: white">
+          <!-- Sidebar user panel (optional) -->
+          <div class="user-panel mt-3 pb-3 mb-3s">
+            <a href="{% url 'index' %}">
+              <div style="text-align: center">
+                <img
+                  src="{% static 'dist/img/astu_logo.svg' %}"
+                  alt="Astu Logo"
+                  style="width: 60%; height: auto; background: white"
+                  class="brand-image img-circle elevation-3"
+                />
+                <h5 style="margin-top: 10px; color: white; font-size: 2vw">
+                  <strong>{{request.user.role}}</strong>
+                </h5>
+              </div>
+            </a>
+          </div>
+
+          <!-- Sidebar Menu -->
+          <nav>
+            <ul
+              class="nav nav-pills nav-sidebar flex-column"
+              data-widget="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+              <li class="nav-item has-treeview menu-open">
+                <a href="{% url 'index' %}" class="list nav-link">
+                  <i class="side nav-icon fas fa-tachometer-alt"></i>
+                  <p style="color: white">Dashboard</p>
+                </a>
+              </li>
+
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fa fa-cart-plus"></i>
+                  <p style="color: white">
+                    Request
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  {% if request.user.role != 'TSHO' %}
+                  <li class="nav-item">
+                    <a href="{% url 'make-request' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Make Request</p>
+                    </a>
+                  </li>
+                  {% endif %} {% if request.user.role == 'TSHO' %}
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'tsho-view-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">New Request</p>
+                      <span
+                        class="badge badge-info right"
+                        style="background: green"
+                      ></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'tsho-view-approved-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Approved Request</p>
+                    </a>
+                  </li>
+                  {% elif request.user.role == 'DepartmentHead' %}
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'department-view-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">New Request</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'department-view-approved-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Approved Request</p>
+                    </a>
+                  </li>
+                  {% elif request.user.role == 'SchoolDean' %}
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'school-view-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">New Request</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'school-view-approved-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Approved Request</p>
+                    </a>
+                  </li>
+                  {% else %} {% endif %} {% if request.user.role != 'TSHO' %}
+                  <li class="nav-item">
+                    <a href="{% url 'my-request' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">My Request</p>
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </li>
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-car"></i>
+                  <p style="color: white">
+                    Vehicle
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'vehicle-register' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Register Vehicle</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'vehicle-manage' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Vehicle Management</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'repaired-vehicle' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Repaired Vehicle</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview">
+                <a href="{% url 'history' %}" class="list nav-link">
+                  <i class="side nav-icon far fa-bell"></i>
+                  <p style="color: white">History</p>
+                </a>
+              </li>
+
+              {% if request.user.role == 'StoreManager' %}
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-tree"></i>
+                  <p style="color: white">
+                    Material
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'AddMaterial' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Add Material</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'material-manage' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Material Management</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'material-request' %}"
+                      class="list nav-link"
+                    >
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Request Material</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">View Material request</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-table"></i>
+                  <p style="color: white">
+                    Schedule
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'create-schedule' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Add Schedule</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Manage Schedule</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-header">Users and account management</li>
+
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-user"></i>
+                  <p style="color: white">
+                    Users
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'register' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Register</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'account' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Account Management</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Validation</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-book"></i>
+                  <p style="color: white">
+                    Employee
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Evaluation</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Profile</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">History</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+      </aside>
+
+      <div></div>
       <!-- to add other parts section we use this content -->
-        {% block content %}
-
-
-        {% endblock content  %}
-
-        {% include 'Trequest/footer.html' %}
+      {% block content %} {% endblock content %} {% include
+      'Trequest/footer.html' %}
     </div>
-
-</body>
+  </body>
 </html>
 <!-- jQuery -->
 <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
@@ -419,7 +483,7 @@
 <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge("uibutton", $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -446,20 +510,15 @@
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 
-
-
 {# delete confirmation #}
 <script>
-      $(document).ready(function()
-     {
-      $(".delete").click(function()
-          {
-          return confirm("Are you sure to delete this user?")
-          });
-      $(".deleteVehicle").click(function()
-          {
-          return confirm("Are you sure to delete this vehicle?")
-          });
+  $(document).ready(function () {
+    $(".delete").click(function () {
+      return confirm("Are you sure to delete this user?");
     });
-     </script>
+    $(".deleteVehicle").click(function () {
+      return confirm("Are you sure to delete this vehicle?");
+    });
+  });
+</script>
 {% include 'Trequest/message.html' %}

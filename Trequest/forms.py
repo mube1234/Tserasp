@@ -139,6 +139,18 @@ class AddMaterialForm(forms.ModelForm):
         model = Material
         fields = ['name', 'type_of', 'quantity']
 
+
+
+class MaterialRequestForm(forms.ModelForm):
+    class Meta:
+        model = MaterialRequest
+        fields = ['new_material_name', 'new_material_model', 'quantity_of_new',
+
+                  'old_material_model', 'old_material_name', 'quantity_of_old', 'vehicle_model','status']
+
+
+
+
 #####end which naol done for this project.
 # class PassengerRegistrationForm(forms.ModelForm):
 #     class Meta:

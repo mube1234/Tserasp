@@ -114,7 +114,7 @@ def index(request):
                'tsho_pend': tsho_pend,
                'dep_pend': dep_pend,
                'sch_pend': sch_pend,
-               'not_count':not_count,
+               
                }
     return render(request, 'Trequest/index.html', context)
 
@@ -469,10 +469,19 @@ def material_management(request):
     context = {'material': material, 'myfilter': myfilter}
     return render(request, 'Trequest/material_management.html', context)
 
-def notifications(request):
+# def notifications(request):
    
-    notifications=Notifications.objects.filter(is_viewed = False)
-    not_count=notifications.count()
-    context={'notifications':notifications,'not_count':not_count}
-    return render(request, 'Trequest/notifications.html', context)
+#     notifications=Notifications.objects.filter(is_viewed = False)
+#     not_count=notifications.count()
+#     context={'notifications':notifications,'not_count':not_count}
+#     return render(request, 'Trequest/notifications.html', context)
     
+def material_request(request):
+    form = MaterialRequestForm()
+    if request.method == 'POST':
+        form = MaterialRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Request sent successfully')
+
+    return render(request, 'Trequest/MaterialRequest.html')
