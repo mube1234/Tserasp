@@ -5,7 +5,7 @@ urlpatterns = [
     path('home/', views.index, name='index'),
     #pdf generation naol
    # path('pdf/', views.render_pdf_view, name='pdf'),   
-    path('Pdf/', views.Requestpdf.as_view(), name='pdf'),   
+    #path('Pdf/', views.Requestpdf.as_view(), name='pdf'),   
     path('Pdf/<pk>/', views.request_pdf, name='request-pdf'),   
 
 

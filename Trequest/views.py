@@ -15,13 +15,15 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
+
+
 class Requestpdf(ListView):
     model = TransportRequest
-    template_name = 'Trequest/invoice.html'
+    template_name = 'Trequest/pdf.html'
 def request_pdf(request, *args , **kwargs) :
     pk = kwargs.get('pk')
     requestpdf = get_object_or_404(TransportRequest, pk = pk)
-    template_path = 'Trequest/invoice.html'
+    template_path = 'Trequest/pdf.html'
     context = {'requestpdf': requestpdf}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
