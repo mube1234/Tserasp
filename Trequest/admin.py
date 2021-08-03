@@ -4,12 +4,17 @@ from .forms import *
 from django.contrib.auth.admin import UserAdmin
 from .forms import UserRegistrationForm, MyUserChangeForm
 
+<<<<<<< HEAD
 # for activity log
 from django.contrib.admin.models import LogEntry, DELETION
 from django.utils.html import escape
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 # end
+=======
+
+
+>>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 class MyUserAdmin(UserAdmin):
     add_form = UserRegistrationForm
     form = MyUserChangeForm
@@ -23,6 +28,7 @@ admin.site.register(TransportRequest)
 admin.site.register(Vehicle)
 admin.site.register(ApproveRequest)
 admin.site.register(Schedule)
+<<<<<<< HEAD
 admin.site.register(School)
 admin.site.register(Department)
 admin.site.register(Material)
@@ -79,3 +85,6 @@ class LogEntryAdmin(admin.ModelAdmin):
     object_link.short_description = "object"
 
 
+=======
+admin.site.register(Material)
+>>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9

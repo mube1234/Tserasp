@@ -2,8 +2,11 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+<<<<<<< HEAD
 from django.http import request
 from ckeditor.fields import RichTextField
+=======
+>>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 from TSERASP import settings
 
 
@@ -227,3 +230,37 @@ class DriverEvaluation(models.Model):
     
 
 
+<<<<<<< HEAD
+=======
+
+# class Material(models.Model):
+#     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
+#     name=models.CharField(max_length=200)
+#     type = models.CharField(max_length=200)
+#     quantity=models.PositiveIntegerField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return self.name
+# # class Schedule(models.Model):
+# #     service_type=models.CharField(max_length=)
+# #
+# # class ReassignSchedule(models.Model):
+# #     re_assigned_to=models.ForeignKey(Schedule,on_delete=models.CASCADE)
+# class MaterialRequest(models.Model):
+#     STATUS = (('Pending','Pending'),
+#             ('Approved','Approved'),)
+#     user=models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matrequest')
+#     name = models.CharField(max_length=200)
+#     type = models.CharField(max_length=200)
+#     quantity = models.PositiveIntegerField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     status = models.CharField(max_length=200, choices=STATUS, default='Pending')
+#
+#     def __str__(self):
+#         return self.name
+# # class RepairedVehicle(models.Model):
+# # class Profile(models.Model):
+# # class Evaluation(models.Model):
+>>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
