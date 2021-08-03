@@ -484,8 +484,8 @@ def material_request(request):
             form.save()
             messages.success(request, 'Request sent successfully')
 
-<<<<<<< HEAD
-    return render(request, 'Trequest/MaterialRequest.html')
+    context = {'form': form}
+    return render(request, 'Trequest/material_request.html', context)
 # Driver Evaluation View
 @login_required(login_url='login')
 def evaluate(request):
@@ -501,7 +501,4 @@ def evaluate(request):
         form = EvaluateDriverForm()
     context = {'form': form}
     return render(request, 'Trequest/evaluate_driver.html', context)
-=======
-    context = {'form': form}
-    return render(request, 'Trequest/material_request.html', context)
->>>>>>> e378ad9e8501ca84f5651b003982ea4f7542152f
+   
