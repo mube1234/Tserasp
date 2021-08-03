@@ -457,4 +457,5 @@ def material_request(request):
             form.save()
             messages.success(request, 'Request sent successfully')
 
-    return render(request, 'Trequest/MaterialRequest.html')
+    context = {'form': form}
+    return render(request, 'Trequest/material_request.html', context)

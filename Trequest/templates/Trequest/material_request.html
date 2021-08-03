@@ -1,0 +1,74 @@
+{% extends 'Trequest/base.html' %} {% load static%} {% block title %}Make
+Request{% endblock %} {% block content %} {% load crispy_forms_tags %}
+<div class="content-wrapper mt-2">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div
+            class="card-header mb-1"
+            style="background: #003e80; color: #fff"
+          >
+            <h3 class="card-title">
+              <i class="fa fa-check"></i> Make a Material Request
+            </h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            
+            <div class="row">
+              <div class="row col-md-12">
+                <form class="" action="" method="POST">
+                  {% csrf_token %}
+                  <div class="row" style="padding-bottom: 5rem">
+                    <div class="col">
+                        {{form.new_material_name.label}}<br/>
+                        {{form.new_material_name}}<br/>
+                        {{form.new_material_model.label}}<br/>
+                        {{form.new_material_model}}<br/>
+                        {{form.quantity_of_new.label}}<br/>
+                        {{form.quantity_of_new}}<br/>
+                        {{form.vehicle_model.label}}<br/>
+                        {{form.vehicle_model}}<br/>
+
+                    </div>
+                    <div class="col" style="padding-left: 15rem ; ">
+                        {{form.old_material_name.label}}<br/>
+                        {{form.old_material_name}}<br/>
+                        {{form.old_material_model.label}}<br/>
+                        {{form.old_material_model}}<br/>
+                        {{form.quantity_of_old.label}}<br/>
+                        {{form.quantity_of_old}}<br/>
+                        {{form.vehicle_model.label}}<br/>
+                        {{form.vehicle_model}}<br/>
+                        {{form.status.label}}<br/>
+                        {{form.status}}<br/>
+                    </div>
+                  </div>
+                  <input
+                    type="hidden"
+                    name="alert"
+                    value="{{alert}}"
+                    readonly
+                  />
+                  <button class="btn btn-info" type="Submit">
+                    Make request
+                  </button>
+                </form>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}
