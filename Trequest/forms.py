@@ -148,7 +148,11 @@ class MaterialRequestForm(forms.ModelForm):
 
                   'old_material_model', 'old_material_name', 'quantity_of_old', 'vehicle_model','status']
 
-
+# Driver Evaluation form
+class EvaluateDriverForm(forms.ModelForm):
+    class Meta:
+        model = DriverEvaluation
+        exclude =('duser',)
 
 
 #####end which naol done for this project.
