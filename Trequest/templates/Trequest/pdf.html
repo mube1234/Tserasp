@@ -31,7 +31,7 @@
                 <p> <b>To :</b> {{requestpdf.destination}}</p>
                 <p> <b>Start Date :</b> {{requestpdf.start_date}}</p>
                 <p> <b>End Date :</b> {{requestpdf.end_date}}</p>
-                  <p> <b>Reason :</b> {{requestpdf.reason}}</p>
+                  <p> <b>Reason :</b> {{requestpdf.reason|safe}}</p>
                    <p> <b>Sent On :</b> {{requestpdf.created_at}}</p>
                   <p> <b>From TSHO :</b> <i style="color: #00b44e;font-weight: bold">{{requestpdf.status}}</i></p>
                   <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{requestpdf.status2}}</i></p>

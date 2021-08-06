@@ -62,7 +62,12 @@
                                  <td>{{my.status}}</td>
                                  <td>
                                      <a href="{% url 'detail-request' my.id %}"  class=" btn btn-success btn-sm">View</a>
-                                     <button class="btn btn-danger btn-sm">Cancel</button>
+                                     {% if my.status2 == "Pending" or  my.status3 == "Pending" %}
+                                     <button class="btn btn-danger btn-sm"  >Cancel</button>
+                
+                                     {% else %}
+                                     <button class="btn btn-danger btn-sm"  disabled>Cancel</button>
+                                     {% endif %}
                                  </td>
                                    </tr>
                               {% endfor %}

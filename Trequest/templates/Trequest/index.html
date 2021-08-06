@@ -133,9 +133,7 @@
                        <td>{{sch.place}}</td>
                        <td>{{sch.service_type}}</td>
                         <td>
-                             <a href="">
-                                   <i class="fas fa-eye"></i>
-                              </a> &nbsp;&nbsp; &nbsp;&nbsp;
+                             <a href=""><i class="fas fa-eye"></i></a> &nbsp;&nbsp; &nbsp;&nbsp;
                            {% if sch.author == request.user %}
                                <a href="{% url 'update-schedule' sch.id  %}">
                                    <i class="fas fa-edit"></i>

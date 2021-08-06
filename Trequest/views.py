@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-=======
-#from Tserasp import Trequest
-from sys import path_hooks
-from django.contrib.auth import authenticate, login, logout
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -15,10 +9,7 @@ from django.core.mail import send_mail
 from .filters import MaterialFilter, UserFilter
 import random
 import string
-<<<<<<< HEAD
 from django.http.response import JsonResponse
-=======
-#adding by Naol
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -50,8 +41,6 @@ def request_pdf(request, *args , **kwargs) :
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
-
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 
 # registered users can login in to the system
 def signin(request):
@@ -511,12 +500,19 @@ def material_management(request):
     context = {'material': material, 'myfilter': myfilter}
     return render(request, 'Trequest/material_management.html', context)
 
-# def notifications(request):
-   
-#     notifications=Notifications.objects.filter(is_viewed = False)
-#     not_count=notifications.count()
-#     context={'notifications':notifications,'not_count':not_count}
-#     return render(request, 'Trequest/notifications.html', context)
+# for notification which appear in the dashboard of thsho
+def dep_notifications_count():
+    return Notifications.objects.filter(is_viewed = False).count()
+# def scho_notifications_count():
+#     return Notifications.objects.filter(is_viewed = False,from_who__status3="Pending").count()
+# def tsho_notifications_count():
+#     return Notifications.objects.filter(is_viewed = False,from_who__status="Pending").count()
+
+# def notifications_list():
+#     return Notifications.objects.all()
+#     # not_count=notifications.count()
+    # context={'notifications':notifications,'not_count':not_count}
+    # return render(request, 'Trequest/notifications.html', context)
     
 def material_request(request):
     form = MaterialRequestForm()
@@ -526,8 +522,7 @@ def material_request(request):
             form.save()
             messages.success(request, 'Request sent successfully')
 
-    context = {'form': form}
-    return render(request, 'Trequest/material_request.html', context)
+    return render(request, 'Trequest/MaterialRequest.html')
 # Driver Evaluation View
 @login_required(login_url='login')
 def evaluate(request):
@@ -543,4 +538,3 @@ def evaluate(request):
         form = EvaluateDriverForm()
     context = {'form': form}
     return render(request, 'Trequest/evaluate_driver.html', context)
-   
