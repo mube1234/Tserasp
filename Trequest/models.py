@@ -2,11 +2,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-<<<<<<< HEAD
 from django.http import request
 from ckeditor.fields import RichTextField
-=======
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 from TSERASP import settings
 
 
@@ -230,8 +227,6 @@ class DriverEvaluation(models.Model):
     
 
 
-<<<<<<< HEAD
-=======
 
 # class Material(models.Model):
 #     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
@@ -263,4 +258,3 @@ class DriverEvaluation(models.Model):
 # # class RepairedVehicle(models.Model):
 # # class Profile(models.Model):
 # # class Evaluation(models.Model):
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9

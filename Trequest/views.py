@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-=======
 #from Tserasp import Trequest
 from sys import path_hooks
 from django.contrib.auth import authenticate, login, logout
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -15,9 +12,7 @@ from django.core.mail import send_mail
 from .filters import MaterialFilter, UserFilter
 import random
 import string
-<<<<<<< HEAD
 from django.http.response import JsonResponse
-=======
 #adding by Naol
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -51,7 +46,6 @@ def request_pdf(request, *args , **kwargs) :
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 
 # registered users can login in to the system
 def signin(request):
