@@ -56,6 +56,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+
+    #######for timeout session
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    ##endof timeout
 ]
 
 ROOT_URLCONF = 'TSERASP.urls'
@@ -160,5 +165,11 @@ EMAIL_HOST_PASSWORD = ''
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+######logout after specific time and redirect to login page
+SESSION_EXPIRE_SECONDS = 1800
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 6
+SESSION_TIMEOUT_REDIRECT = 'login'
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+#endof ogout after specific time and redirect to login page
 
     

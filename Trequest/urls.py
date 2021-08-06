@@ -6,15 +6,12 @@ from . import views
 urlpatterns = [
     path('', views.signin, name='login'),
     path('home/', views.index, name='index'),
-<<<<<<< HEAD
     # re_path(r'/', views.notifications, name='notify'),
-=======
     #pdf generation naol
    # path('pdf/', views.render_pdf_view, name='pdf'),   
     #path('Pdf/', views.Requestpdf.as_view(), name='pdf'),   
     path('Pdf/<pk>/', views.request_pdf, name='request-pdf'),   
 
->>>>>>> 538e0de69e8cdcc2a7b6d87744fba54832b86be9
 
     # account related
     path('register/', views.create_account, name='register'),
