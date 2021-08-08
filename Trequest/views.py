@@ -1,4 +1,7 @@
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+#from Tserasp import Trequest
+from sys import path_hooks
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -10,6 +13,7 @@ from .filters import MaterialFilter, UserFilter
 import random
 import string
 from django.http.response import JsonResponse
+#adding by Naol
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -258,26 +262,12 @@ def make_request(request):
     context = {'form': form}
     return render(request, 'Trequest/make_request.html', context)
 
-
-
-
-# @login_required(login_url='login')
-# def tsho_assign_request(request, id):
-#     app = TransportRequest.objects.get(id=id)
-#     if request.method == 'POST':
-#         request_form = ApproveRequestForm(request.POST)
-#         if request_form.is_valid():
-#             obj = request_form.save(commit=False)
-#             obj.user = app
-#             obj.save()
-#             return send_email(request)
-#             messages.success(request, 'Request Approve Successfully!')
-#             return redirect('tsho-view-approved-request')
-#     else:
-#         request_form = ApproveRequestForm()
-#     context = {'form': request_form, 'app': app}
-#     return render(request, 'Trequest/assign_approved_request.html', context)
-
+# request cancelling by passengers
+def cancel_request(request,id):
+    my_request=get_object_or_404(TransportRequest,id=id)
+    my_request.delete()
+    messages.success(request, ' Request Cancelled Successfully!')
+    return redirect('my-request')
 
 def department_view_request(request):
     transport1 = TransportRequest.objects.filter(status2='Pending')
@@ -388,7 +378,9 @@ def school_approve_request(request, id):
 @login_required(login_url='login')
 def my_request(request):
     myrequest = TransportRequest.objects.filter(passenger=request.user).order_by("-created_at")
-    context = {'myrequest': myrequest}
+    my_request_total=myrequest.count()
+    context = {'myrequest': myrequest,
+                'my_request_total':my_request_total}
     return render(request, 'Trequest/myrequest.html', context)
 @login_required(login_url='login')
 def my_request_detail(request,id):
@@ -502,12 +494,13 @@ def material_management(request):
 
 # for notification which appear in the dashboard of thsho
 def dep_notifications_count():
-    return Notifications.objects.filter(is_viewed = False).count()
-# def scho_notifications_count():
-#     return Notifications.objects.filter(is_viewed = False,from_who__status3="Pending").count()
-# def tsho_notifications_count():
-#     return Notifications.objects.filter(is_viewed = False,from_who__status="Pending").count()
+    return Notifications.objects.filter(is_viewed = False,request_id__status2="Pending").count()
 
+def scho_notifications_count():
+    return Notifications.objects.filter(is_viewed = False,request_id__status3="Pending", request_id__status2="Approved").count()
+    
+def tsho_notifications_count():
+    return Notifications.objects.filter(is_viewed = False,request_id__status="Pending",request_id__status3="Approved").count()
 # def notifications_list():
 #     return Notifications.objects.all()
 #     # not_count=notifications.count()
@@ -521,8 +514,9 @@ def material_request(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Request sent successfully')
+    context={'form': form}
 
-    return render(request, 'Trequest/MaterialRequest.html')
+    return render(request, 'Trequest/material_request.html',context)
 # Driver Evaluation View
 @login_required(login_url='login')
 def evaluate(request):
@@ -538,3 +532,15 @@ def evaluate(request):
         form = EvaluateDriverForm()
     context = {'form': form}
     return render(request, 'Trequest/evaluate_driver.html', context)
+
+# report
+def report(request):
+    material = Material.objects.all()
+    vehicle = Vehicle.objects.all()
+    # yes=vehicle.vehicle_type.count()
+    # print()
+
+    
+        
+    context = {'material':material,'vehicle':vehicle}
+    return render(request,'Trequest/report.html',context)

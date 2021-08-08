@@ -49,7 +49,7 @@
                         <input type="text" value="Your trip date and time" name="subject" hidden=True>
 
                          <label>Driver Name:</label>
-                        <select name="driver" class="form-control">
+                        <select name="driver" class="form-control" required>
                             <option>----</option>
                             {% for entry in vehicle %}
                                 <option value="{{ entry.driver.user.username }}">{{ entry.driver.user.get_full_name}} ------------ {{ entry.vehicle_type}}   </option>

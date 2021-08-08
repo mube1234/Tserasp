@@ -65,6 +65,8 @@
       href="https://image.flaticon.com/icons/png/512/3124/3124364.png"
       type="image/x-icon"
     />
+    <!-- for chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
     <!-- 
  <link rel="stylesheet" type="text/css" href="{% static 'dist/js/sweetalert2.css' %}">
  <script src="{% static 'dist/js/sweetalert2.all.min.js' %}"></script> -->
@@ -138,18 +140,30 @@
               <i class="far fa-bell"></i>
               <span class="badge badge-danger navbar-badge">
                 <!-- to display list of notifications from templates tags -->
-                {% load notifications %}
-                {% dep_notification_number %}
+                {% if request.user.role == 'DepartmentHead' %}
+                    {% load notifications %}
+                    {% dep_notification_number %}  
+
+                {% elif request.user.role == 'SchoolDean' %}  
+                   {% load notifications %}
+                   {% scho_notification_number %}
+
+                {% elif request.user.role == 'TSHO' %}  
+                    {% load notifications %}
+                    {% tsho_notification_number %}
+                {% else %}    
+                    <p></p>
+                {% endif %}
 
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <span class="dropdown-item dropdown-header">
-                   {% load notifications %}
-                  {% dep_notification_number %} Notifications</span>
+                   
+                 Available Notifications</span>
               
               <div class="dropdown-divider"></div>
-                 
+              
               <!-- <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-users mr-2"></i> 8 friend requests
@@ -437,10 +451,16 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item has-treeview">
+                <a href="{% url 'report' %}" class="list nav-link">
+                  <i class="side nav-icon fa fa-book"></i>
+                  <p style="color: white">Report</p>
+                </a>
+              </li>
 
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
-                  <i class="side nav-icon fas fa-book"></i>
+                  <i class="side nav-icon fas fa-users"></i>
                   <p style="color: white">
                     Employee
                     <i class="fas fa-angle-right right"></i>
@@ -523,6 +543,9 @@
     });
     $(".deleteVehicle").click(function () {
       return confirm("Are you sure to delete this vehicle?");
+    });
+    $(".request-delete").click(function () {
+      return confirm("Are you sure to cancel this request?");
     });
   });
 </script>

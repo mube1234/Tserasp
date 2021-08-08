@@ -56,7 +56,7 @@
                             <td>
                             <a href="{% url 'school-approve-request' trans.id %}" class="btn btn-info btn-sm"><i class="fa fa-check"></i> Approve</a>
                           
-                            <button class="btn btn-danger"> <i class="fa fa-trash"></i></button>
+                            <button class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> Reject</button>
                             </td>
                         </tr>
                       </tbody>
@@ -64,6 +64,7 @@
                     {% endfor %}
                
                 </table>
+                <p style="margin-left: 20px;"><b> {{transport.count}} New Request</b></p>
                 {% else %}
                 <div class="alert alert-danger"><center><h3>There is no request yet</h3></center></div>
                 {% endif %}

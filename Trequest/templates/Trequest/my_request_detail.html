@@ -36,8 +36,12 @@
                
                   
                   <p> <b>From TSHO :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status}}</i></p>
+                  {% if request.user.role != "DepartmentHead" and request.user.role != "SchoolDean" %}
                   <p> <b>From Department :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status2}}</i></p>
+                  {% endif %}
+                  {% if request.user.role != "SchoolDean" %}
                   <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{myrequest_detail.status3}}</i></p>
+                  {% endif %}
                   <div style="box-shadow: 2px 2px 2px 2px;padding: 5px;">
                     <p> <b>Reason :</b> {{myrequest_detail.reason|safe}}</p>
                   </div>

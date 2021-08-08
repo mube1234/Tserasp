@@ -31,16 +31,16 @@ urlpatterns = [
     path('request/departmentdapproved', views.department_view_approved_request, name="department-view-approved-request"),
     path('request/departmentapprove/<int:id>', views.department_approve_request, name="department-approve-request"),
     path('request/tshoapproved/detail/<str:id>', views.tsho_view_approved_request_detail, name="view-detail"),
-    # path('request/tapprove/<int:id>',views.tsho_assign_request,name="assign-approve-request"),
-    # path('request/tapprove/<int:id>',views.send_email,name="assign-approve-request"),
     path('request/schoolview', views.school_view_request, name="school-view-request"),
     path('request/schoolapproved', views.school_view_approved_request, name="school-view-approved-request"),
     path('request/schoolapprove/<int:id>', views.school_approve_request, name="school-approve-request"),
     path('request/my_request', views.my_request, name="my-request"),
     path('request/my_request/detail/<str:id>', views.my_request_detail, name="detail-request"),
     path('request/make', views.make_request, name="make-request"),
+    path('request/cancel/<int:id>', views.cancel_request, name="cancel-request"),
     path('request/tshoapprove/<str:id>', views.tsho_approve_request, name="tsho-approve-request"),
     path('vehicle/repaired',views.repaired_vehicle,name='repaired-vehicle'),
+
     # material request
     path('request/materialrequest', views.material_request, name="material-request"),
 
@@ -69,8 +69,11 @@ urlpatterns = [
     path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name="Trequest/password_reset_done.html"),name='password_reset_done'),
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="Trequest/password_reset_confirm.html"),name='password_reset_confirm'),
     path('reset/done/',auth_views.PasswordResetCompleteView.as_view(template_name="Trequest/password_reset_complete.html"),name='password_reset_complete'),
+     
      # Driver Evaluation
-
      path('evaluate/', views.evaluate, name="evaluate-driver"),
+    
+    # report
+    path('report/',views.report, name="report"),
  
 ]

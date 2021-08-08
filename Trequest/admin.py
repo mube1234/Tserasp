@@ -29,6 +29,9 @@ admin.site.register(Material)
 admin.site.register(Notifications)
 admin.site.register(MaterialRequest)
 admin.site.register(DriverEvaluation)
+
+
+
 #  for log entry
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):

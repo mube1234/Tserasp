@@ -23,6 +23,7 @@
               <!-- /.card-header -->
 
               <div class="card-body table-responsive p-0">
+              {% if myrequest %}  
                 <table class="table table-hover text-nowrap ">
                   <thead>
                     <tr>
@@ -45,7 +46,7 @@
            
                   <tbody>
                   
-                       {% if myrequest %}       
+                           
                              {% for my in myrequest %}
                                <tr>
                                  <td>{{my.start_from}}</td>
@@ -63,7 +64,9 @@
                                  <td>
                                      <a href="{% url 'detail-request' my.id %}"  class=" btn btn-success btn-sm">View</a>
                                      {% if my.status2 == "Pending" or  my.status3 == "Pending" %}
-                                     <button class="btn btn-danger btn-sm"  >Cancel</button>
+                                     <a href="{% url 'cancel-request' my.id %}">
+                                      <button class="request-delete btn btn-danger btn-sm"  >Cancel</button>
+                                     </a>
                 
                                      {% else %}
                                      <button class="btn btn-danger btn-sm"  disabled>Cancel</button>
@@ -71,14 +74,19 @@
                                  </td>
                                    </tr>
                               {% endfor %}
-                      {% else %}
+                      
+                              <hr>
+                             
+                  </tbody>
+                 
+                </table>
+                <p style="margin-left: 20px;"><b>You have {{my_request_total}}  request</b></p>
+                {% else %}
                           <div class="alert alert-danger">
-                             <p>There No is prevous trip history</p>
+                             <p>There No is  trip request found for you</p>
                           </div>
                       {% endif %}
-
-                  </tbody>
-                </table>
+                
               </div>
               <!-- /.card-body -->
             </div>
