@@ -489,6 +489,8 @@ def AddMaterial(request):
     if request.method == 'POST':
         form = AddMaterialForm(request.POST)
         if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
             form.save()
             messages.success(request, 'Material added Successfully!')
             return redirect('material-manage')
@@ -538,3 +540,9 @@ def evaluate(request):
     context = {'form': form}
     return render(request, 'Trequest/evaluate_driver.html', context)
    
+# Activity log view
+@login_required(login_url='login')
+def ActivityLogs(request):
+    logs=ActivityLog.objects.all()
+    context={'logs':logs}
+    return render(request, 'Trequest/activity_log.html',context)

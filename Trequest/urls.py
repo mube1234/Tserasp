@@ -72,5 +72,8 @@ urlpatterns = [
      # Driver Evaluation
 
      path('evaluate/', views.evaluate, name="evaluate-driver"),
+
+     # Activity Log
+     path('activitylog',views.ActivityLogs,name='activity-log')
  
 ]

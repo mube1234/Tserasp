@@ -44,6 +44,45 @@
             <!-- /.row -->
 
            
+
+
+
+
+
+          <!-- /. -->
+            <div class="card-body">
+                 <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap ">
+                  <thead>
+                    <tr>
+                      <th>Created by</th>
+                      <th>Action</th>
+                      <th>Time</th>
+                      
+                    </tr>
+                  </thead>
+
+                  {% for log in logs %}
+                  <tbody>
+                    <tr>
+                       <td>{{log.created_by}}</td>
+                       <td>{{log.instances}}</td>
+                       <td>{{log.created_at}}</td>
+                       
+                        
+                    </tr>
+                  </tbody>
+                {% endfor %}
+                </table>
+              </div>
+            </div>
+
+
+
+
+
+
+
           </div>
           </div>
           <!-- /.card -->

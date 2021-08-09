@@ -181,7 +181,7 @@ class Schedule(models.Model):
     place = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.service_type
+        return self.author.first_name + "  "+ self.author.last_name
 #     by naol
 class Material(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, on_delete= models.SET_NULL)
@@ -193,7 +193,7 @@ class Material(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return self.user.first_name + "  "+ self.user.last_name 
 
 
 class MaterialRequest(models.Model):
@@ -224,37 +224,11 @@ class DriverEvaluation(models.Model):
     duser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='evaluator')
     trip = models.ForeignKey(TransportRequest,on_delete=models.CASCADE, related_name='trip_name',null=True)
 
-    
+  # Activity log
+class ActivityLog(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
+    created_by=models.CharField(max_length=100)
+    instances=models.CharField(max_length=500)  
 
 
 
-# class Material(models.Model):
-#     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
-#     name=models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity=models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.name
-# # class Schedule(models.Model):
-# #     service_type=models.CharField(max_length=)
-# #
-# # class ReassignSchedule(models.Model):
-# #     re_assigned_to=models.ForeignKey(Schedule,on_delete=models.CASCADE)
-# class MaterialRequest(models.Model):
-#     STATUS = (('Pending','Pending'),
-#             ('Approved','Approved'),)
-#     user=models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matrequest')
-#     name = models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity = models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     status = models.CharField(max_length=200, choices=STATUS, default='Pending')
-#
-#     def __str__(self):
-#         return self.name
-# # class RepairedVehicle(models.Model):
-# # class Profile(models.Model):
-# # class Evaluation(models.Model):
