@@ -4,16 +4,14 @@
 {% block content %}
 <div class="content-wrapper mt-2">
     <section class="content">
-      <div class="">
-        <div class="col-md-12 ">
-          <div class="card">
+       <div class="card">
             <div class="card-header mb-1"  style="background:#003e80;color:#fff">
                 <h3 class="card-title"><i class="fa  fa-star"></i>&nbsp;&nbsp; Report</h3>
-          </div>
-          
-           
+           </div>
            <div class="card-body">
-            <div class="col-md-6">
+            <div class="row col-md-12 ">    
+            <div class="col-md-5" style="background-color: #f2f2f2; ">
+              <h3>  <center>Material</center></h3>
             <canvas id="myChart" width="400" height="400"></canvas>
             <script>
                 var ctx = document.getElementById('myChart').getContext('2d');
@@ -26,7 +24,7 @@
                             data: [{% for mat in material %} {{mat.quantity}}, {% endfor %}],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.8)',
-                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(154, 162, 235, 0.8)',
                                 'rgba(255, 206, 86, 0.8)',
                                 'rgba(75, 192, 192, 0.8)',
                                 'rgba(153, 102, 255, 0.8)',
@@ -56,23 +54,24 @@
             </script>
                  
             </div> 
-            <!-- end of col-md-6 -->
-            <div class="col-md-6">
+            <!-- end of col-md-6 -->           
+            <div class="col-md-5 offset-md-1" style="background-color:#f2f2f2;">
+                <h3>  <center>Vehicle</center></h3>
                 <canvas id="myChart2" width="400" height="400"></canvas>
                 <script>
                     var ctx = document.getElementById('myChart2').getContext('2d');
                     var myChart2 = new Chart(ctx, {
-                        type: 'bar',
+                        type: 'doughnut',
                         data: {
-                            labels: [{% for veh in vehicle %} '{{veh.vehicle_type}}', {% endfor %}],
+                            labels: [{% for key in x %} '{{key}}', {% endfor %}],
                             datasets: [{
-                                label: '# Type Number',
-                                data: [{% for veh in vehicle %} {{vehicle.vehicle_type}}, {% endfor %}],
+                                label: '# Vehicle of this type',
+                                data: [{% for values in y %} {{values}}, {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.8)',
                                     'rgba(54, 162, 235, 0.8)',
                                     'rgba(255, 206, 86, 0.8)',
-                                    'rgba(75, 192, 192, 0.8)',
+                                    'rgba(175, 192, 192, 0.8)',
                                     'rgba(153, 102, 255, 0.8)',
                                     'rgba(255, 159, 64, 0.8)',
                                     'rgba(132, 255, 64, 0.8)',

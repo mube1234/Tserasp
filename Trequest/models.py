@@ -132,7 +132,10 @@ class Notifications(models.Model):
 
     def __str__(self):
         return str(self.request_id.passenger.first_name)
-    
+    # to dynamically determine vehicle type
+class VehicleType(models.Model):
+    name=models.CharField(max_length=100,unique=True) 
+
 class Vehicle(models.Model):
     STATUS = (
         ('Not Occupied', 'Not Occupied'),
@@ -142,14 +145,14 @@ class Vehicle(models.Model):
         ('Outside', 'Outside'),
         ('Inside', 'Inside'),
     )
-    type_of_vehicle = (
-        ('minibus', 'minibus'),
-        ('bus', 'bus'),
-        ('kobra', 'kobra'),
-        ('ambulance', 'ambulance')
-    )
+    # type_of_vehicle = (
+    #     ('minibus', 'minibus'),
+    #     ('bus', 'bus'),
+    #     ('kobra', 'kobra'),
+    #     ('ambulance', 'ambulance')
+    # )
     adder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='add')
-    vehicle_type = models.CharField(max_length=200, choices=type_of_vehicle)
+    vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE)
     plate_number = models.CharField(max_length=20, unique=True)
     status = models.CharField(max_length=200, choices=STATUS, default='Not Occupied')
     driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True,blank=True)
@@ -204,10 +207,11 @@ class MaterialRequest(models.Model):
         ('Pending', 'Pending'),
         ('Approved', 'Approved'),
     )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, on_delete= models.SET_NULL)
     new_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='new_material')
     new_material_model = models.CharField(max_length=200)
     quantity_of_new = models.PositiveIntegerField()
-    old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
+    # old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
     quantity_of_old=models.PositiveIntegerField()
     old_material_model=models.CharField(max_length=200)
     vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)

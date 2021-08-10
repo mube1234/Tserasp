@@ -168,6 +168,20 @@ def vehicle_management(request):
 def history(request):
      return render(request, 'Trequest/history.html')
 
+# vehicle type registration
+ #  vehicle related
+@login_required(login_url='login')
+def vehicle_type_register(request):
+    if request.method == 'POST':
+        form = VehicleTypeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Vehicle registered Successfully!')
+            return redirect('vehicle-manage')
+    else:
+        form = VehicleTypeForm()
+    context = {'form': form}
+    return render(request, 'Trequest/register_vehicle_type.html', context)
 
  #  vehicle related
 @login_required(login_url='login')
@@ -508,12 +522,18 @@ def tsho_notifications_count():
     # return render(request, 'Trequest/notifications.html', context)
     
 def material_request(request):
-    form = MaterialRequestForm()
+    
     if request.method == 'POST':
         form = MaterialRequestForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.save()
             messages.success(request, 'Request sent successfully')
+        else:
+            print("invalid data")
+    else:
+        form = MaterialRequestForm()
     context={'form': form}
 
     return render(request, 'Trequest/material_request.html',context)
@@ -534,13 +554,26 @@ def evaluate(request):
     return render(request, 'Trequest/evaluate_driver.html', context)
 
 # report
+import collections
 def report(request):
     material = Material.objects.all()
-    vehicle = Vehicle.objects.all()
-    # yes=vehicle.vehicle_type.count()
-    # print()
+   
 
+# list of vehicle type 
+    vehicle = Vehicle.objects.all().values_list('vehicle_type')
+
+        #create a set(since it always contain unique data) 
+    ab={}
+    for vehicle_type in vehicle:
+        if vehicle_type in ab:
+            ab[vehicle_type]+=1
+        else:
+            ab[vehicle_type]=1
+    x=ab.keys()
+    y=ab.values()
     
-        
-    context = {'material':material,'vehicle':vehicle}
+    
+  
+
+    context = {'material':material,'x':x,'y':y}
     return render(request,'Trequest/report.html',context)

@@ -21,7 +21,22 @@
                   <form class="" action="" method="POST">
                       {% csrf_token %}
                       {{form|crispy}}<br>
-
+                      <div class="ratings rating2">
+       <input type="radio" name="star" id="rating" value="1">
+       <input type="radio" name="star" id="rating" value="2">
+       <input type="radio" name="star" id="rating" value="3">
+       <input type="radio" name="star" id="rating" value="4">
+       <input type="radio" name="star" id="rating" value="5">
+                        <!-- <a href="#1" title="Give 1 star" data-value="1" style="font-size: 30px;">★</a>
+                        <a href="#2" title="Give 2 stars" data-value="2" style="font-size: 30px;">★</a>
+                        <a href="#3" title="Give 3 stars" data-value="3" style="font-size: 30px;">★</a>
+                        <a href="#4" title="Give 4 stars" data-value="4" style="font-size: 30px;">★</a>
+                        <a href="#5" title="Give 5 stars" data-value="5" style="font-size: 30px;">★</a>
+                       
+                    
+                       -->
+                      
+                      </div><br><br>
                       <button class="btn btn-info " type="Submit">Submit</button>
 
                   </form>
@@ -45,5 +60,23 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <!-- <script>
+    $(".ratings").rating(function(vote,event){
+	
+   $.ajax({
+      method: 'POST',
+      url: "evaluate-driver",
+      
+      data: {'vote': vote},
+     
+      }).done(function(info)
+      {
+        // $('.info').html("your vote: <b>"")
+      }
+      )
+   })
+});
+    </script> -->
 
 {% endblock content %}

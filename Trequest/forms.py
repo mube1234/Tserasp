@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.forms import widgets
+from django.forms import fields, widgets
 from .models import *
 
 class UserRegistrationForm(UserCreationForm):
@@ -46,10 +46,16 @@ class VehicleRegisterForm(forms.ModelForm):
     class Meta:
         model = Vehicle
         exclude = ('adder',)
-        widgets = {
-            'adder': forms.Select(attrs={'type': ''})
-        }
-
+        # widgets = {
+        #     'adder': forms.Select(attrs={'type': 'hidden'})
+        # }
+class VehicleTypeForm(forms.ModelForm):
+    class Meta:
+        model = VehicleType
+        fields='__all__'
+        # widgets = {
+        #     'adder': forms.Select(attrs={'type': 'hidden'})
+        # }
 #form for making request or for applying for request
 class MakeRequestForm(forms.ModelForm):
     class Meta:
@@ -144,9 +150,7 @@ class AddMaterialForm(forms.ModelForm):
 class MaterialRequestForm(forms.ModelForm):
     class Meta:
         model = MaterialRequest
-        fields = ['new_material_name', 'new_material_model', 'quantity_of_new',
-
-                  'old_material_model', 'old_material_name', 'quantity_of_old', 'vehicle_model','status']
+        exclude=('user','status',)
 
 # Driver Evaluation form
 class EvaluateDriverForm(forms.ModelForm):

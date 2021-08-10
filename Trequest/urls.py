@@ -40,6 +40,7 @@ urlpatterns = [
     path('request/cancel/<int:id>', views.cancel_request, name="cancel-request"),
     path('request/tshoapprove/<str:id>', views.tsho_approve_request, name="tsho-approve-request"),
     path('vehicle/repaired',views.repaired_vehicle,name='repaired-vehicle'),
+    path('vehicle/vehicle_type_register',views.vehicle_type_register,name='vehicle-type-register'),
 
     # material request
     path('request/materialrequest', views.material_request, name="material-request"),

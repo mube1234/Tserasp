@@ -11,10 +11,13 @@
             <div class="card-header mb-1" style="background:#003e80;color:#fff">
                 <h3 class="card-title"><i class="fa  fa-check"></i> Register new vehicle</h3>
           </div>
+          
             <!-- /.card-header -->
-            <hr>
+           
            <div class="card-body">
-            <div class="row">
+              <button style="float: right;" type="button" class="our-btn btn btn-primary" data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Vehicle Type</button>
+              <br>
+              <div class="row">    
               <div class="col-md-6">
                   <form class="" action="" method="POST">
                       {% csrf_token %}
@@ -27,7 +30,7 @@
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->
-             
+              
             </div>
             <!-- /.row -->
 
@@ -43,5 +46,5 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
+
 {% endblock content %}
