@@ -55,9 +55,11 @@
                 <table class="table table-hover text-nowrap ">
                   <thead>
                     <tr>
-                      <th>Created by</th>
-                      <th>Action</th>
                       <th>Time</th>
+                      <th>Created by</th>
+                      <th>content type</th>
+                      <th> object </th>
+                      <th> Action </th>
                       
                     </tr>
                   </thead>
@@ -65,9 +67,12 @@
                   {% for log in logs %}
                   <tbody>
                     <tr>
+                       <td>{{log.created_at}}</td>
                        <td>{{log.created_by}}</td>
                        <td>{{log.instances}}</td>
-                       <td>{{log.created_at}}</td>
+                       <td>{{log.log_object}}</td>
+                       <td>{{log.action}}</td>
+
                        
                         
                     </tr>

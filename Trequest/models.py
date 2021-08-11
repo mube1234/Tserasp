@@ -228,7 +228,10 @@ class DriverEvaluation(models.Model):
 class ActivityLog(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     created_by=models.CharField(max_length=100)
-    instances=models.CharField(max_length=500)  
+    instances=models.CharField(max_length=500)
+    log_object=models.CharField(max_length=100,null=True)
+    action=models.CharField(max_length=100,null=True)
+
 
 
 
