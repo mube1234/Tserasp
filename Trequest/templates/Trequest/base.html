@@ -77,19 +77,15 @@
       }
       .list:hover {
         background: rgba(148, 169, 165, 0.49);
-    }
-  .our-btn:hover{
-
-      border: 1px solid transparent;
-     color: #ffffff;
-      background-color: #000099;
-      border-color: #007bff;
-
-
-  }
-</style>
-
-</head>
+      }
+      .our-btn:hover {
+        border: 1px solid transparent;
+        color: #ffffff;
+        background-color: #000099;
+        border-color: #007bff;
+      }
+    </style>
+  </head>
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
       <!-- Navbar -->
@@ -133,37 +129,32 @@
               >
             </div>
           </li>
-         
-              <!-- Notifications Dropdown Menu -->
+
+          <!-- Notifications Dropdown Menu -->
           <li class="nav-item dropdown">
+            {% comment %}
             <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell"></i>
               <span class="badge badge-danger navbar-badge">
                 <!-- to display list of notifications from templates tags -->
-                {% if request.user.role == 'DepartmentHead' %}
-                    {% load notifications %}
-                    {% dep_notification_number %}  
-
-                {% elif request.user.role == 'SchoolDean' %}  
-                   {% load notifications %}
-                   {% scho_notification_number %}
-
-                {% elif request.user.role == 'TSHO' %}  
-                    {% load notifications %}
-                    {% tsho_notification_number %}
-                {% else %}    
-                    <p></p>
+                {% if request.user.role == 'DepartmentHead' %} {% load
+                notifications %} {% dep_notification_number %} {% elif
+                request.user.role == 'SchoolDean' %} {% load notifications %} {%
+                scho_notification_number %} {% elif request.user.role == 'TSHO'
+                %} {% load notifications %} {% tsho_notification_number %} {%
+                else %}
+                <p></p>
                 {% endif %}
-
               </span>
             </a>
+            {% endcomment %}
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <span class="dropdown-item dropdown-header">
-                   
-                 Available Notifications</span>
-              
+                Available Notifications</span
+              >
+
               <div class="dropdown-divider"></div>
-              
+
               <!-- <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-users mr-2"></i> 8 friend requests
@@ -180,7 +171,6 @@
               >
             </div>
           </li>
-        
         </ul>
       </nav>
       <!-- /.navbar -->
@@ -442,7 +432,7 @@
                       <p style="color: white">Account Management</p>
                     </a>
                   </li>
-
+                  
                   <li class="nav-item">
                     <a href="#" class="list nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -487,6 +477,43 @@
                   </li>
                 </ul>
               </li>
+
+              {% comment %} feedback {% endcomment %}
+               <li class="nav-item has-treeview">
+                    <a href="#" class="list nav-link">
+                      <i class="side nav-icon fas fa-table"></i>
+                      <p style="color: white">
+                        Feed back
+                        <i class="fas fa-angle-right right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                     {% if request.user.role != "TSHO" %}
+                      <li class="nav-item">
+                        <a
+                          href="{% url 'create-feedback' %}"
+                          class="list nav-link"
+                        >
+                          <i class="far fa-circle nav-icon"></i>
+                          <p style="color: white">feedback</p>
+                        </a>
+                      </li>
+                     {% endif %} 
+                     {% if request.user.role == "TSHO" %}
+                       <li class="nav-item">
+                        <a
+                          href="{% url 'view-feedback' %}"
+                          class="list nav-link"
+                        >
+                          <i class="far fa-circle nav-icon"></i>
+                          <p style="color: white">View feedback</p>
+                        </a>
+                      </li>
+                     {% endif %}
+                    </ul>
+                  </li>
+
+              {% comment %} end of feedback {% endcomment %}
             </ul>
           </nav>
           <!-- /.sidebar-menu -->
@@ -530,7 +557,9 @@
 
 <!-- for display messages -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-{##}
+
+
+
 <script src="{% static 'plugins/jquery/jquery3.3.1.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>

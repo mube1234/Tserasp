@@ -10,12 +10,19 @@ from django.utils.html import escape
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 # end
+
+
 class MyUserAdmin(UserAdmin):
     add_form = UserRegistrationForm
     form = MyUserChangeForm
     model = MyUser
-    list_display = ['username','first_name','last_name','email', 'phone','school','department', 'role']
-    fieldsets = UserAdmin.fieldsets + ( (None, {'fields': ('phone','school','department', 'role',)}),) #this will allow to change these fields in admin module
+    list_display = ['username', 'first_name', 'last_name',
+                    'email', 'phone', 'school', 'department', 'role']
+    # this will allow to change these fields in admin module
+    fieldsets = UserAdmin.fieldsets + \
+        ((None, {'fields': ('phone', 'school', 'department', 'role',)}),)
+
+
 admin.site.register(MyUser, MyUserAdmin)
 admin.site.register(Driver)
 admin.site.register(Profile)
@@ -29,7 +36,8 @@ admin.site.register(Material)
 admin.site.register(Notifications)
 admin.site.register(MaterialRequest)
 admin.site.register(DriverEvaluation)
-
+admin.site.register(feedback)
+admin.site.register(VehicleType)
 
 
 #  for log entry
@@ -74,11 +82,10 @@ class LogEntryAdmin(admin.ModelAdmin):
         else:
             ct = obj.content_type
             link = '<a href="%s">%s</a>' % (
-                reverse('admin:%s_%s_change' % (ct.app_label, ct.model), args=[obj.object_id]),
+                reverse('admin:%s_%s_change' %
+                        (ct.app_label, ct.model), args=[obj.object_id]),
                 escape(obj.object_repr),
             )
         return mark_safe(link)
     object_link.admin_order_field = "object_repr"
     object_link.short_description = "object"
-
-

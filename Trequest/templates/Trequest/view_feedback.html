@@ -1,0 +1,61 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}View feedback History{% endblock %}
+{% block content %}
+<div class="content-wrapper mt-2">
+  <section class="content">
+    <div class="container-frequest>
+       <div class="row mt-2">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header" style="background:#003e80;color:#fff">
+                <h3 class="card-title">Request Material History</h3>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+
+              <div class="card-body table-responsive p-0">
+                
+                  
+                       {% if feedback %}       
+                             {% for my in feedback %}
+                               
+                              <div class="card">
+                                <div class="card-body">
+                                  <label>Full Name: &nbsp;&nbsp;</label><a href=""> {{my.user.get_full_name}}</a><br>
+                                 <p><b>Message: &nbsp;&nbsp;</b> {{my.message}}</p>
+                          
+                                  <label>Sent On: &nbsp;&nbsp;</label> <small>{{my.sent_at}}</small>
+                              </div>
+                                 </div>
+                                   
+                              {% endfor %}
+                      {% else %}
+                          <div class="alert alert-danger">
+                             <p>NO feedback found</p>
+                          </div>
+                      {% endif %}
+
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        
+          
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock content %}
