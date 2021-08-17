@@ -2,7 +2,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.db.models.signals import post_save,pre_delete
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import Profile, MyUser, Notifications, ActivityLog ,TransportRequest
+from .models import Profile, MyUser, Notifications, ActivityLog ,TransportRequest,Schedule,Material,Vehicle
 
 @receiver(post_save, sender=MyUser)
 def create_profile(sender, instance, created, **kwargs):

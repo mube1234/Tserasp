@@ -80,6 +80,10 @@ urlpatterns = [
     # history
     path('history/', views.history, name="history"),
 
+
+    # Activity Log
+    path('activitylog/', views.ActivityLogs, name="log"),
+
     #  password reset
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name="Trequest/password_reset_form.html"), name='password-reset'),
