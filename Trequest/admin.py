@@ -38,7 +38,7 @@ admin.site.register(MaterialRequest)
 admin.site.register(DriverEvaluation)
 admin.site.register(feedback)
 admin.site.register(VehicleType)
-
+admin.site.register(ActivityLog)
 
 #  for log entry
 @admin.register(LogEntry)
