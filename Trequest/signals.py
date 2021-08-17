@@ -56,13 +56,13 @@ def log_delete_material(sender,instance, **kwargs):
 @receiver(post_save,sender= Vehicle)
 def log_vehicle(sender,instance,created, **kwargs):
     if created:
-        ActivityLog.objects.create(created_by=str(instance.adder.first_name + "  "+ instance.adder.last_name),instances="Vehicle",log_object= str(instance.plate_number),action="Addition")
+        ActivityLog.objects.create(created_by=str(instance.adder.first_name) + "  "+ str(instance.adder.last_name),instances="Vehicle",log_object= str(instance.plate_number),action="Addition")
     else:
-        ActivityLog.objects.create(created_by=str(instance.adder.first_name + "  "+ instance.adder.last_name),instances="Vehicle",log_object= str(instance.plate_number),action="Updated")
+        ActivityLog.objects.create(created_by=str(instance.adder.first_name) + "  "+ str(instance.adder.last_name),instances="Vehicle",log_object= str(instance.plate_number),action="Updated")
 
 @receiver(pre_delete,sender=Vehicle)
 def log_delete_vehicle(sender,instance, **kwargs):
-    ActivityLog.objects.create(created_by=str(instance.adder.first_name + "  "+ instance.adder.last_name),instances="Vehicle",log_object=instance.plate_number,action="Deleted")
+    ActivityLog.objects.create(created_by=str(instance.adder.first_name) + "  "+ str(instance.adder.last_name),instances="Vehicle",log_object=instance.plate_number,action="Deleted")
 
 
 # user log
