@@ -10,7 +10,7 @@ from .forms import *
 from django.contrib.auth.forms import PasswordChangeForm
 from Trequest.forms import *
 from django.core.mail import send_mail
-from .filters import MaterialFilter, UserFilter
+from .filters import MaterialFilter
 import random
 import string
 from django.http.response import JsonResponse
@@ -152,6 +152,7 @@ def index(request):
     your(request)
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
+    total_feedback=feedback.objects.all().count()
     tsho_pending_request = TransportRequest.objects.filter(
         status='Pending', status2='Approved', status3='Approved')
     dep_pending_request = TransportRequest.objects.filter(status2='Pending',
@@ -171,6 +172,7 @@ def index(request):
                'tsho_pend': tsho_pend,
                'dep_pend': dep_pend,
                'sch_pend': sch_pend,
+               'feedback_count':total_feedback
 
                }
     return render(request, 'Trequest/index.html', context)
@@ -184,6 +186,12 @@ def view_request(request):
 @login_required(login_url='login')
 def vehicle_management(request):
     vehicle = Vehicle.objects.all()
+    query = request.GET.get('q')
+    if query:
+        vehicle = Vehicle.objects.filter(Q(vehicle_type__name__icontains=query) |
+                                    Q(plate_number__icontains=query) |
+                                    Q(currently__icontains=query))
+
     if request.method == 'POST':
         t_form = VehicleTypeForm(request.POST)
         if t_form.is_valid():
@@ -465,11 +473,17 @@ def my_request_detail(request, id):
 def account_management(request):
     account = MyUser.objects.all().order_by('-date_registered')
     total_account = account.count()
-    myfilter = UserFilter(request.GET, queryset=account)
-    account = myfilter.qs
+    query = request.GET.get('q')
+    if query:
+        account = MyUser.objects.filter(Q(first_name__icontains=query) |
+                                    Q(last_name__icontains=query) |
+                                    Q(role__icontains=query) |
+                                    Q(username__icontains=query))
+    # myfilter = UserFilter(request.GET, queryset=account)
+    # account = myfilter.qs
     context = {'account': account,
                'total_account': total_account,
-               'myfilter': myfilter}
+               }
     return render(request, 'Trequest/account_management.html', context)
 
 
@@ -626,6 +640,7 @@ def evaluate(request):
 
 def report(request):
     material = Material.objects.all()
+    material_request=MaterialRequest.objects.all()
    
 
 # list of vehicle type 
@@ -633,7 +648,7 @@ def report(request):
 
         #create a set(since it always contain unique data) 
     ab={}
-    print(type(ab))
+    # print(type(ab))
     for vehicle_type in vehicle:
         if vehicle_type in ab:
             ab[vehicle_type]+=1
@@ -641,9 +656,9 @@ def report(request):
             ab[vehicle_type]=1
     x=ab.keys()
     y=ab.values()
-    print(ab)
+    # print(ab)
     
-    context = {'material':material,'x':x,'y':y}
+    context = {'material':material,'x':x,'y':y,'material_request':material_request}
     return render(request,'Trequest/report.html',context)
     
 # feedback

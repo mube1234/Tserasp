@@ -12,9 +12,9 @@ class MaterialFilter(django_filters.FilterSet):
 
 
 
-class UserFilter(django_filters.FilterSet):
-    first_name = CharFilter(field_name="first_name", lookup_expr='icontains')
+# class UserFilter(django_filters.FilterSet):
+#     first_name = CharFilter(field_name="first_name", lookup_expr='icontains')
 
-    class Meta:
-        model = MyUser
-        fields = ['first_name']
+#     class Meta:
+#         model = MyUser
+#         fields = ['first_name']

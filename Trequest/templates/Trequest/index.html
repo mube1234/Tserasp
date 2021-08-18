@@ -65,11 +65,13 @@
             <span  class="info-box-icon bg-gradient-gray">
               <i  class="fa fa-bell"></i>
             </span>
-
+            
+            <a href="{% url 'view-feedback' %}">
             <div class="info-box-content">
-             <h5>Notifications</h5>
-              <center><p style="font-size: 22px"  class="counter">23</p></center>
+             <h5>feedback</h5>
+              <center><p style="font-size: 22px"  class="counter">{{feedback_count}}</p></center>
             </div>
+            </a>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
@@ -113,10 +115,11 @@
                 <table class="table table-hover text-nowrap ">
                   <thead>
                     <tr>
+                      <th>Driver Name</th>
                       <th>Date</th>
                       <th>Shift</th>
                       <th>Time</th>
-                      <th>Driver Name</th>
+                      
                       <th>Place</th>
                       <th>Service Type</th>
                       <th>Action</th>
@@ -126,10 +129,11 @@
                   {% for sch in schedule %}
                   <tbody>
                     <tr>
+                      <td>{{sch.driver.user.get_full_name}}</td>
                        <td>{{sch.date}}</td>
                        <td>{{sch.shift}}</td>
                        <td>{{sch.time}}</td>
-                       <td>{{sch.driver.user.get_full_name}}</td>
+                       
                        <td>{{sch.place}}</td>
                        <td>{{sch.service_type}}</td>
                         <td>

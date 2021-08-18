@@ -103,7 +103,7 @@ class Driver(models.Model):
     house_no = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-         return self.user.first_name + "  " + self.user.last_name
+         return self.user.first_name + " "+ self.user.last_name
 
 
 class TransportRequest(models.Model):
@@ -181,12 +181,7 @@ class Vehicle(models.Model):
         ('Outside', 'Outside'),
         ('Inside', 'Inside'),
     )
-    # type_of_vehicle = (
-    #     ('minibus', 'minibus'),
-    #     ('bus', 'bus'),
-    #     ('kobra', 'kobra'),
-    #     ('ambulance', 'ambulance')
-    # )
+  
     adder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='add')
     vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE)
     adder = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -219,12 +214,17 @@ class Schedule(models.Model):
         ('Afternoon', 'Afternoon'),
         ('Evening', 'Evening'),
     )
+    type_choice=(
+        ('Regular Transport Service','Regular Transport Service'),
+        ('Field Transport Service','Field Transport Service'),
+        ('Educational Transport Service','Educational Transport Service')
+    )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='adder')
     shift = models.CharField(max_length=100, choices=select)
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE, related_name='driver_name')
-    service_type = models.CharField(max_length=200)
+    service_type = models.CharField(max_length=200,choices=type_choice)
     date = models.DateField()
     time = models.CharField(max_length=200)
     place = models.CharField(max_length=200)
@@ -263,6 +263,7 @@ class MaterialRequest(models.Model):
     vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)
     condition = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True)
     status = models.CharField(max_length=200, default='Pending', choices=STATUS)
+    sent_on=models.DateField(auto_now_add=True,null=True)
 
 
     def __str__(self):
@@ -294,35 +295,7 @@ class feedback(models.Model):
                              on_delete=models.CASCADE)
     message = models.TextField(max_length=1000)
     sent_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-id']
 
 
-# class Material(models.Model):
-#     user = models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matregister')
-#     name=models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity=models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.name
-# # class Schedule(models.Model):
-# #     service_type=models.CharField(max_length=)
-# #
-# # class ReassignSchedule(models.Model):
-# #     re_assigned_to=models.ForeignKey(Schedule,on_delete=models.CASCADE)
-# class MaterialRequest(models.Model):
-#     STATUS = (('Pending','Pending'),
-#             ('Approved','Approved'),)
-#     user=models.ForeignKey(Employee, on_delete=models.CASCADE,related_name='matrequest')
-#     name = models.CharField(max_length=200)
-#     type = models.CharField(max_length=200)
-#     quantity = models.PositiveIntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     status = models.CharField(max_length=200, choices=STATUS, default='Pending')
-#
-#     def __str__(self):
-#         return self.name
-# # class RepairedVehicle(models.Model):
-# # class Profile(models.Model):
-# # class Evaluation(models.Model):
