@@ -1,0 +1,103 @@
+{% extends 'Trequest/base.html' %}
+{% block title %}History{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card">
+            <div class="card-header mb-1"  style="background:#003e80;color:#fff">
+                <h3 class="card-title"><i class="fa  fa-star"></i> User Activities</h3>
+          </div>
+            <!-- /.card-header -->
+           
+           <div class="card-body">
+                
+                    <button style="float: right;" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">Launch Default Modal</button>
+                    <div class="modal fade" id="modal-default">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title">Default Modal</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            <p>One fine body&hellip;</p>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+              </div>
+              <!-- /.col -->
+             
+            </div>
+            <!-- /.row -->
+
+           
+
+
+
+
+
+          <!-- /. -->
+            <div class="card-body">
+                 <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap ">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Created by</th>
+                      <th>content type</th>
+                      <th> object </th>
+                      <th> Action </th>
+                      
+                    </tr>
+                  </thead>
+
+                  {% for log in logs %}
+                  <tbody>
+                    <tr>
+                       <td>{{log.created_at}}</td>
+                       <td>{{log.created_by}}</td>
+                       <td>{{log.instances}}</td>
+                       <td>{{log.log_object}}</td>
+                       <td>{{log.action}}</td>
+
+                       
+                        
+                    </tr>
+                  </tbody>
+                {% endfor %}
+                </table>
+              </div>
+            </div>
+
+
+
+
+
+
+
+          </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+{% endblock content %}

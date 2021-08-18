@@ -660,6 +660,14 @@ def report(request):
     
     context = {'material':material,'x':x,'y':y,'material_request':material_request}
     return render(request,'Trequest/report.html',context)
+
+# Activity Log
+# Activity log view
+@login_required(login_url='login')
+def ActivityLogs(request):
+    logs=ActivityLog.objects.all()
+    context={'logs':logs}
+    return render(request, 'Trequest/activity_log.html',context)
     
 # feedback
 

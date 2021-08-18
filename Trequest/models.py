@@ -295,7 +295,17 @@ class feedback(models.Model):
                              on_delete=models.CASCADE)
     message = models.TextField(max_length=1000)
     sent_at = models.DateTimeField(auto_now_add=True)
+<<<<<<< HEAD
     class Meta:
         ordering = ['-id']
 
+=======
+# Activity Log
+class ActivityLog(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
+    created_by=models.CharField(max_length=100)
+    instances=models.CharField(max_length=500)
+    log_object=models.CharField(max_length=100,null=True)
+    action=models.CharField(max_length=100,null=True)
+>>>>>>> refs/remotes/origin/master
 
