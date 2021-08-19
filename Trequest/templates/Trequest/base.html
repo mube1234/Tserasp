@@ -389,13 +389,15 @@
                     <p>Profile</p>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a href="{% url 'log' %}" class="list nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p style="color: #ffffff">History</p>
-                  </a>
-                </li>
+               
               </ul>
+            </li>
+            <li class="nav-item">
+              
+              <a href="{% url 'log' %}" class="list nav-link">
+                <i class="side nav-icon fas fa-file"></i>
+                <p style="color: #f3cfcf">Acivity Log</p>
+              </a>
             </li>
 
             {% comment %} feedback {% endcomment %}
@@ -437,23 +439,11 @@
 
     <div></div>
     <!-- to add other parts section we use this content -->
-    {% block content %} {% endblock content %} {% include
-    'Trequest/footer.html' %}
+    {% block content %} {% endblock content %} 
+    {% include  'Trequest/footer.html' %}
   </div>
 </body>
 
-<<<<<<< HEAD
-      <div></div>
-      <!-- to add other parts section we use this content -->
-      {% block content %} 
-
-      {% endblock content %}
-      {% include 'Trequest/footer.html' %}
-      
-    </div>
-  </body>
-=======
->>>>>>> refs/remotes/origin/master
 </html>
 <!-- jQuery -->
 <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>

@@ -28,7 +28,7 @@ def create_notifications(sender,instance, created, **kwargs):
 def log_schedule(sender,instance,created, **kwargs):
     if created:
         #data='Schedule created to ' + str(instance.place)+' assigned to driver '+str(instance.driver.user.first_name + "  "+ instance.driver.user.last_name)+' is added '
-        ActivityLog.objects.create(created_by=instance,instances="Schedule",log_object=instance.place,action="Addition")
+        ActivityLog.objects.create(created_by=str(instance.author.first_name)+" "+str(instance.author.last_name),instances="Schedule",log_object=instance.place,action="Addition")
     else:
         ActivityLog.objects.create(created_by=instance,instances="Schedule",log_object=instance.place,action="Updated")
 

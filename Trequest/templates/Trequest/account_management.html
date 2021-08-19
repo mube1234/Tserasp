@@ -22,7 +22,7 @@
 
                     <div id="example1_filter" class="form-inline">
                       <form action="" method="get">
-                        <input type="text" class="form-control" name="q" placeholder="Search User">
+                        <input type="text" class="form-control" name="q" placeholder="Search User" id="tags">
                       <button class="btn btn-default" type="submit"> <i class="  fas fa-search"></i></button>
 
                     </form>
@@ -81,22 +81,28 @@
 <!-- ./wrapper -->
 
 <!-- page script -->
-
-
-
 <script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
+  $( function() {
+    var availableTags = [
+         {% for acc in account %}   
+            "{{acc.first_name}}",
+        {% endfor %}
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
     });
-  });
-</script>
-
+  } );
+  </script>
+<script src=  
+"https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  
+    </script>  
+    
+    <script src=  
+"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">  
+    </script>  
+    
+    <link href=  
+"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+        rel="stylesheet" type="text/css" /> 
 
 {% endblock content %}

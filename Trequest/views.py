@@ -455,9 +455,9 @@ def school_approve_request(request, id):
 
 @login_required(login_url='login')
 def my_request(request):
-    myrequest = TransportRequest.objects.filter(
-        passenger=request.user).order_by("-created_at")
+    myrequest = TransportRequest.objects.filter(passenger=request.user).order_by("-created_at")
     my_request_total = myrequest.count()
+    
     context = {'myrequest': myrequest,
                'my_request_total': my_request_total}
     return render(request, 'Trequest/myrequest.html', context)

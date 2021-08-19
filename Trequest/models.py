@@ -136,13 +136,21 @@ class TransportRequest(models.Model):
     class Meta:
         ordering = ['-id']
 
+
+
+    # def save(self, *args, **kw):
+    #         ## your custom date logic to verify if expired or not.
+    #         if self.start_date < date.today():
+    #             self.status = "Expired"
+    #         super(TransportRequest, self).save(*args, **kw)
+
 # to expire the request
 # method 1
-    @property
-    def is_expired(self):
-        if date.today() >= self.start_date:
-            return True
-        return False
+    # @property
+    # def is_expired(self):
+    #     if date.today() >= self.start_date:
+    #         return True
+    #     return False
 
 # method 2
     # def expire(self):
@@ -295,11 +303,9 @@ class feedback(models.Model):
                              on_delete=models.CASCADE)
     message = models.TextField(max_length=1000)
     sent_at = models.DateTimeField(auto_now_add=True)
-<<<<<<< HEAD
     class Meta:
         ordering = ['-id']
 
-=======
 # Activity Log
 class ActivityLog(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
@@ -307,5 +313,6 @@ class ActivityLog(models.Model):
     instances=models.CharField(max_length=500)
     log_object=models.CharField(max_length=100,null=True)
     action=models.CharField(max_length=100,null=True)
->>>>>>> refs/remotes/origin/master
+    class Meta:
+        ordering = ['-id']
 
