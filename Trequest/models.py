@@ -188,7 +188,7 @@ class Vehicle(models.Model):
     #     ('ambulance', 'ambulance')
     # )
     adder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='add')
-    vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE)
+    vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE,null=True)
     adder = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE, related_name='add')
     plate_number = models.CharField(max_length=20, unique=True)
@@ -257,11 +257,8 @@ class MaterialRequest(models.Model):
     new_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='new_material')
     new_material_model = models.CharField(max_length=200)
     quantity_of_new = models.PositiveIntegerField()
-<<<<<<< HEAD
     #old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
-=======
     # old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
     quantity_of_old=models.PositiveIntegerField()
     old_material_model=models.CharField(max_length=200)
     vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)

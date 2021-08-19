@@ -22,14 +22,11 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
 
-<<<<<<< HEAD
 from django.db  import transaction
-=======
 def your(request):
     now=datetime.datetime.now()
     print("Date: "+ now.strftime("%Y-%m-%d")) #this will print 
 
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 
 def material_less(request):
     
@@ -201,13 +198,10 @@ def change_password(request):
 
 @login_required(login_url='login')
 def index(request):
-<<<<<<< HEAD
     #alert 
     alert = Material.objects.filter(quantity__lte = 10).count()
    
-=======
     your(request)
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
     tsho_pending_request = TransportRequest.objects.filter(
@@ -229,12 +223,9 @@ def index(request):
                'tsho_pend': tsho_pend,
                'dep_pend': dep_pend,
                'sch_pend': sch_pend,
-<<<<<<< HEAD
                'alert':alert
                
-=======
 
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
                }
     return render(request, 'Trequest/index.html', context)
 
@@ -657,20 +648,12 @@ def material_request(request):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
-<<<<<<< HEAD
-            form.save()
-            messages.success(request, 'Request sent successfully')
-            return redirect('index')
-        else:
-            print('invalid data')
-=======
             obj.save()
             messages.success(request, 'Request sent successfully')
         else:
             print("invalid data")
     else:
         form = MaterialRequestForm()
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
     context={'form': form}
 
     return render(request, 'Trequest/material_request.html', context)

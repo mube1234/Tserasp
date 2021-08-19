@@ -158,10 +158,7 @@ class MaterialRequestForm(forms.ModelForm):
     class Meta:
         model = MaterialRequest
         exclude=('user','status',)
-<<<<<<< HEAD
-=======
 
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 # Driver Evaluation form
 
 
@@ -181,16 +178,13 @@ class FeedBackForm(forms.ModelForm):
             'date': forms.DateInput(format=('%m/%d/%Y'),
                                     attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                            'type': 'date'}),
+        }
 
-<<<<<<< HEAD
 class ApprovedMaterial(forms.ModelForm):
     class Meta:
         model = MaterialRequest
         fields = ['status']
 
-=======
-        }
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 
 # end which naol done for this project.
 # class PassengerRegistrationForm(forms.ModelForm):

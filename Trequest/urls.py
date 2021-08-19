@@ -28,7 +28,6 @@ urlpatterns = [
 
     # vehicle request related
     path('request/tshoview', views.tsho_view_request, name="tsho-view-request"),
-<<<<<<< HEAD
     path('request/tshoapproved', views.tsho_view_approved_request, name="tsho-view-approved-request"),
     path('request/departmentview', views.department_view_request, name="department-view-request"),
     path('request/departmentdapproved', views.department_view_approved_request, name="department-view-approved-request"),
@@ -38,7 +37,6 @@ urlpatterns = [
     path('request/schoolapproved', views.school_view_approved_request, name="school-view-approved-request"),
    
     path('request/schoolapprove/<int:id>', views.school_approve_request, name="school-approve-request"),
-=======
     path('request/tshoapproved', views.tsho_view_approved_request,
          name="tsho-view-approved-request"),
     path('request/departmentview', views.department_view_request,
@@ -55,7 +53,6 @@ urlpatterns = [
          name="school-view-approved-request"),
     path('request/schoolapprove/<int:id>',
          views.school_approve_request, name="school-approve-request"),
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
     path('request/my_request', views.my_request, name="my-request"),
     path('request/my_request/detail/<str:id>',
          views.my_request_detail, name="detail-request"),
@@ -68,7 +65,6 @@ urlpatterns = [
          views.tsho_approve_request, name="tsho-approve-request"),
     path('vehicle/repaired', views.repaired_vehicle, name='repaired-vehicle'),
 
-<<<<<<< HEAD
     path('request/view_material_request', views.view_material_request, name="view_material_request"),
 
     #done by Naol view material request
@@ -77,11 +73,9 @@ urlpatterns = [
     path('request/materialLess', views.material_less, name="material_less"),
 
 
-=======
     # material request
     path('request/materialrequest',
          views.material_request, name="material-request"),
->>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 
     # vehicle  related
     path('vehicle/', views.vehicle_management, name="vehicle-manage"),
