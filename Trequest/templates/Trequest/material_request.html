@@ -21,46 +21,20 @@ Request{% endblock %} {% block content %} {% load crispy_forms_tags %}
                 <form class="" action="" method="POST">
                   {% csrf_token %}
                   <div class="row" style="padding-bottom: 5rem">
-                    <div class="col-md-6">
-                    <div class="card">
+                    <div class="col-md-8">
+                     <div class="card">
                       <div class="card-header" style="background-color: #f2f2f2;">
-                        <p>Old Material Form</p>
+                        <p> Material REquest Form</p>
                       </div>
                       <div class="card-body">
                           
-                        {{form.old_material_name.label}}<br/>
-                        {{form.old_material_name}}<br/>
-                        {{form.old_material_model.label}}<br/>
-                        {{form.old_material_model}}<br/>
-                        {{form.quantity_of_old.label}}<br/>
-                        {{form.quantity_of_old}}<br/>
-                        {{form.vehicle_model.label}}<br/>
-                        {{form.vehicle_model}}<br/>
-                        {{form.condition.label}}<br/>
-                        {{form.condition}}<br/>
+                        {{form|crispy}}<br/>
+                        
                       </div>
                     </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header" style="background-color: #f2f2f2;">
-                          <p>New Material Form</p>
-                        </div>
-                        <div class="card-body">
-                      {{form.new_material_name.label}}<br/>
-                      {{form.new_material_name}}<br/>
-                      {{form.new_material_model.label}}<br/>
-                      {{form.new_material_model}}<br/>
-                      {{form.quantity_of_new.label}}<br/>
-                      {{form.quantity_of_new}}<br/>
-                      {{form.vehicle_model.label}}<br/>
-                      {{form.vehicle_model}}<br/>
-
-                  </div>
-                  </div>
-                  </div>
-                  <button class="our-btn btn btn-info" type="Submit" style="float: right;"> Make request </button>
+               
+               <button class="our-btn btn btn-info" type="Submit" style="float: right;"> Make request </button>
+                </div>
                 </form>
                 <!-- /.form-group -->
               </div>
