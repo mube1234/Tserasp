@@ -1,16 +1,16 @@
-from django.urls import path,re_path
+from django.urls import path, re_path
 # for password reset
-from django.contrib.auth import views as auth_views 
+from django.contrib.auth import views as auth_views
 
 from . import views
 urlpatterns = [
     path('', views.signin, name='login'),
     path('home/', views.index, name='index'),
     # re_path(r'/', views.notifications, name='notify'),
-    #pdf generation naol
-   # path('pdf/', views.render_pdf_view, name='pdf'),   
-    #path('Pdf/', views.Requestpdf.as_view(), name='pdf'),   
-    path('Pdf/<pk>/', views.request_pdf, name='request-pdf'),   
+    # pdf generation naol
+    # path('pdf/', views.render_pdf_view, name='pdf'),
+    #path('Pdf/', views.Requestpdf.as_view(), name='pdf'),
+    path('Pdf/<pk>/', views.request_pdf, name='request-pdf'),
 
 
     # account related
@@ -18,14 +18,17 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('account/manage', views.account_management, name='account'),
     path('account/delete/<int:id>', views.delete_account, name='delete-account'),
-    path('account/edit/',views.edit_account,name='edit-account'),
-    path('account-detail/<str:username>', views.account_detail, name='detail-account'),
+    path('account/edit/', views.edit_account, name='edit-account'),
+    path('account-detail/<str:username>',
+         views.account_detail, name='detail-account'),
     path('logout/', views.user_logout, name='logout'),
-    path('change_password/',views.change_password,name='change-password'),
-    path('ajax/load_department',views.load_department,name='ajax_load_department'),
-  
-    #vehicle request related
+    path('change_password/', views.change_password, name='change-password'),
+    path('ajax/load_department', views.load_department,
+         name='ajax_load_department'),
+
+    # vehicle request related
     path('request/tshoview', views.tsho_view_request, name="tsho-view-request"),
+<<<<<<< HEAD
     path('request/tshoapproved', views.tsho_view_approved_request, name="tsho-view-approved-request"),
     path('request/departmentview', views.department_view_request, name="department-view-request"),
     path('request/departmentdapproved', views.department_view_approved_request, name="department-view-approved-request"),
@@ -35,13 +38,37 @@ urlpatterns = [
     path('request/schoolapproved', views.school_view_approved_request, name="school-view-approved-request"),
    
     path('request/schoolapprove/<int:id>', views.school_approve_request, name="school-approve-request"),
+=======
+    path('request/tshoapproved', views.tsho_view_approved_request,
+         name="tsho-view-approved-request"),
+    path('request/departmentview', views.department_view_request,
+         name="department-view-request"),
+    path('request/departmentdapproved', views.department_view_approved_request,
+         name="department-view-approved-request"),
+    path('request/departmentapprove/<int:id>',
+         views.department_approve_request, name="department-approve-request"),
+    path('request/tshoapproved/detail/<str:id>',
+         views.tsho_view_approved_request_detail, name="view-detail"),
+    path('request/schoolview', views.school_view_request,
+         name="school-view-request"),
+    path('request/schoolapproved', views.school_view_approved_request,
+         name="school-view-approved-request"),
+    path('request/schoolapprove/<int:id>',
+         views.school_approve_request, name="school-approve-request"),
+>>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
     path('request/my_request', views.my_request, name="my-request"),
-    path('request/my_request/detail/<str:id>', views.my_request_detail, name="detail-request"),
+    path('request/my_request/detail/<str:id>',
+         views.my_request_detail, name="detail-request"),
     path('request/make', views.make_request, name="make-request"),
     path('request/cancel/<int:id>', views.cancel_request, name="cancel-request"),
     path('request/tshoapprove/<str:id>', views.tsho_approve_request, name="tsho-approve-request"),
     path('vehicle/repaired',views.repaired_vehicle,name='repaired-vehicle'),
+#     path('vehicle/vehicle_type_register',views.vehicle_type_register,name='vehicle-type-register'),
+    path('request/tshoapprove/<str:id>',
+         views.tsho_approve_request, name="tsho-approve-request"),
+    path('vehicle/repaired', views.repaired_vehicle, name='repaired-vehicle'),
 
+<<<<<<< HEAD
     path('request/view_material_request', views.view_material_request, name="view_material_request"),
 
     #done by Naol view material request
@@ -50,6 +77,11 @@ urlpatterns = [
     path('request/materialLess', views.material_less, name="material_less"),
 
 
+=======
+    # material request
+    path('request/materialrequest',
+         views.material_request, name="material-request"),
+>>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 
     # vehicle  related
     path('vehicle/', views.vehicle_management, name="vehicle-manage"),
@@ -69,18 +101,30 @@ urlpatterns = [
     path('deletematerial/<str:pk>/', views.deletematerial, name="delete_material"),
 
     # history
-     path('history/', views.history, name="history"),
+    path('history/', views.history, name="history"),
+
+
+    # Activity Log
+    path('activitylog/', views.ActivityLogs, name="log"),
 
     #  password reset
-    path('password_reset/',auth_views.PasswordResetView.as_view(template_name="Trequest/password_reset_form.html"),name='password-reset'),
-    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name="Trequest/password_reset_done.html"),name='password_reset_done'),
-    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="Trequest/password_reset_confirm.html"),name='password_reset_confirm'),
-    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(template_name="Trequest/password_reset_complete.html"),name='password_reset_complete'),
-     
-     # Driver Evaluation
-     path('evaluate/', views.evaluate, name="evaluate-driver"),
-    
+    path('password_reset/', auth_views.PasswordResetView.as_view(
+        template_name="Trequest/password_reset_form.html"), name='password-reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
+        template_name="Trequest/password_reset_done.html"), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        template_name="Trequest/password_reset_confirm.html"), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
+        template_name="Trequest/password_reset_complete.html"), name='password_reset_complete'),
+
+    # Driver Evaluation
+    path('evaluate/', views.evaluate, name="evaluate-driver"),
+
     # report
-    path('report/',views.report, name="report"),
- 
+    path('report/', views.report, name="report"),
+
+    # feedback
+    path('feedback/create_feedback', views.FeedBack, name="create-feedback"),
+    path('feedback/view_feedback', views.view_feedback, name="view-feedback"),
+
 ]

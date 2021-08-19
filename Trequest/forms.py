@@ -1,55 +1,71 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.forms import widgets
+from django.forms import fields, widgets
 from .models import *
+
 
 class UserRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = MyUser
-        fields = ['first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role']  
+        fields = ['first_name', 'last_name', 'email',
+                  'phone', 'school', 'department', 'role']
 
 # overwritting the init method to identify the respective department
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['department'].queryset = Department.objects.none()     
+        self.fields['department'].queryset = Department.objects.none()
 
         if 'school' in self.data:
             try:
                 school_id = int(self.data.get('school'))
-                self.fields['department'].queryset = Department.objects.filter(school_id=school_id).order_by('name')
+                self.fields['department'].queryset = Department.objects.filter(
+                    school_id=school_id).order_by('name')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty deprt queryset
         elif self.instance.pk:
-            self.fields['department'].queryset = self.instance.school.department_set.order_by('name')
+            self.fields['department'].queryset = self.instance.school.department_set.order_by(
+                'name')
+
 
 class MyUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm):
         model = MyUser
-        fields = ('first_name', 'last_name', 'email', 'phone', 'school', 'department', 'role',)
+        fields = ('first_name', 'last_name', 'email',
+                  'phone', 'school', 'department', 'role',)
 
 
 # form for editing user account which filled during registration
 class UserAccountEditForm(forms.ModelForm):
     class Meta:
         model = MyUser
-        fields = ['username','first_name', 'last_name', 'email', 'phone']
+        fields = ['username', 'first_name', 'last_name', 'email', 'phone']
 
-#form for editing Myuser profile         
+# form for editing Myuser profile
+
+
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['sex', 'bio', 'location', 'birth_date']
 
-#form for registring vehicle        
+# form for registring vehicle
+
+
 class VehicleRegisterForm(forms.ModelForm):
     class Meta:
         model = Vehicle
         exclude = ('adder',)
-        widgets = {
-            'adder': forms.Select(attrs={'type': ''})
-        }
-
+        # widgets = {
+        #     'adder': forms.Select(attrs={'type': 'hidden'})
+        # }
+class VehicleTypeForm(forms.ModelForm):
+    class Meta:
+        model = VehicleType
+        fields= ['name']
+        # widgets = {
+        #     'adder': forms.Select(attrs={'type': 'hidden'})
+        # }
 #form for making request or for applying for request
 class MakeRequestForm(forms.ModelForm):
     class Meta:
@@ -58,11 +74,9 @@ class MakeRequestForm(forms.ModelForm):
         widgets = {
 
             'start_date': forms.DateInput(format=('%m/%d/%Y'),
-                                          attrs={'class': 'form-control', 'placeholder': 'Select a date',
-                                                 'type': 'date'}),
+                                          attrs={'class': 'date', 'placeholder': 'Select a date',}),
             'end_date': forms.DateInput(format=('%m/%d/%Y'),
-                                        attrs={'class': 'form-control', 'placeholder': 'Select a date',
-                                               'type': 'date'}),
+                                        attrs={'class': 'date', 'placeholder': 'Select a date',}),
             'status': forms.TextInput(attrs={'type': 'hidden'}),
             'status2': forms.TextInput(attrs={'type': 'hidden'}),
             'status3': forms.TextInput(attrs={'type': 'hidden'}),
@@ -71,7 +85,7 @@ class MakeRequestForm(forms.ModelForm):
         help_texts = {
             'passenger_numbers': "* Enter the number of Passengers that will go with you",
             'reason': "* Reason of your trip",
-            'list_of_passengers':'list of the passengers that go with you'
+            'list_of_passengers': 'list of the passengers that go with you'
         }
 
 
@@ -90,7 +104,7 @@ class DepartmentApproveForm(forms.ModelForm):
         fields = ['status2']
         widgets = {
 
-            'status2': forms.Select(),
+           'status2': forms.TextInput(attrs={'type': 'hidden'}),
         }
 
 
@@ -100,7 +114,7 @@ class SchoolApproveForm(forms.ModelForm):
         fields = ['status3']
         widgets = {
 
-            'status3': forms.Select(),
+           'status3': forms.TextInput(attrs={'type': 'hidden'}),
         }
 
 
@@ -110,7 +124,7 @@ class TshoApproveForm(forms.ModelForm):
         fields = ['status']
         widgets = {
 
-            'status': forms.Select()
+            'status': forms.TextInput(attrs={'type': 'hidden'}),
         }
 
 
@@ -128,36 +142,57 @@ class CreateScheduleForm(forms.ModelForm):
             'date': forms.DateInput(format=('%m/%d/%Y'),
                                     attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                            'type': 'date'}),
-            'time':forms.TimeInput(attrs={'type':'time'})
+            'time': forms.TimeInput(attrs={'type': 'time'})
 
         }
 
 
-####Naol
+# Naol
 class AddMaterialForm(forms.ModelForm):
     class Meta:
         model = Material
         fields = ['name', 'type_of', 'quantity']
 
 
-
 class MaterialRequestForm(forms.ModelForm):
     class Meta:
         model = MaterialRequest
         exclude=('user','status',)
+<<<<<<< HEAD
+=======
+
+>>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 # Driver Evaluation form
+
+
 class EvaluateDriverForm(forms.ModelForm):
     class Meta:
         model = DriverEvaluation
-        exclude =('duser',)
+        exclude = ('duser','rating',)
 
+# feedback form
+
+
+class FeedBackForm(forms.ModelForm):
+    class Meta:
+        model = feedback
+        exclude=('user',)
+        widgets = {
+            'date': forms.DateInput(format=('%m/%d/%Y'),
+                                    attrs={'class': 'form-control', 'placeholder': 'Select a date',
+                                           'type': 'date'}),
+
+<<<<<<< HEAD
 class ApprovedMaterial(forms.ModelForm):
     class Meta:
         model = MaterialRequest
         fields = ['status']
 
+=======
+        }
+>>>>>>> da57c1410a94e2e8316802c4f9e76cbc7a0c5f42
 
-#####end which naol done for this project.
+# end which naol done for this project.
 # class PassengerRegistrationForm(forms.ModelForm):
 #     class Meta:
 #         model = Passenger

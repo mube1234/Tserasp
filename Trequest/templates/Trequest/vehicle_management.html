@@ -1,6 +1,7 @@
 {% extends 'Trequest/base.html' %}
 {% load static%}
 {% block title %}Vehicle Management{% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 
   <!-- Content Wrapper. Contains page content -->
@@ -30,7 +31,12 @@
                 </div>
                
               </div>
-             <a href="{% url 'vehicle-register' %}"> <button style="float: right;" class="our-btn btn btn-primary">Add New</button></a>
+           <div style="float: right;">
+            <button  type="button" class="our-btn btn btn-info btn-sm" data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus-circle"></i> Vehicle Type</button>
+            <a href="{% url 'vehicle-register' %}" style="margin-top: 20px;"> <button class="our-btn btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> New Vehicle</button></a>
+             
+           </div>
+
             </div>
              
               <table id="example1" class="table table-bordered table-striped DataTable" role="grid" aria-describedby="example1_info">
@@ -75,6 +81,41 @@
 
 </div>
 <!-- ./wrapper -->
+
+
+<!-- modal for ading vehicle type -->
+
+
+<form class="" method="POST">
+  {% csrf_token %}
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Vehicle Type</h4>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+      </div>
+      
+      <div class="modal-body">
+       {{t_form|crispy}}
+
+      </div>
+      <div class="modal-footer justify-content-between">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+  </div>
+  <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+</form>
+<!-- end -->
+
+
+
 
 <!-- page script -->
 

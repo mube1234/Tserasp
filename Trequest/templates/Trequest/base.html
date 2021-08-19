@@ -8,7 +8,7 @@
     <title>{% block title %} {% endblock %}</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -75,21 +75,20 @@
       .side {
         color: white;
       }
+
       .list:hover {
         background: rgba(148, 169, 165, 0.49);
-    }
-  .our-btn:hover{
+      }
 
-      border: 1px solid transparent;
-     color: #ffffff;
-      background-color: #000099;
-      border-color: #007bff;
+      .our-btn:hover {
+        border: 1px solid transparent;
+        color: #ffffff;
+        background-color: #000099;
+        border-color: #007bff;
+      }
+    </style>
+  </head>
 
-
-  }
-</style>
-
-</head>
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
       <!-- Navbar -->
@@ -117,53 +116,49 @@
               ><i class="far fa-user"></i
             ></a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-              <a href="{% url 'profile' %}" class="dropdown-item btn btn-link"
-                ><div class="fas fa-user"></div>
-                &nbsp; {{request.user.get_full_name}}</a
-              >
+              <a href="{% url 'profile' %}" class="dropdown-item btn btn-link">
+                <div class="fas fa-user"></div>
+                &nbsp; {{request.user.get_full_name}}
+              </a>
               <a
                 href="{% url 'change-password' %}"
                 class="dropdown-item btn btn-link"
-                ><div class="fas fa-lock"></div>
-                &nbsp; Change password</a
               >
-              <a href="{% url 'logout' %}" class="dropdown-item btn btn-link"
-                ><div class="fa fa-power-off"></div>
-                &nbsp; Logout</a
-              >
+                <div class="fas fa-lock"></div>
+                &nbsp; Change password
+              </a>
+              <a href="{% url 'logout' %}" class="dropdown-item btn btn-link">
+                <div class="fa fa-power-off"></div>
+                &nbsp; Logout
+              </a>
             </div>
           </li>
-         
-              <!-- Notifications Dropdown Menu -->
+
+          <!-- Notifications Dropdown Menu -->
           <li class="nav-item dropdown">
+            {% comment %}
             <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell">{{alert}}</i>
               <span class="badge badge-danger navbar-badge">
                 <!-- to display list of notifications from templates tags -->
-                {% if request.user.role == 'DepartmentHead' %}
-                    {% load notifications %}
-                    {% dep_notification_number %}  
-
-                {% elif request.user.role == 'SchoolDean' %}  
-                   {% load notifications %}
-                   {% scho_notification_number %}
-
-                {% elif request.user.role == 'TSHO' %}  
-                    {% load notifications %}
-                    {% tsho_notification_number %}
-                {% else %}    
-                    <p></p>
+                {% if request.user.role == 'DepartmentHead' %} {% load
+                notifications %} {% dep_notification_number %} {% elif
+                request.user.role == 'SchoolDean' %} {% load notifications %} {%
+                scho_notification_number %} {% elif request.user.role == 'TSHO'
+                %} {% load notifications %} {% tsho_notification_number %} {%
+                else %}
+                <p></p>
                 {% endif %}
-
               </span>
             </a>
+            {% endcomment %}
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <span class="dropdown-item dropdown-header">
-                   
-                 Available Notifications</span>
-              
+                Available Notifications</span
+              >
+
               <div class="dropdown-divider"></div>
-              
+
               <!-- <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-users mr-2"></i> 8 friend requests
@@ -180,7 +175,6 @@
               >
             </div>
           </li>
-        
         </ul>
       </nav>
       <!-- /.navbar -->
@@ -480,13 +474,43 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="list nav-link">
+                    <a href="{% url 'log' %}" class="list nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">History</p>
+                      <p style="color: #ffffff">History</p>
                     </a>
                   </li>
                 </ul>
               </li>
+
+              {% comment %} feedback {% endcomment %}
+              <li class="nav-item has-treeview">
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-table"></i>
+                  <p style="color: white">
+                    Feed back
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  {% if request.user.role != "TSHO" %}
+                  <li class="nav-item">
+                    <a href="{% url 'create-feedback' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">feedback</p>
+                    </a>
+                  </li>
+                  {% endif %} {% if request.user.role == "TSHO" %}
+                  <li class="nav-item">
+                    <a href="{% url 'view-feedback' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">View feedback</p>
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </li>
+
+              {% comment %} end of feedback {% endcomment %}
             </ul>
           </nav>
           <!-- /.sidebar-menu -->
@@ -530,7 +554,7 @@
 
 <!-- for display messages -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-{##}
+
 <script src="{% static 'plugins/jquery/jquery3.3.1.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
