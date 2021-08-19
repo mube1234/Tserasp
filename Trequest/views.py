@@ -627,6 +627,8 @@ def evaluate(request):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.duser = request.user
+            myrating=request.POST.get('rat')
+            obj.rating=myrating
             form.save()
             messages.success(request, 'Rated Successfully!')
             return redirect('index')
