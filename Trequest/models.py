@@ -281,7 +281,7 @@ class DriverEvaluation(models.Model):
     )
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE, related_name='drivers_name')
-    rating = models.CharField(max_length=1, choices=select)
+    rating = models.CharField(max_length=1)
     duser = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE, related_name='evaluator')
     trip = models.ForeignKey(
