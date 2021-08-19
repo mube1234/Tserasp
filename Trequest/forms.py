@@ -165,7 +165,7 @@ class MaterialRequestForm(forms.ModelForm):
 class EvaluateDriverForm(forms.ModelForm):
     class Meta:
         model = DriverEvaluation
-        exclude = ('duser',)
+        exclude = ('duser','rating',)
 
 # feedback form
 

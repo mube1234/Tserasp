@@ -21,25 +21,84 @@
                   <form class="" action="" method="POST">
                       {% csrf_token %}
                       {{form|crispy}}<br>
-                      <div class="ratings rating2">
+                   <!--   <div class="ratings rating2">
        <input type="radio" name="star" id="rating" value="1">
        <input type="radio" name="star" id="rating" value="2">
        <input type="radio" name="star" id="rating" value="3">
        <input type="radio" name="star" id="rating" value="4">
        <input type="radio" name="star" id="rating" value="5">
-                        <!-- <a href="#1" title="Give 1 star" data-value="1" style="font-size: 30px;">★</a>
+                         <a href="#1" title="Give 1 star" data-value="1" style="font-size: 30px;">★</a>
                         <a href="#2" title="Give 2 stars" data-value="2" style="font-size: 30px;">★</a>
                         <a href="#3" title="Give 3 stars" data-value="3" style="font-size: 30px;">★</a>
                         <a href="#4" title="Give 4 stars" data-value="4" style="font-size: 30px;">★</a>
-                        <a href="#5" title="Give 5 stars" data-value="5" style="font-size: 30px;">★</a>
-                       
+                        <a href="#5" title="Give 5 stars" data-value="5" style="font-size: 30px;">★</a>       
                     
                        -->
+
+
+
+
+
+    <div class="rate" , id="rates">
+      <input type="radio" id="star5" name="rate" value="5" />
+      <label for="star5" title="text">5 stars</label>
+      <input type="radio" id="star4" name="rate" value="4" />
+      <label for="star4" title="text">4 stars</label>
+      <input type="radio" id="star3" name="rate" value="3" />
+      <label for="star3" title="text">3 stars</label>
+      <input type="radio" id="star2" name="rate" value="2" />
+      <label for="star2" title="text">2 stars</label>
+      <input type="radio" id="star1" name="rate" value="1" />
+      <label for="star1" title="text">1 star</label>
+    </div>
+    <br />
+    <br />
+  
+<br>
+<br>
+<button class="btn btn-info " type="Submit"  onclick="displayRadioValue()">Submit</button>
+    <br />
+<br>
+<br>
+<textarea id="rateID" class="b" name="rat" style="display:none;"></textarea><br>
                       
                       </div><br><br>
-                      <button class="btn btn-info " type="Submit">Submit</button>
+                     
+                     
 
                   </form>
+
+ 
+
+
+
+    
+    <script>
+      function displayRadioValue() {
+        var ele = document.getElementsByName("rate");
+        var rateno;
+        for (i = 0; i < ele.length; i++) {
+          if (ele[i].checked)
+           document.getElementById("rateID").innerHTML = ele[i].value;
+           rateno=  ele[i].value;
+
+
+
+
+        }
+
+          
+      }
+
+
+
+    </script>
+     {% comment %} <div id="result" name="myrate" ></div> {% endcomment %}
+
+
+
+
+
 
                 <!-- /.form-group -->
               </div>
