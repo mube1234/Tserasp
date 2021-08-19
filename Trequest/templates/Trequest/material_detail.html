@@ -1,0 +1,93 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
+{% block title %}View Request{% endblock %}
+{% block content %}
+<body>
+
+<div class="content-wrapper mt-2">
+  <section class="content">
+    <div class="container-fluid">
+    <div class="row mt-2">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header" style="background:#003e80;color:#fff">
+                <h3 class="card-title">New Request</h3>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->            
+              
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                  <div class="card">
+                        <div class="card-header">
+                           <h5>Detail User Request</h5>
+                        </div>
+                       <div class="card-body">
+                        <form class="" action="" method="POST">
+                          {% csrf_token %}
+                         
+                         <p> New Material Name:{{material_detail.new_material_name}}</p>
+                         <p> New Material Model: {{material_detail.new_material_model}}</p>
+                         <p> New Quantity of New: {{material_detail.quantity_of_new}}</p>
+                         <p> New Quantity of previous: {{material_detail.quantity_of_old}}</p>
+                         <p> old Material Model: {{material_detail.old_material_model}}</p>
+                         <p> Vehacle model: {{material_detail.vehicle_model}}</p>
+                         
+                         
+                         
+                         <button class=" our-btn btn btn-info " type="Submit" style="float: right;">Approve</button>
+                        
+                     </form>
+                         
+                        </div>
+                      </div>
+
+          </div>
+          <div class= "col-md-6">
+          <div class="card">
+                        <div class="card-header">
+                           <h5>Detail User request information</h5>
+                        </div>
+                       <div class="card-body"><h5>Full Name:{{material_detail.vehicle_model.driver.user.get_full_name}}</h2>
+                       <h5>Full Name:{{material_detail.vehicle_model.driver.occupation}}</h2>
+                       <h5>Full Name:{{material_detail.vehicle_model.driver.address}}</h2>
+                       <h5>Full Name:{{material_detail.vehicle_model.driver.user.phone}}</h2>
+                       <h5>Full Name:{{material_detail.vehicle_model.driver.house_no}}</h2>
+                       <h5>Full Name:{{material_detail.vehicle_model.driver.user.email}}</h2>
+                       </div>
+                       </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+                    
+                      
+                   
+
+
+    
+                
+                  
+                    
+                  
+                    
+                  </body>
+
+{% endblock content %}

@@ -178,8 +178,13 @@ class FeedBackForm(forms.ModelForm):
             'date': forms.DateInput(format=('%m/%d/%Y'),
                                     attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                            'type': 'date'}),
-
         }
+
+class ApprovedMaterial(forms.ModelForm):
+    class Meta:
+        model = MaterialRequest
+        fields = ['status']
+
 
 # end which naol done for this project.
 # class PassengerRegistrationForm(forms.ModelForm):
