@@ -21,10 +21,11 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
+from background_task import background
 
-def your(request):
-    now=datetime.datetime.now()
-    print("Date: "+ now.strftime("%Y-%m-%d")) #this will print 
+# def your(request):
+#     now=datetime.datetime.now()
+#     print("Date: "+ now.strftime("%Y-%m-%d")) #this will print 
 
 
 class Requestpdf(ListView):
@@ -149,7 +150,7 @@ def change_password(request):
 
 @login_required(login_url='login')
 def index(request):
-    your(request)
+    
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
     total_feedback=feedback.objects.all().count()
@@ -165,6 +166,15 @@ def index(request):
     sch_pend = sch_pending_request.count()
     vehicle = Vehicle.objects.all()
     vehicle_count = vehicle.count()
+
+#   to expire transport request
+    transport = TransportRequest.objects.filter(Q(status="Pending") or Q(status2="Pending") or Q(status3="Pending"))
+    for req in transport:
+        exp=req.start_date
+        if date.today()>= exp:
+            TransportRequest.objects.filter(Q(status="Pending") or Q(status2="Pending") or Q(status3="Pending")).update(status='Expired',status2='Expired',status3='Expired')
+    # print(transport)  
+
 
     context = {'schedule': schedule,
                'vehicle_count': vehicle_count,
@@ -281,6 +291,14 @@ def delete_vehicle(request, id):
     return redirect('vehicle-manage')
 
 
+# @background(schedule=3600)
+# def request_expire(username):  
+#     TransportRequest.objects.filter(Q(status="Pending") or Q(status2 = "Pending") or Q(status3='Pending')).update(status="Expired")
+
+#     available_request=TransportRequest.objects.filter(status=Pending or status2=Pending or status3=Pending)
+
+
+
 @login_required(login_url='login')
 def make_request(request):
     form = MakeRequestForm()
@@ -292,6 +310,7 @@ def make_request(request):
             obj = form.save(commit=False)
             obj.passenger = request.user
             obj.save()
+            # request_expire(username=request.user)
             #user =TransportRequest.objects.get(passenger=request.user)
             role = MyUser.objects.get(username=request.user).role
 
@@ -333,22 +352,22 @@ def department_view_request(request):
     
     # exclude the request sent from department to not visible to themselves
     transport = transport1.exclude(passenger__role="DepartmentHead").order_by('-created_at')
-    
-
     context = {'transport': transport}
     return render(request, 'Trequest/department_view_request.html', context)
 
-
 def department_view_approved_request(request):
-    transport = TransportRequest.objects.filter(
-        status2='Approved').order_by('-created_at')
+    transport = TransportRequest.objects.filter(status2='Approved').order_by('-created_at')
     context = {'transport': transport}
     return render(request, 'Trequest/department_view_approved_request.html', context)
 
 
 def school_view_request(request):
-    transport1 = TransportRequest.objects.filter(
-        status2='Approved', status3='Pending')
+    # std=TransportRequest.objects.all()
+    # request_expire(pk=id)
+    
+    transport1 = TransportRequest.objects.filter(status2='Approved', status3='Pending')
+    # if transport1.is_expired() == True:
+    #     print ('expired')
     # exclude the request sent from school to not visible to them selves
     transport = transport1.exclude(
         passenger__role="SchoolDean").order_by('-created_at')
@@ -380,6 +399,9 @@ def tsho_view_approved_request_detail(request, id):
 def tsho_view_request(request):
     transport = TransportRequest.objects.filter(status2='Approved', status3='Approved', status='Pending').order_by(
         '-created_at')
+    print(transport)    
+    
+    
     context = {'transport': transport}
     return render(request, 'Trequest/tsho_view_request.html', context)
 

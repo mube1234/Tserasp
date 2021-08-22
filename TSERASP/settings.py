@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_filters',
     'rest_framework',
+    'background_task',
+    
     
     
     
@@ -95,6 +97,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 
 # Password validation

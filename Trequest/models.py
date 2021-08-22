@@ -122,7 +122,7 @@ class TransportRequest(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    # is_expired = models.BooleanField(default=False)
+    is_expired = models.BooleanField(default=False)
     status = models.CharField(max_length=200, default='Pending', choices=STATUS)
     status2 = models.CharField(max_length=200, default='Pending', choices=STATUS)
     status3 = models.CharField(max_length=200, default='Pending', choices=STATUS)
@@ -148,17 +148,17 @@ class TransportRequest(models.Model):
 # method 1
     # @property
     # def is_expired(self):
-    #     if date.today() >= self.start_date:
+    #     if date.today() >= self.start_date:             
     #         return True
     #     return False
 
 # method 2
-    # def expire(self):
-    #  if datetime.now() >= self.start_date:
-    #     self.is_expired = True
-    #     return True
-    #  else:
-    #     return False
+    def expire(self):
+     if date.today() >= self.start_date:
+        self.is_expired = True
+        return True
+     else:
+        return False
 
 # notifications for viewing new request
 
