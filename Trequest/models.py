@@ -260,12 +260,7 @@ class MaterialRequest(models.Model):
     vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)
     condition = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True,blank=True)
     status = models.CharField(max_length=200, default='Pending', choices=STATUS)
-<<<<<<< HEAD
-    sent_on=models.DateField(auto_now_add=True,null=True)
-
-=======
     created_at=models.DateTimeField(auto_now_add=True,null=True)
->>>>>>> 24bbfab34844c864422047593e694c8b7c378090
 
     def __str__(self):
         return self.new_material_name.name

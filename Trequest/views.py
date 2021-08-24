@@ -23,63 +23,8 @@ from xhtml2pdf import pisa
 from django.views.generic import ListView
 from .decorators import unauthenticated_user,allowed_users
 
-<<<<<<< HEAD
-=======
-from django.db  import transaction
-def your(request):
-    now=datetime.datetime.now()
-    print("Date: "+ now.strftime("%Y-%m-%d")) #this will print 
->>>>>>> 24bbfab34844c864422047593e694c8b7c378090
 
 
-def material_less(request):
-    
-    return render(request, 'Trequest/material_less.html')
-
-#for materail request view DONE BY NAOL
-def view_material_request(request):
-    materialView = MaterialRequest.objects.filter(status='Pending')
-    
-        
-    context = {'materialView': materialView}
-    return render(request, 'Trequest/view_material_request.html', context)
-@transaction.atomic    
-def material_detail(request, id):
-    material_detail = MaterialRequest.objects.get(id=id)
-    
-    
-    #form = ApprovedMaterial(instance=material_detail)    
-    if request.method == 'POST':
-        #form = ApprovedMaterial(request.POST, instance=material_detail)
-        #if form.is_valid():
-        with transaction.atomic():
-            Materil_check= Material.objects.get(name = material_detail.new_material_name)
-            if (Materil_check.quantity >= material_detail.quantity_of_new):
-
-        
-                q = material_detail.quantity_of_new
-
-                
-                Materil_check.quantity -= q
-                Materil_check.save()
-                material_detail.status = "approved"
-                material_detail.save()
-
-                return redirect('view_material_request')
-
-                
-            else:
-                return redirect('material_less')
-                    
-
-            
-        
-            
-            
-
-    context = {'material_detail': material_detail}
-    return render(request, 'Trequest/material_detail.html', context)
- 
 class Requestpdf(ListView):
     model = TransportRequest
     template_name = 'Trequest/pdf.html'
@@ -202,13 +147,6 @@ def change_password(request):
 
 @login_required(login_url='login')
 def index(request):
-<<<<<<< HEAD
-=======
-    #alert 
-    alert = Material.objects.filter(quantity__lte = 10).count()
-   
-    your(request)
->>>>>>> 24bbfab34844c864422047593e694c8b7c378090
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
     total_feedback=feedback.objects.all().count()
@@ -255,16 +193,11 @@ def index(request):
                'tsho_pend': tsho_pend,
                'dep_pend': dep_pend,
                'sch_pend': sch_pend,
-<<<<<<< HEAD
                'feedback_count':total_feedback,
                'material':material,
                'x':x,
                'y':y,
                'material_request':material_request
-=======
-               'alert':alert
-               
->>>>>>> 24bbfab34844c864422047593e694c8b7c378090
 
                }
     return render(request, 'Trequest/index.html', context)
@@ -414,7 +347,6 @@ def make_request(request):
             form = MakeRequestForm()
         context = {'form': form}
         return render(request, 'Trequest/make_request.html', context)
-        
     else:
         for req in current:
             s1=req.status 
