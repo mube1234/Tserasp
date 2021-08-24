@@ -29,7 +29,7 @@ class Department(models.Model):
 class MyUser(AbstractUser):
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
-    email = models.EmailField(null=True, blank=True,unique=True)
+    email = models.EmailField(null=True, blank=True)
     ROLE = (
         ('Passenger', 'Passenger'),
         ('TSHO', 'TSHO'),
@@ -46,11 +46,11 @@ class MyUser(AbstractUser):
         regex=r'^\+?1?\d{10,15}$',
         message='Phone number must be entered in the format : 0987654321 or +251987654321 up to 15 digits allowed'
     )
-    phone = models.CharField(validators=[phone_regex], max_length=15, blank=True,unique=True)
+    phone = models.CharField(validators=[phone_regex], max_length=15, blank=True)
     school = models.ForeignKey(School, on_delete=models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
     role = models.CharField(max_length=200, choices=ROLE)
-    date_registered = models.DateField(auto_now_add=True)
+    date_registered = models.DateField(auto_now_add=True,null=True)
 
     def __str__(self):
         return self.username
@@ -117,29 +117,6 @@ class TransportRequest(models.Model):
 
 
 
-    # def save(self, *args, **kw):
-    #         ## your custom date logic to verify if expired or not.
-    #         if self.start_date < date.today():
-    #             self.status = "Expired"
-    #         super(TransportRequest, self).save(*args, **kw)
-
-# to expire the request
-# method 1
-    # @property
-    # def is_expired(self):
-    #     if date.today() >= self.start_date:             
-    #         return True
-    #     return False
-
-# method 2
-    # def expire(self):
-    #  if date.today() >= self.start_date:
-    #     self.is_expired = True
-    #     return True
-    #  else:
-    #     return False
-
-
 
 class AssignRequest(models.Model):
     user_to=models.CharField(max_length=200)
@@ -191,13 +168,13 @@ class Vehicle(models.Model):
         return self.plate_number
 
 
-class ApproveRequest(models.Model):
-    user = models.OneToOneField(TransportRequest, on_delete=models.CASCADE)
-    vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE)
-    time = models.CharField(max_length=200, default='06:00am')
+# class ApproveRequest(models.Model):
+#     user = models.OneToOneField(TransportRequest, on_delete=models.CASCADE)
+#     vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE)
+#     time = models.CharField(max_length=200, default='06:00am')
 
-    def __str__(self):
-        return self.user.start_from + ' to ' + self.user.destination + ' Approved '
+#     def __str__(self):
+#         return self.user.start_from + ' to ' + self.user.destination + ' Approved '
 
 
 class Schedule(models.Model):
@@ -223,46 +200,7 @@ class Schedule(models.Model):
 
     def __str__(self):
         return self.service_type
-#     by naol
-
-
-class Material(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             null=True, on_delete=models.SET_NULL)
-    name = models.CharField(max_length=200)
-    type_of = models.CharField(max_length=200)
-    quantity = models.PositiveIntegerField()
-    date_created = models.DateField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(null=True)
-
-    def __str__(self):
-        return self.name
-
-
-class MaterialRequest(models.Model):
-    # material name
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Approved', 'Approved'),
-    )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, on_delete= models.SET_NULL)
-    new_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='new_material')
-    new_material_model = models.CharField(max_length=200)
-    quantity_of_new = models.PositiveIntegerField()
-    #old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
-    # old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
-    quantity_of_old=models.PositiveIntegerField()
-    old_material_model=models.CharField(max_length=200)
-    vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)
-    condition = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True,blank=True)
-    status = models.CharField(max_length=200, default='Pending', choices=STATUS)
-    created_at=models.DateTimeField(auto_now_add=True,null=True)
-
-    def __str__(self):
-        return self.new_material_name.name
-
-    class Meta:
-        ordering = ['-id']    
+ 
 
 # evaluate Driver
 class DriverEvaluation(models.Model):
@@ -284,7 +222,7 @@ class DriverEvaluation(models.Model):
 
 
 # feedback
-class feedback(models.Model):
+class Feedback(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     message = models.TextField(max_length=1000)

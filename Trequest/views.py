@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 #from Tserasp import Trequest
 from sys import path_hooks
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core.validators import ProhibitNullCharactersValidator
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,19 +9,18 @@ from .forms import *
 from django.contrib.auth.forms import PasswordChangeForm
 from Trequest.forms import *
 from django.core.mail import send_mail
-from .filters import MaterialFilter
 import random
 import string
 from django.http.response import JsonResponse
 import datetime
 from django.db.models import Q
-# adding by Naol
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
 from .decorators import unauthenticated_user,allowed_users
-from django.db  import transaction
+from MaterialApp.models import Material, MaterialRequest
+
 
 
 class Requestpdf(ListView):
@@ -149,7 +147,7 @@ def change_password(request):
 def index(request):
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
-    total_feedback=feedback.objects.all().count()
+    total_feedback=Feedback.objects.all().count()
     tsho_pending_request = TransportRequest.objects.filter(
         status='Pending', status2='Approved', status3='Approved')
     dep_pending_request = TransportRequest.objects.filter(status2='Pending',
@@ -505,12 +503,14 @@ def tsho_approve_request(request, id):
         email=request.POST.get('email')
         date=request.POST.get('message')
         time=request.POST.get('message2')      
-        assigned.user_to=name
-        assigned.email_to=email
+        
         new_driver = request.POST.get('driver')
         driver_fname = MyUser.objects.get(username=new_driver).first_name
         driver_lname = MyUser.objects.get(username=new_driver).last_name
         driver_full_name = driver_fname + " " + driver_lname
+
+        assigned.user_to=name
+        assigned.email_to=email
         assigned.driver_to=driver_full_name
         assigned.date_to=date
         assigned.time_to=time
@@ -640,96 +640,6 @@ def update_schedule(request, id):
     return render(request, 'Trequest/update_schedule.html', context)
 
 
-# by naol
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['StoreManager'])
-def deletematerial(request, pk):
-    term = Material.objects.get(id=pk)
-    if request.method == 'POST':
-        term.delete()
-        return redirect('material-manage')
-    context = {'term': term}
-    return render(request, 'Trequest/deleteMaterial.html', context)
-
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['StoreManager'])
-def Updatematerial(request, pk):
-    material = Material.objects.get(id=pk)
-
-    form = AddMaterialForm(instance=material)
-    if request.method == 'POST':
-        form = AddMaterialForm(request.POST, instance=material)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Material updated Successfully!')
-            return redirect('material-manage')
-    context = {'form': form}
-    return render(request, 'Trequest/AddMaterialForm.html', context)
-
-@login_required(login_url='login')
-def view_material_request(request):
-    materialView=MaterialRequest.objects.filter(status="Pending")
-    context = {'materialView': materialView}
-    return render(request, 'Trequest/view_material_request.html', context)
-
-
-@login_required(login_url='login')
-@transaction.atomic    
-def material_detail(request, id):
-    material_detail = MaterialRequest.objects.get(id=id)
-    
-    
-    #form = ApprovedMaterial(instance=material_detail)    
-    if request.method == 'POST':
-        #form = ApprovedMaterial(request.POST, instance=material_detail)
-        #if form.is_valid():
-        with transaction.atomic():
-            Materil_check= Material.objects.get(name = material_detail.new_material_name)
-            if (Materil_check.quantity >= material_detail.quantity_of_new):
-
-        
-                q = material_detail.quantity_of_new
-
-                
-                Materil_check.quantity -= q
-                Materil_check.save()
-                material_detail.status = "approved"
-                material_detail.save()
-                messages.success(request,"Approved Successfully")
-                return redirect('view_material_request')
-
-                
-            else:
-                messages.warning(request,"Amount of material your requested not available")
-                return redirect('view_material_request')
-                             
-
-    context = {'material_detail': material_detail}
-    return render(request, 'Trequest/material_detail.html', context)
-
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['StoreManager'])
-def AddMaterial(request):
-    form = AddMaterialForm()
-    if request.method == 'POST':
-        form = AddMaterialForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Material added Successfully!')
-            return redirect('material-manage')
-
-    context = {'form': form}
-    return render(request, 'Trequest/AddMaterialForm.html', context)
-
-
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['StoreManager'])
-def material_management(request):
-    material = Material.objects.all()
-    myfilter = MaterialFilter(request.GET, queryset=material)
-    material = myfilter.qs
-    context = {'material': material, 'myfilter': myfilter}
-    return render(request, 'Trequest/material_management.html', context)
 
 # for notification which appear in the dashboard of thsho
 
@@ -750,23 +660,7 @@ def tsho_notifications_count():
     # context={'notifications':notifications,'not_count':not_count}
     # return render(request, 'Trequest/notifications.html', context)
 
-@login_required(login_url='login')
-# @allowed_users(allowed_roles=['Mechanic','StoreManager'])
-def material_request(request):  
-    if request.method == 'POST':
-        form = MaterialRequestForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.user = request.user
-            obj.save()
-            messages.success(request, 'Request sent successfully')
-        else:
-            print("invalid data")
-    else:
-        form = MaterialRequestForm()
-    context={'form': form}
 
-    return render(request, 'Trequest/material_request.html', context)
 # Driver Evaluation View
 
 
@@ -799,7 +693,7 @@ def ActivityLogs(request):
     
 # feedback
 @login_required(login_url='login')
-def FeedBack(request):
+def feedback(request):
     form = FeedBackForm()
     if request.method == 'POST':
         form = FeedBackForm(request.POST)
@@ -815,6 +709,6 @@ def FeedBack(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['TSHO'])
 def view_feedback(request):
-    feedbacks = feedback.objects.all()
+    feedbacks = Feedback.objects.all()
     context = {'feedback': feedbacks}
     return render(request, 'Trequest/view_feedback.html', context)

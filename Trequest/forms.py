@@ -90,13 +90,13 @@ class MakeRequestForm(forms.ModelForm):
         }
 
 
-class ApproveRequestForm(forms.ModelForm):
-    class Meta:
-        model = ApproveRequest
-        exclude = ('user',)
-        widgets = {
-            'user': forms.TextInput(attrs={'': ''}),
-        }
+# class ApproveRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = ApproveRequest
+#         exclude = ('user',)
+#         widgets = {
+#             'user': forms.TextInput(attrs={'': ''}),
+#         }
 
 
 class DepartmentApproveForm(forms.ModelForm):
@@ -129,10 +129,10 @@ class TshoApproveForm(forms.ModelForm):
         }
 
 
-class EmailSendForm(forms.ModelForm):
-    class Meta:
-        exclude = ('user',)
-        model = ApproveRequest
+# class EmailSendForm(forms.ModelForm):
+#     class Meta:
+#         exclude = ('user',)
+#         model = ApproveRequest
 
 
 class CreateScheduleForm(forms.ModelForm):
@@ -148,17 +148,7 @@ class CreateScheduleForm(forms.ModelForm):
         }
 
 
-# Naol
-class AddMaterialForm(forms.ModelForm):
-    class Meta:
-        model = Material
-        fields = ['name', 'type_of', 'quantity']
 
-
-class MaterialRequestForm(forms.ModelForm):
-    class Meta:
-        model = MaterialRequest
-        exclude=('user','status',)
 
 # Driver Evaluation form
 
@@ -169,11 +159,9 @@ class EvaluateDriverForm(forms.ModelForm):
         exclude = ('duser','rating',)
 
 # feedback form
-
-
 class FeedBackForm(forms.ModelForm):
     class Meta:
-        model = feedback
+        model = Feedback
         exclude=('user',)
         widgets = {
             'date': forms.DateInput(format=('%m/%d/%Y'),
@@ -181,10 +169,6 @@ class FeedBackForm(forms.ModelForm):
                                            'type': 'date'}),
         }
 
-class ApprovedMaterial(forms.ModelForm):
-    class Meta:
-        model = MaterialRequest
-        fields = ['status']
 
 
 # end which naol done for this project.
