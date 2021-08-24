@@ -148,17 +148,7 @@ class CreateScheduleForm(forms.ModelForm):
         }
 
 
-# Naol
-class AddMaterialForm(forms.ModelForm):
-    class Meta:
-        model = Material
-        fields = ['name', 'type_of', 'quantity']
 
-
-class MaterialRequestForm(forms.ModelForm):
-    class Meta:
-        model = MaterialRequest
-        exclude=('user','status',)
 
 # Driver Evaluation form
 
@@ -181,10 +171,6 @@ class FeedBackForm(forms.ModelForm):
                                            'type': 'date'}),
         }
 
-class ApprovedMaterial(forms.ModelForm):
-    class Meta:
-        model = MaterialRequest
-        fields = ['status']
 
 
 # end which naol done for this project.

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'background_task',
+    'MaterialApp',
     
     
     
