@@ -666,6 +666,11 @@ def Updatematerial(request, pk):
     return render(request, 'Trequest/AddMaterialForm.html', context)
 
 @login_required(login_url='login')
+def view_material_request(request):
+    materialView=MaterialRequest.objects.filter(status="Pending")
+
+
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['StoreManager'])
 def AddMaterial(request):
     form = AddMaterialForm()
