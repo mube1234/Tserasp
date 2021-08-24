@@ -49,6 +49,7 @@ urlpatterns = [
          views.my_request_detail, name="detail-request"),
     path('request/make', views.make_request, name="make-request"),
     path('request/cancel/<int:id>', views.cancel_request, name="cancel-request"),
+    path('request/reject/<int:id>',views.reject_request,name="reject-request"),
     path('request/tshoapprove/<str:id>', views.tsho_approve_request, name="tsho-approve-request"),
     path('vehicle/repaired',views.repaired_vehicle,name='repaired-vehicle'),
 #     path('vehicle/vehicle_type_register',views.vehicle_type_register,name='vehicle-type-register'),
@@ -77,10 +78,8 @@ urlpatterns = [
     path('updatematerial/<str:pk>/', views.Updatematerial, name="Updatematerial"),
     path('deletematerial/<str:pk>/', views.deletematerial, name="delete_material"),
 
-    # history
-    path('history/', views.history, name="history"),
-
-
+    # report
+    path('report/', views.annual_report, name="report"),
     # Activity Log
     path('activitylog/', views.ActivityLogs, name="log"),
 
@@ -98,7 +97,7 @@ urlpatterns = [
     path('evaluate/', views.evaluate, name="evaluate-driver"),
 
     # report
-    path('report/', views.report, name="report"),
+#     path('report/', views.report, name="report"),
 
     # feedback
     path('feedback/create_feedback', views.FeedBack, name="create-feedback"),

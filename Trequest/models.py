@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.db.models.fields import DateField, EmailField, TimeField
 from django.http import request
 from ckeditor.fields import RichTextField
 from TSERASP import settings
@@ -39,28 +40,7 @@ class MyUser(AbstractUser):
         ('DepartmentHead', 'Department Head'),
         ('VicePresident', 'Vice President'),
     )
-    # School = (
-    #     ('SOEEC', 'SOEEC'),
-    #     ('SOMCME', 'SOMCME'),
-    #     ('SOCEA', 'SOCEA'),
-    #     ('SOANS', 'SOANS'),
-    # )
-    # Department = (
-    #     ('CSE', 'CSE'),
-    #     ('ECE', 'ECE'),
-    #     ('EPCE', 'EPCE'),
-    #     ('MCE', 'MCE'),
-    #     ('MSE', 'MSE'),
-    #     ('CHE', 'CHE'),
-    #     ('CE', 'CE'),
-    #     ('WRE', 'WRE'),
-    #     ('ARCH', 'ARCH'),
-    #     ('Maths', 'Maths'),
-    #     ('Pysics', 'Pysics'),
-    #     ('Chemistry', 'Chemistry'),
-    #     ('Bio', 'Bio'),
-    #     ('Geology', 'Geology')
-    # )
+   
 
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{10,15}$',
@@ -111,6 +91,9 @@ class TransportRequest(models.Model):
         ('Pending', 'Pending'),
         ('Approved', 'Approved'),
         ('Expired', 'Expired'),
+        ('Rejected', 'Rejected'),
+        ('Cancelled', 'Cancelled'),
+
         
     )
     passenger = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_request')
@@ -127,8 +110,8 @@ class TransportRequest(models.Model):
     status2 = models.CharField(max_length=200, default='Pending', choices=STATUS)
     status3 = models.CharField(max_length=200, default='Pending', choices=STATUS)
 # status=TSHO
-# status2=department
-# status3=School
+# status2=department head
+# status3=School dean
 
     def __str__(self):
         return self.start_from + ' to ' + self.destination
@@ -153,23 +136,28 @@ class TransportRequest(models.Model):
     #     return False
 
 # method 2
-    def expire(self):
-     if date.today() >= self.start_date:
-        self.is_expired = True
-        return True
-     else:
-        return False
+    # def expire(self):
+    #  if date.today() >= self.start_date:
+    #     self.is_expired = True
+    #     return True
+    #  else:
+    #     return False
+
+
+
+class AssignRequest(models.Model):
+    user_to=models.CharField(max_length=200)
+    email_to=models.EmailField()
+    driver_to=models.CharField(max_length=200)
+    date_to=models.DateField()
+    time_to=models.TimeField()
 
 # notifications for viewing new request
-
-
 class Notifications(models.Model):
     # sender_id=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    request_id = models.ForeignKey(
-        TransportRequest, on_delete=models.CASCADE, related_name='trequest')
+    request_id = models.ForeignKey(TransportRequest, on_delete=models.CASCADE, related_name='trequest')
     is_viewed = models.BooleanField(default=False)
-    from_who = models.ForeignKey(
-        TransportRequest, on_delete=models.CASCADE, null=True, related_name='from_who')
+    from_who = models.ForeignKey(TransportRequest, on_delete=models.CASCADE, null=True, related_name='from_who')
 
     def __str__(self):
         return str(self.request_id.passenger.first_name)

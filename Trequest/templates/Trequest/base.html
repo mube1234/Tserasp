@@ -105,7 +105,7 @@
         {% if request.user.school %}
         <h6 style="margin-left: 10px">{{request.user.school}}</h6>
         {% else %} {% endif %} {% if request.user.department %}
-        <h6 style="margin-left: 10px">>> {{request.user.department}}</h6>
+        <h6 style="margin-left: 10px"> >> {{request.user.department}}</h6>
         {% else %} {% endif %}
 
         <!-- Right navbar links -->
@@ -180,10 +180,7 @@
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      <aside
-        class="main-sidebar elevation-4"
-        style="background: #003e80; color: white"
-      >
+      <aside class="main-sidebar elevation-4" style="background: #003e80; color: white">
         <div class="sidebar" style="color: white">
           <!-- Sidebar user panel (optional) -->
           <div class="user-panel mt-3 pb-3 mb-3s">
@@ -228,14 +225,15 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  {% if request.user.role != 'TSHO' %}
+                  {% if request.user.role != 'TSHO' and request.user.role != 'VicePresident'  %}
                   <li class="nav-item">
                     <a href="{% url 'make-request' %}" class="list nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p style="color: white">Make Request</p>
                     </a>
                   </li>
-                  {% endif %} {% if request.user.role == 'TSHO' %}
+                  {% endif %}
+                   {% if request.user.role == 'TSHO' or request.user.role == 'VicePresident' %}
                   <li class="nav-item">
                     <a
                       href="{% url 'tsho-view-request' %}"
@@ -296,7 +294,8 @@
                       <p style="color: white">Approved Request</p>
                     </a>
                   </li>
-                  {% else %} {% endif %} {% if request.user.role != 'TSHO' %}
+                  {% else %} {% endif %} 
+                  {% if request.user.role != 'TSHO' and request.user.role != 'VicePresident'  %}
                   <li class="nav-item">
                     <a href="{% url 'my-request' %}" class="list nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -306,6 +305,7 @@
                   {% endif %}
                 </ul>
               </li>
+              {% if request.user.role == 'TSHO' %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fas fa-car"></i>
@@ -342,12 +342,31 @@
                 </ul>
               </li>
               <li class="nav-item has-treeview">
-                <a href="{% url 'history' %}" class="list nav-link">
-                  <i class="side nav-icon far fa-bell"></i>
-                  <p style="color: white">History</p>
+                <a href="#" class="list nav-link">
+                  <i class="side nav-icon fas fa-table"></i>
+                  <p style="color: white">
+                    Schedule
+                    <i class="fas fa-angle-right right"></i>
+                  </p>
                 </a>
-              </li>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'create-schedule' %}" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Add Schedule</p>
+                    </a>
+                  </li>
 
+                  <li class="nav-item">
+                    <a href="#" class="list nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p style="color: white">Manage Schedule</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+          {% endif %}            
+ 
               {% if request.user.role == 'StoreManager' %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
@@ -389,32 +408,14 @@
                 </ul>
               </li>
               {% endif %}
+              
               <li class="nav-item has-treeview">
-                <a href="#" class="list nav-link">
-                  <i class="side nav-icon fas fa-table"></i>
-                  <p style="color: white">
-                    Schedule
-                    <i class="fas fa-angle-right right"></i>
-                  </p>
+                <a href="{% url 'report' %}" class="list nav-link">
+                  <i class="side nav-icon far fa-file"></i>
+                  <p style="color: white">Report</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{% url 'create-schedule' %}" class="list nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">Add Schedule</p>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="#" class="list nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">Manage Schedule</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
-              <li class="nav-header">Users and account management</li>
-
+              
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fas fa-user"></i>
@@ -436,39 +437,16 @@
                       <p style="color: white">Account Management</p>
                     </a>
                   </li>
-
-            <li class="nav-item has-treeview">
-              <a href="#" class="list nav-link">
-                <i class="side nav-icon fas fa-users"></i>
-                <p style="color: white">
-                  Employee
-                  <i class="fas fa-angle-right right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{% url 'evaluate-driver' %}" class="list nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p style="color: white">Evaluation</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="list nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Profile</p>
-                  </a>
-                </li>
-               
-              </ul>
-            </li>
-            <li class="nav-item">
-              
+                 </ul>
+                 </li>
+     {% if request.user.role == 'TSHO' %}
+            <li class="nav-item">             
               <a href="{% url 'log' %}" class="list nav-link">
                 <i class="side nav-icon fas fa-file"></i>
-                <p style="color: #f3cfcf">Acivity Log</p>
+                <p style="color: white">Acivity Log</p>
               </a>
             </li>
-
+        {% endif %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fas fa-users"></i>
@@ -490,12 +468,7 @@
                       <p>Profile</p>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="{% url 'log' %}" class="list nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p style="color: #ffffff">History</p>
-                    </a>
-                  </li>
+                 
                 </ul>
               </li>
 
@@ -535,7 +508,9 @@
         <!-- /.sidebar -->
       </aside>
 
-      <div></div>
+      <div>
+
+      </div>
       <!-- to add other parts section we use this content -->
       {% block content %} {% endblock content %} {% include
       'Trequest/footer.html' %}
@@ -570,7 +545,8 @@
 <script src="{% static 'dist/js/demo.js' %}"></script>
 
 <!-- for display messages -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="{% static 'plugins/jquery/jquery3.3.1.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -587,6 +563,9 @@
     });
     $(".request-delete").click(function () {
       return confirm("Are you sure to cancel this request?");
+    });
+    $(".request-reject").click(function () {
+      return confirm("Are you sure to reject this request?");
     });
   });
 </script>

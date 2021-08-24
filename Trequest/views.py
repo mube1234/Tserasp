@@ -21,18 +21,16 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
-from background_task import background
+from .decorators import unauthenticated_user,allowed_users
 
-# def your(request):
-#     now=datetime.datetime.now()
-#     print("Date: "+ now.strftime("%Y-%m-%d")) #this will print 
 
 
 class Requestpdf(ListView):
     model = TransportRequest
     template_name = 'Trequest/pdf.html'
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def request_pdf(request, *args, **kwargs):
     pk = kwargs.get('pk')
     requestpdf = get_object_or_404(TransportRequest, pk=pk)
@@ -58,7 +56,7 @@ def request_pdf(request, *args, **kwargs):
 
 # registered users can login in to the system
 
-
+@unauthenticated_user
 def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -73,8 +71,7 @@ def signin(request):
     return render(request, 'Trequest/login.html')
 
 # creating account for the users
-
-
+@login_required(login_url='login')
 def create_account(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -96,7 +93,7 @@ def create_account(request):
 
 # AJAX
 
-
+@login_required(login_url='login')
 def load_department(request):
     school_id = request.GET.get('school_id')
     departments = Department.objects.filter(
@@ -108,7 +105,7 @@ def load_department(request):
 
 # editing/updating user account
 
-
+@login_required(login_url='login')
 def edit_account(request):
     if request.method == 'POST':
         a_form = UserAccountEditForm(request.POST, instance=request.user)
@@ -150,7 +147,6 @@ def change_password(request):
 
 @login_required(login_url='login')
 def index(request):
-    
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
     total_feedback=feedback.objects.all().count()
@@ -175,6 +171,21 @@ def index(request):
             TransportRequest.objects.filter(Q(status="Pending") or Q(status2="Pending") or Q(status3="Pending")).update(status='Expired',status2='Expired',status3='Expired')
     # print(transport)  
 
+    # storeman material report
+    material = Material.objects.all()
+    material_request=MaterialRequest.objects.all()
+# list of vehicle type 
+    vehicle = Vehicle.objects.all().values_list('vehicle_type__name')
+#create a set(since it always contain unique data) 
+    ab={}
+    # print(type(ab))
+    for vehicle_type in vehicle:
+        if vehicle_type in ab:
+            ab[vehicle_type]+=1
+        else:
+            ab[vehicle_type]=1
+    x=ab.keys()
+    y=ab.values()
 
     context = {'schedule': schedule,
                'vehicle_count': vehicle_count,
@@ -182,7 +193,11 @@ def index(request):
                'tsho_pend': tsho_pend,
                'dep_pend': dep_pend,
                'sch_pend': sch_pend,
-               'feedback_count':total_feedback
+               'feedback_count':total_feedback,
+               'material':material,
+               'x':x,
+               'y':y,
+               'material_request':material_request
 
                }
     return render(request, 'Trequest/index.html', context)
@@ -194,6 +209,7 @@ def view_request(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def vehicle_management(request):
     vehicle = Vehicle.objects.all()
     query = request.GET.get('q')
@@ -216,18 +232,15 @@ def vehicle_management(request):
 
 
 @login_required(login_url='login')
-def history(request):
-    return render(request, 'Trequest/history.html')
-
-# vehicle type registration
- #  vehicle related
-# @login_required(login_url='login')
-# def vehicle_type_register(request):
-    
-#     return render(request, 'Trequest/register_vehicle.html', context)
+def annual_report(request):
+    transport_request=TransportRequest.objects.all()
+    print(transport_request.count())
+    context={'transport_request':transport_request}
+    return render(request, 'Trequest/report.html',context)
 
 #  vehicle related
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def vehicle_register(request):
     if request.method == 'POST':
         form = VehicleRegisterForm(request.POST)
@@ -244,7 +257,8 @@ def vehicle_register(request):
     context = {'form': form}
     return render(request, 'Trequest/register_vehicle.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def edit_vehicle(request, id):
     vehicle = Vehicle.objects.get(id=id)
     if request.method == 'POST':
@@ -265,25 +279,20 @@ def edit_vehicle(request, id):
 def repaired_vehicle(request):
     return render(request, 'Trequest/repaired_vehicle.html')
 
-
-@login_required(login_url='login')
-def material_management(request):
-    return render(request, 'Trequest/material_management.html')
-
-
-@login_required(login_url='login')
 @login_required(login_url='login')
 def profile(request):
     return render(request, 'Trequest/profile.html')
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def delete_account(request, id):
     account = get_object_or_404(MyUser, id=id)
     account.delete()
     messages.success(request, 'Account deleted Successfully!')
     return redirect('account')
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def delete_vehicle(request, id):
     veh = get_object_or_404(Vehicle, id=id)
     veh.delete()
@@ -301,52 +310,107 @@ def delete_vehicle(request, id):
 
 @login_required(login_url='login')
 def make_request(request):
-    form = MakeRequestForm()
-    if request.method == 'POST':
-        form = MakeRequestForm(request.POST)
-        if form.is_valid():
-            # Because your model requires that user is present, we validate the form and
-            # save it without commiting, manually assigning the user to the object and resaving
-            obj = form.save(commit=False)
-            obj.passenger = request.user
-            obj.save()
-            # request_expire(username=request.user)
-            #user =TransportRequest.objects.get(passenger=request.user)
-            role = MyUser.objects.get(username=request.user).role
-
-            if role == 'DepartmentHead':
-
-                # TransportRequest.objects.create(status2="Approved")
-                #status2 = TransportRequest.objects.get(status2="Approved")
-                s2 = TransportRequest.objects.filter(
-                    passenger=request.user)[0:1]
-                TransportRequest.objects.filter(
-                    id__in=s2).update(status2="Approved")
-                # status2=s2.status2
-            if role == 'SchoolDean':
-                s2 = TransportRequest.objects.filter(
-                    passenger=request.user)[0:1]
-                TransportRequest.objects.filter(id__in=s2).update(
-                    status2="Approved", status3="Approved")
-
-                # status2.save()
-            messages.success(request, 'Request sent Successfully!')
-            return redirect('my-request')
-    else:
+    current=TransportRequest.objects.filter(passenger=request.user)
+    if not current:
         form = MakeRequestForm()
-    context = {'form': form}
-    return render(request, 'Trequest/make_request.html', context)
+        if request.method == 'POST':
+            form = MakeRequestForm(request.POST)
+            if form.is_valid():
+                # Because your model requires that user is present, we validate the form and
+                # save it without commiting, manually assigning the user to the object and resaving
+                obj = form.save(commit=False)
+                obj.passenger = request.user
+                obj.save()
+                # request_expire(username=request.user)
+                #user =TransportRequest.objects.get(passenger=request.user)
+                role = MyUser.objects.get(username=request.user).role
+
+                if role == 'DepartmentHead':
+
+                    # TransportRequest.objects.create(status2="Approved")
+                    #status2 = TransportRequest.objects.get(status2="Approved")
+                    s2 = TransportRequest.objects.filter(
+                        passenger=request.user)[0:1]
+                    TransportRequest.objects.filter(
+                        id__in=s2).update(status2="Approved")
+                    # status2=s2.status2
+                if role == 'SchoolDean':
+                    s2 = TransportRequest.objects.filter(
+                        passenger=request.user)[0:1]
+                    TransportRequest.objects.filter(id__in=s2).update(
+                        status2="Approved", status3="Approved")
+
+                    # status2.save()
+                messages.success(request, 'Request sent Successfully!')
+                return redirect('my-request')
+        else:
+            form = MakeRequestForm()
+        context = {'form': form}
+        return render(request, 'Trequest/make_request.html', context)
+        
+    else:
+        for req in current:
+            s1=req.status 
+            s2=req.status2
+            s3=req.status3 
+            if s1 == "Pending" or s2 == "Pending" or s3== "Pending" or None:
+                messages.warning(request, 'Your Current Request is in progress...')
+                return redirect('my-request')
+            else:
+                form = MakeRequestForm()
+                if request.method == 'POST':
+                    form = MakeRequestForm(request.POST)
+                    if form.is_valid():
+                        # Because your model requires that user is present, we validate the form and
+                        # save it without commiting, manually assigning the user to the object and resaving
+                        obj = form.save(commit=False)
+                        obj.passenger = request.user
+                        obj.save()
+                        # request_expire(username=request.user)
+                        #user =TransportRequest.objects.get(passenger=request.user)
+                        role = MyUser.objects.get(username=request.user).role
+
+                        if role == 'DepartmentHead':
+
+                            # TransportRequest.objects.create(status2="Approved")
+                            #status2 = TransportRequest.objects.get(status2="Approved")
+                            s2 = TransportRequest.objects.filter(
+                                passenger=request.user)[0:1]
+                            TransportRequest.objects.filter(
+                                id__in=s2).update(status2="Approved")
+                            # status2=s2.status2
+                        if role == 'SchoolDean':
+                            s2 = TransportRequest.objects.filter(
+                                passenger=request.user)[0:1]
+                            TransportRequest.objects.filter(id__in=s2).update(
+                                status2="Approved", status3="Approved")
+
+                            # status2.save()
+                        messages.success(request, 'Request sent Successfully!')
+                        return redirect('my-request')
+                else:
+                    form = MakeRequestForm()
+                context = {'form': form}
+                return render(request, 'Trequest/make_request.html', context)
 
 # request cancelling by passengers
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Passenger','DepartmentHead','SchoolDean'])
 def cancel_request(request, id):
-    my_request = get_object_or_404(TransportRequest, id=id)
-    my_request.delete()
+    TransportRequest.objects.filter(id=id).update(status='Cancelled',status2='Cancelled',status3='Cancelled')  
     messages.success(request, ' Request Cancelled Successfully!')
     return redirect('my-request')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO','DepartmentHead','SchoolDean'])
+def reject_request(request, id):
+    TransportRequest.objects.filter(id=id).update(status='Rejected',status2='Rejected',status3='Rejected')  
+    messages.success(request, ' Request Rejected Successfully!')
+    return redirect('index')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['DepartmentHead'])
 def department_view_request(request):
     transport1 = TransportRequest.objects.filter(status2='Pending')
     
@@ -355,12 +419,15 @@ def department_view_request(request):
     context = {'transport': transport}
     return render(request, 'Trequest/department_view_request.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['DepartmentHead'])
 def department_view_approved_request(request):
     transport = TransportRequest.objects.filter(status2='Approved').order_by('-created_at')
     context = {'transport': transport}
     return render(request, 'Trequest/department_view_approved_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['SchoolDean'])
 def school_view_request(request):
     # std=TransportRequest.objects.all()
     # request_expire(pk=id)
@@ -374,28 +441,32 @@ def school_view_request(request):
     context = {'transport': transport}
     return render(request, 'Trequest/school_view_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['SchoolDean'])
 def school_view_approved_request(request):
     transport = TransportRequest.objects.filter(
         status3='Approved').order_by('-created_at')
     context = {'transport': transport}
     return render(request, 'Trequest/school_view_approved_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO','VicePresident'])
 def tsho_view_approved_request(request):
     transport = TransportRequest.objects.filter(
         status='Approved').order_by('-created_at')
     context = {'transport': transport}
     return render(request, 'Trequest/tsho_view_approved_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO','VicePresident'])
 def tsho_view_approved_request_detail(request, id):
     trans = TransportRequest.objects.get(id=id)
     
     context = {'trans': trans}
     return render(request, 'Trequest/view_approved_detail.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO','VicePresident'])
 def tsho_view_request(request):
     transport = TransportRequest.objects.filter(status2='Approved', status3='Approved', status='Pending').order_by(
         '-created_at')
@@ -405,7 +476,8 @@ def tsho_view_request(request):
     context = {'transport': transport}
     return render(request, 'Trequest/tsho_view_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['DepartmentHead'])
 def department_approve_request(request, id):
     approve = get_object_or_404(TransportRequest, id=id)
         
@@ -422,11 +494,29 @@ def department_approve_request(request, id):
     context = {'form': form, 'approve': approve}
     return render(request, 'Trequest/department_approve_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def tsho_approve_request(request, id):
     vehicle = Vehicle.objects.filter(currently='Inside', status='Occupied')
     approve = get_object_or_404(TransportRequest, id=id)
     if request.method == 'POST':
+        assigned=AssignRequest()
+        name=request.POST.get('user')
+        email=request.POST.get('email')
+        date=request.POST.get('message')
+        time=request.POST.get('message2')      
+        assigned.user_to=name
+        assigned.email_to=email
+        new_driver = request.POST.get('driver')
+        driver_fname = MyUser.objects.get(username=new_driver).first_name
+        driver_lname = MyUser.objects.get(username=new_driver).last_name
+        driver_full_name = driver_fname + " " + driver_lname
+        assigned.driver_to=driver_full_name
+        assigned.date_to=date
+        assigned.time_to=time
+        
+        assigned.save()
+
         form = TshoApproveForm(request.POST, instance=approve)
         if form.is_valid():
             obj = form.save(commit=False)
@@ -458,7 +548,8 @@ def tsho_approve_request(request, id):
                }
     return render(request, 'Trequest/tsho_approve_request.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['SchoolDean'])
 def school_approve_request(request, id):
     approve = get_object_or_404(TransportRequest, id=id)
     if request.method == 'POST':
@@ -491,7 +582,8 @@ def my_request_detail(request, id):
     context = {'myrequest_detail': myrequest_detail}
     return render(request, 'Trequest/my_request_detail.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def account_management(request):
     account = MyUser.objects.all().order_by('-date_registered')
     total_account = account.count()
@@ -508,25 +600,14 @@ def account_management(request):
                }
     return render(request, 'Trequest/account_management.html', context)
 
-
+@login_required(login_url='login')
 def account_detail(request, username):
     user = Profile.objects.get(user__username=username)
     context = {'user': user}
     return render(request, 'Trequest/user_account_detail.html', context)
 
-
-# def send_email(request,id):
-#     app=TransportRequest.objects.get(id=id)
-#     if request.method == 'POST':
-#         subject = request.POST.get('subject')
-#         message = request.POST.get('message')
-#         email = request.POST.get('email')
-#         send_mail(subject, message, settings.EMAIL_HOST_USER,
-#                   [email], fail_silently=False)
-#         return render(request, 'Trequest/email_sent.html', {'email': email})
-#
-#     return render(request, 'Trequest/assign_approved_request.html', {'app':app})
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def create_schedule(request):
     if request.method == 'POST':
         form = CreateScheduleForm(request.POST)
@@ -543,7 +624,8 @@ def create_schedule(request):
     context = {'form': form}
     return render(request, 'Trequest/create_schedule.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def update_schedule(request, id):
     schedule = Schedule.objects.get(id=id)
     if request.method == 'POST':
@@ -559,6 +641,8 @@ def update_schedule(request, id):
 
 
 # by naol
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['StoreManager'])
 def deletematerial(request, pk):
     term = Material.objects.get(id=pk)
     if request.method == 'POST':
@@ -567,7 +651,8 @@ def deletematerial(request, pk):
     context = {'term': term}
     return render(request, 'Trequest/deleteMaterial.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['StoreManager'])
 def Updatematerial(request, pk):
     material = Material.objects.get(id=pk)
 
@@ -581,7 +666,8 @@ def Updatematerial(request, pk):
     context = {'form': form}
     return render(request, 'Trequest/AddMaterialForm.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['StoreManager'])
 def AddMaterial(request):
     form = AddMaterialForm()
     if request.method == 'POST':
@@ -596,6 +682,7 @@ def AddMaterial(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['StoreManager'])
 def material_management(request):
     material = Material.objects.all()
     myfilter = MaterialFilter(request.GET, queryset=material)
@@ -622,9 +709,9 @@ def tsho_notifications_count():
     # context={'notifications':notifications,'not_count':not_count}
     # return render(request, 'Trequest/notifications.html', context)
 
-
-def material_request(request):
-    
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Mechanic'])
+def material_request(request):  
     if request.method == 'POST':
         form = MaterialRequestForm(request.POST)
         if form.is_valid():
@@ -659,43 +746,18 @@ def evaluate(request):
     context = {'form': form}
     return render(request, 'Trequest/evaluate_driver.html', context)
 
-# report
-
-
-def report(request):
-    material = Material.objects.all()
-    material_request=MaterialRequest.objects.all()
-   
-
-# list of vehicle type 
-    vehicle = Vehicle.objects.all().values_list('vehicle_type__name')
-
-        #create a set(since it always contain unique data) 
-    ab={}
-    # print(type(ab))
-    for vehicle_type in vehicle:
-        if vehicle_type in ab:
-            ab[vehicle_type]+=1
-        else:
-            ab[vehicle_type]=1
-    x=ab.keys()
-    y=ab.values()
-    # print(ab)
-    
-    context = {'material':material,'x':x,'y':y,'material_request':material_request}
-    return render(request,'Trequest/report.html',context)
 
 # Activity Log
 # Activity log view
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def ActivityLogs(request):
     logs=ActivityLog.objects.all()
     context={'logs':logs}
     return render(request, 'Trequest/activity_log.html',context)
     
 # feedback
-
-
+@login_required(login_url='login')
 def FeedBack(request):
     form = FeedBackForm()
     if request.method == 'POST':
@@ -709,7 +771,8 @@ def FeedBack(request):
     context = {'form': form}
     return render(request, 'Trequest/create_feedback.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
 def view_feedback(request):
     feedbacks = feedback.objects.all()
     context = {'feedback': feedbacks}

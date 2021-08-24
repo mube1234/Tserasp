@@ -80,6 +80,7 @@ class MakeRequestForm(forms.ModelForm):
             'status': forms.TextInput(attrs={'type': 'hidden'}),
             'status2': forms.TextInput(attrs={'type': 'hidden'}),
             'status3': forms.TextInput(attrs={'type': 'hidden'}),
+            'is_expired': forms.TextInput(attrs={'type': 'hidden'}),
 
         }
         help_texts = {

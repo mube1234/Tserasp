@@ -39,7 +39,7 @@ admin.site.register(DriverEvaluation)
 admin.site.register(feedback)
 admin.site.register(VehicleType)
 admin.site.register(ActivityLog)
-
+admin.site.register(AssignRequest)
 #  for log entry
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):

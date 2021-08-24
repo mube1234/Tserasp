@@ -164,7 +164,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'mubetam39@gmail.com'
 #It is the account name from which we will send an email.
 
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = '6822745astu'
 #The password of the email account that we are using.
 
 

@@ -22,6 +22,7 @@
                   <p> <b>School :</b> {{user.school}}</p>
                    <p> <b>Department :</b> {{user.department}}</p>
                     <p> <b>Total person :</b> {{approve.passenger_numbers}}</p>
+                    <p> <b>Members :</b> {{approve.list_of_passengers}}</p>
                  
                  
 
@@ -47,8 +48,9 @@
                   <form class="" action="" method="POST">
                       {% csrf_token %}
                       {{form|crispy}}
-
-                      <button class="btn btn-info " type="Submit" style="float: right;">Approve</button>
+                      <a href="{% url 'reject-request' approve.id %}" style="float: right;" class="btn btn-danger request-reject"> Reject</a>
+                      
+                      <button class="btn btn-info " type="Submit" style="float: right;margin-right: 20px;">Approve</button>
                     
                   </form>
                       

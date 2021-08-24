@@ -1,8 +1,20 @@
 
 {% if messages %}
     {% for message in messages %}
+       {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
          <script>
-             swal('', '{{ message }}', "success");
+             Swal.fire('', '{{ message }}', "success");
        </script>
+         {% endif %} 
+      {% endfor %}
+    
+    <!-- for warning -->
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+        <script>
+            Swal.fire('', '{{ message }}', "warning");
+        </script>
+        {% endif %} 
     {% endfor %}
+    
  {% endif %}
