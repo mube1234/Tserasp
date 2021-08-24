@@ -22,7 +22,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic import ListView
 from .decorators import unauthenticated_user,allowed_users
-
+from django.db  import transaction
 
 
 class Requestpdf(ListView):
@@ -309,6 +309,7 @@ def delete_vehicle(request, id):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Passenger','DepartmentHead','SchoolDean'])
 def make_request(request):
     current=TransportRequest.objects.filter(passenger=request.user)
     if not current:
@@ -668,7 +669,43 @@ def Updatematerial(request, pk):
 @login_required(login_url='login')
 def view_material_request(request):
     materialView=MaterialRequest.objects.filter(status="Pending")
+    context = {'materialView': materialView}
+    return render(request, 'Trequest/view_material_request.html', context)
 
+
+@login_required(login_url='login')
+@transaction.atomic    
+def material_detail(request, id):
+    material_detail = MaterialRequest.objects.get(id=id)
+    
+    
+    #form = ApprovedMaterial(instance=material_detail)    
+    if request.method == 'POST':
+        #form = ApprovedMaterial(request.POST, instance=material_detail)
+        #if form.is_valid():
+        with transaction.atomic():
+            Materil_check= Material.objects.get(name = material_detail.new_material_name)
+            if (Materil_check.quantity >= material_detail.quantity_of_new):
+
+        
+                q = material_detail.quantity_of_new
+
+                
+                Materil_check.quantity -= q
+                Materil_check.save()
+                material_detail.status = "approved"
+                material_detail.save()
+                messages.success(request,"Approved Successfully")
+                return redirect('view_material_request')
+
+                
+            else:
+                messages.warning(request,"Amount of material your requested not available")
+                return redirect('view_material_request')
+                             
+
+    context = {'material_detail': material_detail}
+    return render(request, 'Trequest/material_detail.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['StoreManager'])
@@ -714,7 +751,7 @@ def tsho_notifications_count():
     # return render(request, 'Trequest/notifications.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Mechanic'])
+# @allowed_users(allowed_roles=['Mechanic','StoreManager'])
 def material_request(request):  
     if request.method == 'POST':
         form = MaterialRequestForm(request.POST)

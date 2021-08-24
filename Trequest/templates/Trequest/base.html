@@ -408,14 +408,14 @@
                 </ul>
               </li>
               {% endif %}
-              
+              {% if request.user.role == 'TSHO' %}
               <li class="nav-item has-treeview">
                 <a href="{% url 'report' %}" class="list nav-link">
                   <i class="side nav-icon far fa-file"></i>
                   <p style="color: white">Report</p>
                 </a>
               </li>
-              
+              {% endif %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fas fa-user"></i>

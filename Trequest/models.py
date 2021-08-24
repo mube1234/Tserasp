@@ -29,7 +29,7 @@ class Department(models.Model):
 class MyUser(AbstractUser):
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
-    email = models.EmailField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True,unique=True)
     ROLE = (
         ('Passenger', 'Passenger'),
         ('TSHO', 'TSHO'),
@@ -46,19 +46,15 @@ class MyUser(AbstractUser):
         regex=r'^\+?1?\d{10,15}$',
         message='Phone number must be entered in the format : 0987654321 or +251987654321 up to 15 digits allowed'
     )
-    phone = models.CharField(
-        validators=[phone_regex], max_length=15, blank=True)
-    school = models.ForeignKey(
-        School, on_delete=models.SET_NULL, blank=True, null=True)
-    department = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, blank=True, null=True)
+    phone = models.CharField(validators=[phone_regex], max_length=15, blank=True,unique=True)
+    school = models.ForeignKey(School, on_delete=models.SET_NULL, blank=True, null=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
     role = models.CharField(max_length=200, choices=ROLE)
-    date_registered = models.DateField(auto_now_add=True, null=True)
+    date_registered = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.username
-    # mobile_number = models.CharField(max_length=10, unique=True)
-    # birth_date = models.DateField(null=True, blank=True)
+   
 
 
 class Profile(models.Model):
@@ -264,9 +260,11 @@ class MaterialRequest(models.Model):
 
     def __str__(self):
         return self.new_material_name.name
+
+    class Meta:
+        ordering = ['-id']    
+
 # evaluate Driver
-
-
 class DriverEvaluation(models.Model):
     select = (
         ('1', 1),
