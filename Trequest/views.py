@@ -147,7 +147,7 @@ def change_password(request):
 def index(request):
     schedule = Schedule.objects.all().order_by('-date')
     total_user = MyUser.objects.all()
-    total_feedback=feedback.objects.all().count()
+    total_feedback=Feedback.objects.all().count()
     tsho_pending_request = TransportRequest.objects.filter(
         status='Pending', status2='Approved', status3='Approved')
     dep_pending_request = TransportRequest.objects.filter(status2='Pending',
@@ -693,7 +693,7 @@ def ActivityLogs(request):
     
 # feedback
 @login_required(login_url='login')
-def FeedBack(request):
+def feedback(request):
     form = FeedBackForm()
     if request.method == 'POST':
         form = FeedBackForm(request.POST)
@@ -709,6 +709,6 @@ def FeedBack(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['TSHO'])
 def view_feedback(request):
-    feedbacks = feedback.objects.all()
+    feedbacks = Feedback.objects.all()
     context = {'feedback': feedbacks}
     return render(request, 'Trequest/view_feedback.html', context)

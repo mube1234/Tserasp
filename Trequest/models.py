@@ -168,13 +168,13 @@ class Vehicle(models.Model):
         return self.plate_number
 
 
-class ApproveRequest(models.Model):
-    user = models.OneToOneField(TransportRequest, on_delete=models.CASCADE)
-    vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE)
-    time = models.CharField(max_length=200, default='06:00am')
+# class ApproveRequest(models.Model):
+#     user = models.OneToOneField(TransportRequest, on_delete=models.CASCADE)
+#     vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE)
+#     time = models.CharField(max_length=200, default='06:00am')
 
-    def __str__(self):
-        return self.user.start_from + ' to ' + self.user.destination + ' Approved '
+#     def __str__(self):
+#         return self.user.start_from + ' to ' + self.user.destination + ' Approved '
 
 
 class Schedule(models.Model):
@@ -222,7 +222,7 @@ class DriverEvaluation(models.Model):
 
 
 # feedback
-class feedback(models.Model):
+class Feedback(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     message = models.TextField(max_length=1000)

@@ -84,7 +84,7 @@ urlpatterns = [
 
 
     # feedback
-    path('feedback/create_feedback', views.FeedBack, name="create-feedback"),
+    path('feedback/create_feedback', views.feedback, name="create-feedback"),
     path('feedback/view_feedback', views.view_feedback, name="view-feedback"),
 
 ]
