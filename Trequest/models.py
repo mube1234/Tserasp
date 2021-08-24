@@ -179,7 +179,7 @@ class Vehicle(models.Model):
     )
   
     adder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='add')
-    vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE)
+    vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE,null=True)
     adder = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE, related_name='add')
     plate_number = models.CharField(max_length=20, unique=True)
@@ -253,14 +253,19 @@ class MaterialRequest(models.Model):
     new_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='new_material')
     new_material_model = models.CharField(max_length=200)
     quantity_of_new = models.PositiveIntegerField()
+    #old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
     # old_material_name = models.ForeignKey(Material, on_delete=models.DO_NOTHING, null=True, related_name='old_material')
     quantity_of_old=models.PositiveIntegerField()
     old_material_model=models.CharField(max_length=200)
     vehicle_model = models.ForeignKey(Vehicle, max_length=200, on_delete=models.DO_NOTHING, null=True)
-    condition = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True)
+    condition = models.CharField(max_length=200,choices=(('Reusable', 'reusable'), ('Usable', 'usable')), null=True,blank=True)
     status = models.CharField(max_length=200, default='Pending', choices=STATUS)
+<<<<<<< HEAD
     sent_on=models.DateField(auto_now_add=True,null=True)
 
+=======
+    created_at=models.DateTimeField(auto_now_add=True,null=True)
+>>>>>>> 24bbfab34844c864422047593e694c8b7c378090
 
     def __str__(self):
         return self.new_material_name.name

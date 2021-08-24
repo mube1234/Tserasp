@@ -138,7 +138,7 @@
           <li class="nav-item dropdown">
             {% comment %}
             <a class="nav-link" data-toggle="dropdown" href="#">
-              <i class="far fa-bell"></i>
+              <i class="far fa-bell">{{alert}}</i>
               <span class="badge badge-danger navbar-badge">
                 <!-- to display list of notifications from templates tags -->
                 {% if request.user.role == 'DepartmentHead' %} {% load
@@ -171,7 +171,7 @@
               </a> -->
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item dropdown-footer"
-                >See All Notifications</a
+                >See All Out bound</a
               >
             </div>
           </li>
@@ -400,7 +400,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="list nav-link">
+                    <a href="{% url 'view_material_request' %}" class="list nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p style="color: white">View Material request</p>
                     </a>
