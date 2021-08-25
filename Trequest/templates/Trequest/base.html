@@ -215,7 +215,8 @@
                   <p style="color: white">Dashboard</p>
                 </a>
               </li>
-              
+              {% if request.user.role != 'TSHO' and request.user.role != 'VicePresident'  and request.user.role != 'StoreManager' and request.user.role != 'Mechanic' %}
+               
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fa fa-cart-plus"></i>
@@ -224,15 +225,15 @@
                     <i class="fas fa-angle-right right"></i>
                   </p>
                 </a>
+          
                 <ul class="nav nav-treeview">
-                  {% if request.user.role != 'TSHO' and request.user.role != 'VicePresident' or request.user.role == 'Admin'   %}
                   <li class="nav-item">
                     <a href="{% url 'make-request' %}" class="list nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p style="color: white">Make Request</p>
                     </a>
                   </li>
-                  {% endif %}
+                  
                    {% if request.user.role == 'TSHO' or request.user.role == 'VicePresident' or request.user.role == 'Admin'  %}
                   <li class="nav-item">
                     <a
@@ -240,7 +241,7 @@
                       class="list nav-link"
                     >
                       <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">New Request</p>
+                      <p style="color: white">View New Request</p>
                       <span
                         class="badge badge-info right"
                         style="background: green"
@@ -263,7 +264,7 @@
                       class="list nav-link"
                     >
                       <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">New Request</p>
+                      <p style="color: white">View New Request</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -282,7 +283,7 @@
                       class="list nav-link"
                     >
                       <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">New Request</p>
+                      <p style="color: white">View New Request</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -305,6 +306,7 @@
                   {% endif %}
                 </ul>
               </li>
+              {% endif %} 
               {% if request.user.role == 'TSHO' or request.user.role == 'Admin' %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
@@ -414,7 +416,7 @@
                       class="list nav-link"
                     >
                       <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">View Request</p>
+                      <p style="color: white">View New Request</p>
                     </a>
                   </li>
                   {% endif %}
@@ -463,6 +465,7 @@
               </a>
             </li>
         {% endif %}
+        {% if request.user.role != 'StoreManager' %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fas fa-users"></i>
@@ -499,7 +502,7 @@
 
                 </ul>
               </li>
-
+              {% endif %}
               {% comment %} feedback {% endcomment %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">

@@ -734,7 +734,7 @@ def myRate(request):
      return render(request, 'Trequest/my_rate.html',context) 
 # feedback
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Admin','TSHO'])
+@allowed_users(allowed_roles=['Admin','Passenger','StoreManager'])
 def feedback(request):
     form = FeedBackForm()
     if request.method == 'POST':

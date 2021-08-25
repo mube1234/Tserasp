@@ -27,9 +27,9 @@ class Department(models.Model):
 
 
 class MyUser(AbstractUser):
-    first_name = models.CharField(max_length=100, null=True)
-    last_name = models.CharField(max_length=100, null=True)
-    email = models.EmailField(null=True, blank=True)
+    first_name = models.CharField(null=True,max_length=100)
+    last_name = models.CharField(null=True,max_length=100)
+    email = models.EmailField(null=True,unique=True)
     ROLE = (
         ('Passenger', 'Passenger'),
         ('TSHO', 'TSHO'),
@@ -47,7 +47,7 @@ class MyUser(AbstractUser):
         regex=r'^(09|\+2519)\d{8}$',
         message='Phone number must be entered in the format : 0987654321 or +251987654321 up to 15 digits allowed'
     )
-    phone = models.CharField(validators=[phone_regex], max_length=15, blank=True)
+    phone = models.CharField(validators=[phone_regex], max_length=15,unique=True)
     school = models.ForeignKey(School, on_delete=models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
     role = models.CharField(max_length=200, choices=ROLE)
@@ -76,7 +76,7 @@ class Driver(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee')
     occupation = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=100, null=True)
-    house_no = models.CharField(max_length=100, null=True)
+    house_no = models.CharField(max_length=100, null=True,unique=True)
 
     def __str__(self):
          return self.user.first_name + " "+ self.user.last_name
@@ -155,8 +155,7 @@ class Vehicle(models.Model):
     vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE,null=True)
     
     plate_number = models.CharField(max_length=9, unique=True)
-    status = models.CharField(
-        max_length=200, choices=STATUS, default='Not Occupied')
+    status = models.CharField(max_length=200, choices=STATUS, default='Not Occupied')
     driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True, blank=True)
     date_entered = models.DateTimeField(auto_now_add=True, null=True)
     currently = models.CharField(
@@ -212,8 +211,7 @@ class DriverEvaluation(models.Model):
 
 # feedback
 class Feedback(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     message = models.TextField(max_length=1000)
     sent_at = models.DateTimeField(auto_now_add=True)
     class Meta:

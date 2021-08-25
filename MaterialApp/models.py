@@ -11,9 +11,9 @@ from Trequest.decorators import allowed_users
 class Material(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=200,unique=True)
-    model = models.CharField(max_length=200 ,null=True)
     type_of = models.CharField(max_length=200)
     quantity = models.PositiveIntegerField()
+    model = models.CharField(max_length=200 ,null=True)
     date_created = models.DateField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(null=True)
 

@@ -44,21 +44,23 @@
           <!-- /.info-box -->
         </div>
           <!-- ./col -->
+      {% if request.user.role == "Admin" %}
       <div class="col-md-3 col-sm-6 col-xs-12">
-             <a href="{% url 'account' %}">
-              <div class="info-box">
-                <span class="info-box-icon bg-blue">
-                    <i class="fa fa-users"></i></span>
-    
-                <div class="info-box-content">
-                  <h5>Total Users</h5>
-                    <center><p style="font-size: 22px"  class="counter">{{ app }}</p></center>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-             </a>
-          <!-- /.info-box -->
-        </div>
+        <a href="{% url 'account' %}">
+         <div class="info-box">
+           <span class="info-box-icon bg-blue">
+               <i class="fa fa-users"></i></span>
+
+           <div class="info-box-content">
+             <h5>Total Users</h5>
+               <center><p style="font-size: 22px"  class="counter">{{ app }}</p></center>
+           </div>
+           <!-- /.info-box-content -->
+         </div>
+        </a>
+     <!-- /.info-box -->
+   </div>
+      {% endif %}
           <!-- ./col -->
          <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box" >
