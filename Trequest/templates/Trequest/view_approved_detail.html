@@ -15,18 +15,19 @@
 
            <div class="card-body">
             <div class="row">
-              <div class="col-md-4">
-                <h3 style="background-color: rgb(150, 149, 204);padding: 5px;width: 70%;color: white;">Users Information</h3><hr>
-                  <p> <b>Full Name :</b> {{trans.passenger.get_full_name}}</p>
+              <div class="card col-md-4">
+                <div class="card-header">User Information</div>
+                 <p> <b>Full Name :</b> {{trans.passenger.get_full_name}}</p>
                     <p> <b>Email :</b> {{trans.passenger.email}}</p>
                     <p> <b>Phone :</b> {{trans.passenger.phone}}</p>
                       <p> <b>School :</b> {{trans.passenger.school}}</p>
                         <p> <b>Department :</b> {{trans.passenger.department}}</p>
                           <p> <b>Total person :</b> {{trans.passenger_numbers}}</p>
+                          <p> <b>Members :</b> {{trans.list_of_passengers}}</p>
               </div>
-              <div class="col-md-4">
-                <h3 style="background-color: rgb(150, 149, 204);padding: 5px;width: 70%;color: white;">Trip Information</h3><hr>
-                   <p> <b>Start From :</b> {{trans.start_from}}</p>
+              <div class="card col-md-4">
+                <div class="card-header">Trip Information</div>
+                 <p> <b>Start From :</b> {{trans.start_from}}</p>
                    <p> <b>To :</b> {{trans.destination}}</p>
                    <p> <b>Start Date :</b> {{trans.start_date}}</p>
                    <p> <b>End Date :</b> {{trans.end_date}}</p>
@@ -37,8 +38,8 @@
                   <p> <b>From School :</b> <i style="color: #00b44e;font-weight: bold">{{trans.status3}}</i></p>
                   <p> <b>Reason :</b> {{trans.reason|safe}}</p>
                 </div>
-              <div class="col-md-4">
-                  <h3 style="background-color: rgb(150, 149, 204);padding: 5px;width: 80%;color: white;">Vehicle Information</h3><hr>
+              <div class="card col-md-4">
+                  <div class="card-header">Vehicle Information</div>
                   <p> <b>Driver Full name :</b> {{trans.start_from}}</p>
                   <p> <b>Assigned date :</b> {{trans.destination}}</p>
                   <p> <b>Assigned time:</b> {{trans.start_date}}</p>

@@ -62,8 +62,8 @@
                            {% endif %}
                                  <td>{{my.status}}</td>
                                  <td>
-                                     <a href="{% url 'detail-request' my.id %}"  class=" btn btn-success btn-sm">View</a>
-                                     {% if my.status2 == "Pending" or  my.status3 == "Pending" %}
+                                     <a href="{% url 'detail-request' my.id %}"  class=" btn btn-primary btn-sm">View</a>
+                                     {% if my.status2 == "Pending" or  my.status3 == "Pending" or my.status == "Pending" %}
                                      <a href="{% url 'cancel-request' my.id %}">
                                       <button class="request-delete btn btn-danger btn-sm"  >Cancel</button>
                                      </a>

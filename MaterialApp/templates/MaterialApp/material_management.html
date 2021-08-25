@@ -1,6 +1,7 @@
 {% extends 'Trequest/base.html' %}
 {% load static%}
 {% block title %}Material Management{% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper mt-2">
@@ -14,11 +15,15 @@
 
 
 <!-- /.card-header -->
-<div class="card-body">
-<form action="" method="get" class="form-inline">
-    {{myfilter.form}}
-    <button class="btn btn-default" type="submit"> <i class="  fas fa-search"></i></button>
+<div class="card-body"><br>
+    <a href="{% url 'AddMaterial' %}" style="float: right;" class="btn btn-primary">New Material</a>
+
+<form action="" method="get"  class="form-inline">
+    <input type="text" class="form-control" name="search" placeholder="Search User" id="tags">
+  <button class="btn btn-default" type="submit"> <i class="  fas fa-search"></i></button>
+
 </form>
+
 <table id="example1" class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -35,10 +40,14 @@
 <td>{{i.type_of}}</td>
 <td>{{i.quantity}}</td>
 <td>
-<a href="{%url 'Updatematerial' i.id%}" class="btn btn-primary">Update</a>
-<a href="{%url 'delete_material' i.id%}"class="btn btn-danger">Delete</a>
+<a href="{%url 'Updatematerial' i.id%}" class="btn-sm btn btn-info">Update</a>
+<a href="{%url 'delete_material' i.id%}" class="delete-material btn-sm btn btn-danger">Delete</a>
 </td>
 </tr>
+{% empty %}
+<table style="margin-top: 10px;">
+            <td style="color: red;">Not Found</td>
+</table>
 {%endfor%}
 
 </table>
@@ -70,16 +79,3 @@
 <!-- page script -->
 
 {% endblock content %}
-<script>
-$(function () {
-$("#example1").DataTable();
-$('#example2').DataTable({
-"paging": true,
-"lengthChange": false,
-"searching": false,
-"ordering": true,
-"info": true,
-"autoWidth": false,
-});
-});
-</script>

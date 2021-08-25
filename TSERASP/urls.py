@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('Trequest.urls')),
+    path('material/',include('MaterialApp.urls')),
     path('api/', include('Trequest.api.urls'))
 ]
 urlpatterns +=static (settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

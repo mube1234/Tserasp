@@ -80,6 +80,7 @@ class MakeRequestForm(forms.ModelForm):
             'status': forms.TextInput(attrs={'type': 'hidden'}),
             'status2': forms.TextInput(attrs={'type': 'hidden'}),
             'status3': forms.TextInput(attrs={'type': 'hidden'}),
+            'is_expired': forms.TextInput(attrs={'type': 'hidden'}),
 
         }
         help_texts = {
@@ -89,13 +90,13 @@ class MakeRequestForm(forms.ModelForm):
         }
 
 
-class ApproveRequestForm(forms.ModelForm):
-    class Meta:
-        model = ApproveRequest
-        exclude = ('user',)
-        widgets = {
-            'user': forms.TextInput(attrs={'': ''}),
-        }
+# class ApproveRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = ApproveRequest
+#         exclude = ('user',)
+#         widgets = {
+#             'user': forms.TextInput(attrs={'': ''}),
+#         }
 
 
 class DepartmentApproveForm(forms.ModelForm):
@@ -128,10 +129,10 @@ class TshoApproveForm(forms.ModelForm):
         }
 
 
-class EmailSendForm(forms.ModelForm):
-    class Meta:
-        exclude = ('user',)
-        model = ApproveRequest
+# class EmailSendForm(forms.ModelForm):
+#     class Meta:
+#         exclude = ('user',)
+#         model = ApproveRequest
 
 
 class CreateScheduleForm(forms.ModelForm):
@@ -147,17 +148,7 @@ class CreateScheduleForm(forms.ModelForm):
         }
 
 
-# Naol
-class AddMaterialForm(forms.ModelForm):
-    class Meta:
-        model = Material
-        fields = ['name', 'type_of', 'quantity']
 
-
-class MaterialRequestForm(forms.ModelForm):
-    class Meta:
-        model = MaterialRequest
-        exclude=('user','status',)
 
 # Driver Evaluation form
 
@@ -168,18 +159,17 @@ class EvaluateDriverForm(forms.ModelForm):
         exclude = ('duser','rating',)
 
 # feedback form
-
-
 class FeedBackForm(forms.ModelForm):
     class Meta:
-        model = feedback
+        model = Feedback
         exclude=('user',)
         widgets = {
             'date': forms.DateInput(format=('%m/%d/%Y'),
                                     attrs={'class': 'form-control', 'placeholder': 'Select a date',
                                            'type': 'date'}),
-
         }
+
+
 
 # end which naol done for this project.
 # class PassengerRegistrationForm(forms.ModelForm):

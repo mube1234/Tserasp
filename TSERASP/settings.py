@@ -25,7 +25,7 @@ SECRET_KEY = '%03y2_m)w9slm**7(tsm6o$($d@1odc#ghz!r@0u4be__%xyw6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_filters',
     'rest_framework',
+    'background_task',
+    'MaterialApp',
+    
     
     
     
@@ -95,6 +98,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 
 # Password validation

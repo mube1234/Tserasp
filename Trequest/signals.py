@@ -2,7 +2,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.db.models.signals import post_save,pre_delete
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import Profile, MyUser, Notifications, ActivityLog ,TransportRequest,Schedule,Material,Vehicle
+from .models import Profile, MyUser, Notifications, ActivityLog ,TransportRequest,Schedule,Vehicle
+from MaterialApp.models import Material
 
 @receiver(post_save, sender=MyUser)
 def create_profile(sender, instance, created, **kwargs):
@@ -28,7 +29,7 @@ def create_notifications(sender,instance, created, **kwargs):
 def log_schedule(sender,instance,created, **kwargs):
     if created:
         #data='Schedule created to ' + str(instance.place)+' assigned to driver '+str(instance.driver.user.first_name + "  "+ instance.driver.user.last_name)+' is added '
-        ActivityLog.objects.create(created_by=instance,instances="Schedule",log_object=instance.place,action="Addition")
+        ActivityLog.objects.create(created_by=str(instance.author.first_name)+" "+str(instance.author.last_name),instances="Schedule",log_object=instance.place,action="Addition")
     else:
         ActivityLog.objects.create(created_by=instance,instances="Schedule",log_object=instance.place,action="Updated")
 

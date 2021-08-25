@@ -47,7 +47,10 @@
                       {% csrf_token %}
                       {{form|crispy}}
 
-                      <button class="our-btn btn btn-info " type="Submit" style="float: right;">Approve</button>
+                      
+                      <a href="{% url 'reject-request' approve.id %}" style="float: right;" class="btn btn-danger request-reject"> Reject</a>
+                      <button class="our-btn btn btn-info " type="Submit" style="float: right;margin-right: 20px;">Approve</button>&nbsp;&nbsp;
+                      
                     
                   </form>
                       
