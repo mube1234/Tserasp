@@ -1,0 +1,69 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %}View Request{% endblock %}
+{% block content %}
+<div class="content-wrapper mt-2">
+  <section class="content">
+    <div class="container-fluid">
+    <div class="row mt-2">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header" style="background:#003e80;color:#fff">
+                <h3 class="card-title">  Request Page </h3>
+                <div class="card-tools">
+                  
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+
+              <div class="card-body table-responsive p-0">
+               
+                <table class="table table-hover text-nowrap ">
+                  <thead>
+                    <tr>
+                       
+                    
+                      <th>material_name</th>
+                      <th>material_model</th>
+                      <th>quantity</th>
+                    
+                      
+                      <th>Status</th>
+                      
+                    </tr>
+                  </thead>
+
+
+    
+                
+                  {% for trans in materialView %}
+                    
+                  <body>
+                    <tr>
+                       <td>{{trans.new_material_name}}</td>
+                       <td>{{trans.new_material_model}}</td>
+                       <td>{{trans.quantity_of_new}}</td>
+                      <td>{{trans.status}}</td>
+					             
+                    </tr>
+                  </body>
+                   
+                {% endfor %}
+              
+                </table>
+                   
+              </div>
+              <!-- /.card-body --> 
+            </div>
+            <!-- /.card -->
+          </div>
+        
+          
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock content %}
