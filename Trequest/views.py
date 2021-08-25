@@ -70,6 +70,7 @@ def signin(request):
 
 # creating account for the users
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin'])
 def create_account(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -167,7 +168,16 @@ def index(request):
         exp=req.start_date
         if date.today()>= exp:
             TransportRequest.objects.filter(Q(status="Pending") or Q(status2="Pending") or Q(status3="Pending")).update(status='Expired',status2='Expired',status3='Expired')
-    # print(transport)  
+
+    # to update status of vehicle after returned to the campus
+    # vehicle = Vehicle.objects.filter(currently="Outside")
+    # trequest=TransportRequest.objects.filter(status="Approved")
+    # for i in trequest:
+    #     return_date=i.end_date
+    #     print(return_date)
+    #     if date.today()>= return_date:
+    #         vehicle.update(currently='Inside')
+
 
     # storeman material report
     material = Material.objects.all()
@@ -228,6 +238,12 @@ def vehicle_management(request):
     context = {'vehicle': vehicle,'t_form': t_form}
     return render(request, 'Trequest/vehicle_management.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO'])
+def assigned_request(request):
+    ass_veh=AssignRequest.objects.all()
+    context={'ass_veh':ass_veh}
+    return render(request, 'Trequest/assigned_request.html', context)
 
 @login_required(login_url='login')
 def annual_report(request):
@@ -513,9 +529,11 @@ def tsho_approve_request(request, id):
         assigned.email_to=email
         assigned.driver_to=driver_full_name
         assigned.date_to=date
-        assigned.time_to=time
-        
+        assigned.time_to=time  
         assigned.save()
+        # to update the status of the vehicle 
+        Vehicle.objects.filter(driver__user__username=new_driver).update(currently="Outside")
+    
 
         form = TshoApproveForm(request.POST, instance=approve)
         if form.is_valid():
@@ -583,7 +601,7 @@ def my_request_detail(request, id):
     return render(request, 'Trequest/my_request_detail.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['Admin'])
 def account_management(request):
     account = MyUser.objects.all().order_by('-date_registered')
     total_account = account.count()
@@ -599,6 +617,22 @@ def account_management(request):
                'total_account': total_account,
                }
     return render(request, 'Trequest/account_management.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin'])
+def edit_user_account(request,id):
+    user=MyUser.objects.get(id=id)
+    if request.method == 'POST':
+        form = MyUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User updated Successfully')
+            return redirect('account')
+    else:
+        form = MyUserChangeForm(instance=user)
+    context = {'form': form}
+    return render(request, 'Trequest/update_user_account.html', context)
+    
 
 @login_required(login_url='login')
 def account_detail(request, username):
@@ -685,7 +719,7 @@ def evaluate(request):
 # Activity Log
 # Activity log view
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['Admin'])
 def ActivityLogs(request):
     logs=ActivityLog.objects.all()
     context={'logs':logs}

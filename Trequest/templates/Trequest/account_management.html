@@ -53,8 +53,11 @@
                   <td>{{acc.phone}}</td>
                   <td>{{acc.school}}</td>
                   <td>{{acc.department}}</td>
-                    <td><a href="{% url 'detail-account' acc.username %}" class="btn btn-link"> <i class="nav-icon far fa-edit"></i></a>
-                        <a href="{% url 'delete-account' acc.id %}" class="delete btn btn-link"> <i class="nav-icon fa fa-trash"></i></a></td>
+                    <td><a href="{% url 'detail-account' acc.username %}" class="btn btn-link"> <i class="nav-icon far fa-eye"></i></a>
+                        <a href="{% url 'delete-account' acc.id %}" class="delete btn btn-link"> <i class="nav-icon fa fa-trash"></i></a>
+                        <a href="{% url 'edit-user-account' acc.id %}" class=" btn btn-link"> <i class="nav-icon fa fa-edit"></i></a>
+                      
+                      </td>
                 </tr>
                 {% empty %}
                 <table>

@@ -215,7 +215,7 @@
                   <p style="color: white">Dashboard</p>
                 </a>
               </li>
-
+              
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fa fa-cart-plus"></i>
@@ -332,11 +332,11 @@
                   </li>
                   <li class="nav-item">
                     <a
-                      href="{% url 'repaired-vehicle' %}"
+                      href="{% url 'assigned-request' %}"
                       class="list nav-link"
                     >
                       <i class="far fa-circle nav-icon"></i>
-                      <p style="color: white">Repaired Vehicle</p>
+                      <p style="color: white">Assigned Vehicle</p>
                     </a>
                   </li>
                 </ul>
@@ -416,6 +416,7 @@
                 </a>
               </li>
               {% endif %}
+              {% if request.user.role == 'Admin' %}
               <li class="nav-item has-treeview">
                 <a href="#" class="list nav-link">
                   <i class="side nav-icon fas fa-user"></i>
@@ -439,7 +440,8 @@
                   </li>
                  </ul>
                  </li>
-     {% if request.user.role == 'TSHO' %}
+                 {% endif %}
+     {% if request.user.role == 'Admin' %}
             <li class="nav-item">             
               <a href="{% url 'log' %}" class="list nav-link">
                 <i class="side nav-icon fas fa-file"></i>
