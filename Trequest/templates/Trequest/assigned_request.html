@@ -1,0 +1,122 @@
+{% extends 'Trequest/base.html' %}
+{% load static%}
+{% block title %} Assigned Vehicel {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper mt-2">
+    <section class="content">
+      <div class="row">
+        <div class="col-12 ">
+          
+            <div class="card">
+              <div class="card-header" style="background:#003e80;color:#fff">
+              <a href="{% url 'vehicle-manage' %}" style="color: white;">  <h3 class="card-title">Assigned Vehicle</h3></a>
+                <div class="col-sm-12">
+
+                  <div id="example1_filter" class="form-inline" style="float: right;">
+                    <form action="" method="get">
+                      <input type="text" class="form-control" name="q" placeholder="Search Vehicle">
+                    <button class="btn btn-default" type="submit" > <i class="  fas fa-search" ></i></button>
+
+                  </form>
+                  </div>
+                </div>
+                </div>
+            
+            <!-- /.card-header -->
+           
+             
+              <table id="example1" class="table table-bordered table-striped DataTable" role="grid" aria-describedby="example1_info">
+                <thead>
+                <tr>
+
+                  <th>To</th>
+                  <th>email</th>
+                  <th>Assigned Driver</th>
+                  <th>Assigned Date</th>
+                  <th>Assigned Time</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+               {% for ass in ass_veh %}
+                <tr>
+
+                  <td>{{ass.user_to}}</td>
+                  <td>{{ass.email_to}}</td>
+                  <td>{{ass.driver_to}}</td>
+                  <td>{{ass.date_to }}</td>
+                  <td>{{ass.time_to }}</td>
+                      
+                  <td><a href="#">Detail</a> </td>
+                     </tr>
+                {% empty %}
+                <table>
+                         <td style="color: red;padding: 15px;">Not Found</td>
+                  </table>
+                  
+                   
+            
+               {% endfor %}
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+</div>
+<!-- ./wrapper -->
+
+
+<!-- modal for ading vehicle type -->
+
+
+<form class="" method="POST">
+  {% csrf_token %}
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Vehicle Type</h4>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+      </div>
+      
+      <div class="modal-body">
+       {{t_form|crispy}}
+
+      </div>
+      <div class="modal-footer justify-content-between">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+  </div>
+  <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+</form>
+<!-- end -->
+
+
+
+
+<!-- page script -->
+
+
+
+
+
+{% endblock content %}

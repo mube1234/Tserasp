@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from Trequest.decorators import allowed_users
+from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['StoreManager'])
@@ -91,13 +92,15 @@ def material_detail(request, id):
     return render(request, 'MaterialApp/material_detail.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['StoreManager'])
+@allowed_users(allowed_roles=['StoreManager','Admin'])
 def AddMaterial(request):
     form = AddMaterialForm()
     if request.method == 'POST':
         form = AddMaterialForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj=form.save(commit=False)
+            obj.user=request.user
+            obj.save()
             messages.success(request, 'Material added Successfully!')
             return redirect('material-manage')
 
@@ -117,7 +120,7 @@ def material_management(request):
     return render(request, 'MaterialApp/material_management.html', context)
 
 @login_required(login_url='login')
-# @allowed_users(allowed_roles=['Mechanic','StoreManager'])
+@allowed_users(allowed_roles=['Mechanic','StoreManager'])
 def material_request(request):  
     if request.method == 'POST':
         form = MaterialRequestForm(request.POST)

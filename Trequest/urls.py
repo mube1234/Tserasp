@@ -19,12 +19,11 @@ urlpatterns = [
     path('account/manage', views.account_management, name='account'),
     path('account/delete/<int:id>', views.delete_account, name='delete-account'),
     path('account/edit/', views.edit_account, name='edit-account'),
-    path('account-detail/<str:username>',
-         views.account_detail, name='detail-account'),
+    path('edit/user/<int:id>', views.edit_user_account, name='edit-user-account'),
+    path('account-detail/<str:username>',views.account_detail, name='detail-account'),
     path('logout/', views.user_logout, name='logout'),
     path('change_password/', views.change_password, name='change-password'),
-    path('ajax/load_department', views.load_department,
-         name='ajax_load_department'),
+    path('ajax/load_department', views.load_department,name='ajax_load_department'),
 
     # vehicle request related
     path('request/tshoview', views.tsho_view_request, name="tsho-view-request"),
@@ -64,6 +63,7 @@ urlpatterns = [
     path('vehicle/add', views.vehicle_register, name="vehicle-register"),
     path('vehicle/edit/<int:id>/', views.edit_vehicle, name="edit-vehicle"),
     path('vehicle/delete/<int:id>', views.delete_vehicle, name='delete-vehicle'),
+    path('vehicle/assigned/',views.assigned_request,name='assigned-request'),
 
     # schedule related
     path('schedule/add', views.create_schedule, name="create-schedule"),
@@ -72,7 +72,7 @@ urlpatterns = [
     # report
     path('report/', views.annual_report, name="report"),
     # Activity Log
-    path('activitylog/', views.ActivityLogs, name="log"),
+    path('activitylog/', views.ActivityLogs, name="activity-log"),
 
     #  password reset
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name="Trequest/password_reset_form.html"), name='password-reset'),
