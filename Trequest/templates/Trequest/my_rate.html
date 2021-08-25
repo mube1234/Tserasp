@@ -8,13 +8,10 @@
         <div class="col-md-12 ">
           <div class="card">
             <div class="card-header mb-1"  style="background:#003e80;color:#fff">
-                <h3 class="card-title"><i class="fa  fa-star"></i> View Rate</h3>
+                <h3 class="card-title"><i class="fa  fa-star"></i> My Rate</h3>
           </div>
             <!-- /.card-header -->
-           
          
-            <!-- /.row -->
-
            
 
 
@@ -35,7 +32,7 @@
                       
                     </tr>
                   </thead>
-            {% if request.user.role == "TSHO" or  request.user.role == "Admin" %}
+    
                   {% for rates in rates %}
                   <tbody>
                     <tr>
@@ -47,25 +44,8 @@
                     </tr>
                   </tbody>
                 {% endfor %}
-               {% endif %} 
-            {% if request.user.role == "Driver" %}
-                
-              {% for rates in rates %}
-                {% if request.user.first_name|add:" "|add:request.user.last_name == "{{rates.driver}}" %}
-                  <tbody>
-                    <tr>
-                  
-                       <td>{{rates.driver}}</td>
-                       <td>{{rates.rating}}</td>
-                       <td>{{rates.duser}}</td>
-                       <td>{{rates.trip}}</td>
-                     
-                    </tr>
-                  </tbody>
-
-                 {% endif %}
-              {% endfor %}
-            {% endif %}
+               
+           
                 </table>
 
 <div>

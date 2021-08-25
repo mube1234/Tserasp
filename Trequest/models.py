@@ -200,15 +200,8 @@ class Schedule(models.Model):
 
 # evaluate Driver
 class DriverEvaluation(models.Model):
-    select = (
-        ('1', 1),
-        ('2', 2),
-        ('3', 3),
-        ('4', 4),
-        ('5', 5),
-
-    )
-    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name='drivers_name')
+    driver = models.ForeignKey(
+        Driver, on_delete=models.CASCADE, related_name='drivers_name')
     rating = models.CharField(max_length=1)
     duser = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE, related_name='evaluator')

@@ -83,8 +83,9 @@ urlpatterns = [
     path('evaluate/', views.evaluate, name="evaluate-driver"),
     #view Rate
     path('viewrate/', views.viewRate, name="view-rate"),
+    path('myrate/', views.myRate, name="my-rate"),
     # report
-#     path('report/', views.report, name="report"),
+    # path('report/', views.report, name="report"),
 
 
     # feedback

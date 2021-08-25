@@ -43,13 +43,13 @@ def log_cancel_schedule(sender,instance, **kwargs):
 @receiver(post_save, sender=Material)
 def log_material(sender,instance,created, **kwargs):
     if created:
-        ActivityLog.objects.create(created_by=instance,instances="Material",log_object=str(instance.quantity),action="Addition")
+        ActivityLog.objects.create(created_by=str(instance.user.first_name) + "  "+ str(instance.user.last_name),instances="Material",log_object=str(instance.quantity),action="Addition")
     else:
-        ActivityLog.objects.create(created_by=instance,instances="Material",log_object=str(instance.quantity),action="Updated")
+        ActivityLog.objects.create(created_by=str(instance.user.first_name) + "  "+ str(instance.user.last_name),instances="Material",log_object=str(instance.quantity),action="Updated")
 
 @receiver(pre_delete,sender=Material)
 def log_delete_material(sender,instance, **kwargs):
-    ActivityLog.objects.create(created_by=instance,instances="Material",log_object=instance.name,action="Deleted")
+    ActivityLog.objects.create(created_by=str(instance.user.first_name) + "  "+ str(instance.user.last_name),instances="Material",log_object=instance.name,action="Deleted")
 
 
 

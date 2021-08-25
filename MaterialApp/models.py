@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 from TSERASP import settings
 from datetime import date
 from Trequest.models import Vehicle
+from Trequest.decorators import allowed_users
+
+
 
 class Material(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=200,unique=True)
     type_of = models.CharField(max_length=200)
     quantity = models.PositiveIntegerField()
