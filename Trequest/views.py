@@ -690,7 +690,18 @@ def ActivityLogs(request):
     logs=ActivityLog.objects.all()
     context={'logs':logs}
     return render(request, 'Trequest/activity_log.html',context)
-    
+# view Rate
+@login_required(login_url='login')
+def viewRate(request):
+     rates= DriverEvaluation.objects.all()
+     context={'rates':rates}
+     return render(request, 'Trequest/view_rate.html',context)  
+
+@login_required(login_url='login')
+def myRate(request):
+     rates= DriverEvaluation.objects.filter(driver__user__first_name =request.user.first_name)
+     context={'rates':rates}
+     return render(request, 'Trequest/my_rate.html',context) 
 # feedback
 @login_required(login_url='login')
 def feedback(request):

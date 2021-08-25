@@ -81,6 +81,11 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name="Trequest/password_reset_complete.html"), name='password_reset_complete'),
     # Driver Evaluation
     path('evaluate/', views.evaluate, name="evaluate-driver"),
+    #view Rate
+    path('viewrate/', views.viewRate, name="view-rate"),
+    path('myrate/', views.myRate, name="my-rate"),
+    # report
+    # path('report/', views.report, name="report"),
 
 
     # feedback

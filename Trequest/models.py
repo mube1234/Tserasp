@@ -204,14 +204,6 @@ class Schedule(models.Model):
 
 # evaluate Driver
 class DriverEvaluation(models.Model):
-    select = (
-        ('1', 1),
-        ('2', 2),
-        ('3', 3),
-        ('4', 4),
-        ('5', 5),
-
-    )
     driver = models.ForeignKey(
         Driver, on_delete=models.CASCADE, related_name='drivers_name')
     rating = models.CharField(max_length=1)
@@ -219,7 +211,8 @@ class DriverEvaluation(models.Model):
                               on_delete=models.CASCADE, related_name='evaluator')
     trip = models.ForeignKey(
         TransportRequest, on_delete=models.CASCADE, related_name='trip_name', null=True)
-
+    def __str__(self):
+        return self.duser.first_name + "  " + self.duser.last_name
 
 # feedback
 class Feedback(models.Model):
