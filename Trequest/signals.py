@@ -87,4 +87,4 @@ def log_request_(sender,instance,created, **kwargs):
 
 @receiver(pre_delete,sender=TransportRequest)
 def log_cancel_transport_request(sender,instance, **kwargs):
-    ActivityLog.objects.create(created_by=instance.passenger,instances='TransportRequest',log_object=str(instance),action='Deletion')
+    ActivityLog.objects.create(created_by=str(instance.passenger.first_name)+' ' +str(instance.passenger.last_name),instances='TransportRequest',log_object=str(instance),action='Deletion')

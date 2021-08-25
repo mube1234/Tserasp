@@ -286,7 +286,8 @@ class DriverEvaluation(models.Model):
                               on_delete=models.CASCADE, related_name='evaluator')
     trip = models.ForeignKey(
         TransportRequest, on_delete=models.CASCADE, related_name='trip_name', null=True)
-
+    def __str__(self):
+        return self.duser.first_name + "  " + self.duser.last_name
 
 # feedback
 class feedback(models.Model):

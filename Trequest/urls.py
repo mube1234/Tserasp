@@ -96,7 +96,7 @@ urlpatterns = [
 
     # Driver Evaluation
     path('evaluate/', views.evaluate, name="evaluate-driver"),
-
+    path('viewrate/', views.viewRate, name="view-rate"),
     # report
     path('report/', views.report, name="report"),
 
