@@ -27,7 +27,7 @@ from MaterialApp.models import Material, MaterialRequest
 class Requestpdf(ListView):
     model = TransportRequest
     template_name = 'Trequest/pdf.html'
-
+##pdf Genarations
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['TSHO','VicePresident'])
 def request_pdf(request, *args, **kwargs):

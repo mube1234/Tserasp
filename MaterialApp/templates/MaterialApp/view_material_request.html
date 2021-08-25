@@ -52,8 +52,8 @@
                       <td>{{trans.status}}</td>
 					             <td>
 					             <a href="{% url 'material_detail' trans.id %}" class="our-btn btn btn-info btn-sm"> Detail</a>
-					             
-                       <button class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></button>
+					             <a href="{%url 'delete_request' trans.id%}" class="delete-material btn-sm btn btn-danger">Delete</a>
+
 					             </td>
                     </tr>
                   </body>

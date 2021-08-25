@@ -22,6 +22,11 @@ def deletematerial(request, pk):
     #     return redirect('material-manage')
     # context = {'term': term}
     # return render(request, 'MaterialApp/delete_material.html', context)
+def delete_request(request, pk):
+    material = get_object_or_404(MaterialRequest, id=pk)
+    material.delete()
+    messages.success(request, 'Material deleted Successfully!')
+    return redirect('view_material_request')    
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['StoreManager'])
@@ -33,6 +38,8 @@ def Updatematerial(request, pk):
         form = AddMaterialForm(request.POST, instance=material)
         if form.is_valid():
             form.save()
+
+
             messages.success(request, 'Material updated Successfully!')
             return redirect('material-manage')
     context = {'form': form}
@@ -44,7 +51,12 @@ def view_material_request(request):
     context = {'materialView': materialView}
     return render(request, 'MaterialApp/view_material_request.html', context)
 
+def view_request(request):
+    materialView=MaterialRequest.objects.filter(user=request.user)
+    context = {'materialView': materialView}
+    return render(request, 'MaterialApp/view_request.html', context)
 
+#for aprove they material with 
 @login_required(login_url='login')
 @transaction.atomic    
 def material_detail(request, id):
@@ -117,6 +129,7 @@ def material_request(request):
             obj.user = request.user
             obj.save()
             messages.success(request, 'Request sent successfully')
+            return redirect('view_request')
         else:
             print("invalid data")
     else:
@@ -124,3 +137,16 @@ def material_request(request):
     context={'form': form}
 
     return render(request, 'MaterialApp/material_request.html', context)
+
+def view_alert(request):
+    alert = Material.objects.filter(quantity__lte=10)
+    alert1 = Material.objects.filter(quantity__lte=10).count()
+
+
+    context={'alert': alert, 'alert1':alert1}
+
+    return render(request, 'MaterialApp/alert.html', context)
+
+def alert_count():
+  return Material.objects.filter(quantity__lte=10).count()
+      

@@ -30,18 +30,21 @@
 <th>Material Name</th>
 <th>Type</th>
 <th>Quantity</th>
+<th>Model</th>
+
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
-{%for i in material %}
+{%for mat in material %}
 <tr>
-<td>{{i.name}}</td>
-<td>{{i.type_of}}</td>
-<td>{{i.quantity}}</td>
+<td>{{mat.name}}</td>
+<td>{{mat.type_of}}</td>
+<td>{{mat.quantity}}</td>
+<td>{{mat.model}}</td>
 <td>
-<a href="{%url 'Updatematerial' i.id%}" class="btn-sm btn btn-info">Update</a>
-<a href="{%url 'delete_material' i.id%}" class="delete-material btn-sm btn btn-danger">Delete</a>
+<a href="{%url 'Updatematerial' mat.id%}" class="btn-sm btn btn-info">Update</a>
+<a href="{%url 'delete_material' mat.id%}" class="delete-material btn-sm btn btn-danger">Delete</a>
 </td>
 </tr>
 {% empty %}
