@@ -72,7 +72,7 @@ urlpatterns = [
     # report
     path('report/', views.annual_report, name="report"),
     # Activity Log
-    path('activitylog/', views.ActivityLogs, name="log"),
+    path('activitylog/', views.ActivityLogs, name="activity-log"),
 
     #  password reset
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name="Trequest/password_reset_form.html"), name='password-reset'),
@@ -81,6 +81,10 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name="Trequest/password_reset_complete.html"), name='password_reset_complete'),
     # Driver Evaluation
     path('evaluate/', views.evaluate, name="evaluate-driver"),
+    #view Rate
+    path('viewrate/', views.viewRate, name="view-rate"),
+    # report
+    path('report/', views.report, name="report"),
 
 
     # feedback
