@@ -23,12 +23,13 @@ from MaterialApp.models import Material, MaterialRequest
 
 
 
+
 class Requestpdf(ListView):
     model = TransportRequest
     template_name = 'Trequest/pdf.html'
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','VicePresident'])
 def request_pdf(request, *args, **kwargs):
     pk = kwargs.get('pk')
     requestpdf = get_object_or_404(TransportRequest, pk=pk)
@@ -217,7 +218,7 @@ def view_request(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def vehicle_management(request):
     vehicle = Vehicle.objects.all()
     query = request.GET.get('q')
@@ -239,13 +240,14 @@ def vehicle_management(request):
     return render(request, 'Trequest/vehicle_management.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def assigned_request(request):
     ass_veh=AssignRequest.objects.all()
     context={'ass_veh':ass_veh}
     return render(request, 'Trequest/assigned_request.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def annual_report(request):
     transport_request=TransportRequest.objects.all()
     print(transport_request.count())
@@ -254,7 +256,7 @@ def annual_report(request):
 
 #  vehicle related
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def vehicle_register(request):
     if request.method == 'POST':
         form = VehicleRegisterForm(request.POST)
@@ -272,7 +274,7 @@ def vehicle_register(request):
     return render(request, 'Trequest/register_vehicle.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def edit_vehicle(request, id):
     vehicle = Vehicle.objects.get(id=id)
     if request.method == 'POST':
@@ -298,7 +300,7 @@ def profile(request):
     return render(request, 'Trequest/profile.html')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['Admin'])
 def delete_account(request, id):
     account = get_object_or_404(MyUser, id=id)
     account.delete()
@@ -306,7 +308,7 @@ def delete_account(request, id):
     return redirect('account')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def delete_vehicle(request, id):
     veh = get_object_or_404(Vehicle, id=id)
     veh.delete()
@@ -323,7 +325,7 @@ def delete_vehicle(request, id):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Passenger','DepartmentHead','SchoolDean'])
+@allowed_users(allowed_roles=['Passenger','DepartmentHead','SchoolDean','Admin'])
 def make_request(request):
     current=TransportRequest.objects.filter(passenger=request.user)
     if not current:
@@ -410,21 +412,21 @@ def make_request(request):
 # request cancelling by passengers
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['Passenger','DepartmentHead','SchoolDean'])
+@allowed_users(allowed_roles=['Passenger','DepartmentHead','SchoolDean','Admin'])
 def cancel_request(request, id):
     TransportRequest.objects.filter(id=id).update(status='Cancelled',status2='Cancelled',status3='Cancelled')  
     messages.success(request, ' Request Cancelled Successfully!')
     return redirect('my-request')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO','DepartmentHead','SchoolDean'])
+@allowed_users(allowed_roles=['TSHO','DepartmentHead','SchoolDean','Admin'])
 def reject_request(request, id):
     TransportRequest.objects.filter(id=id).update(status='Rejected',status2='Rejected',status3='Rejected')  
     messages.success(request, ' Request Rejected Successfully!')
     return redirect('index')
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['DepartmentHead'])
+@allowed_users(allowed_roles=['DepartmentHead','Admin'])
 def department_view_request(request):
     transport1 = TransportRequest.objects.filter(status2='Pending')
     
@@ -434,14 +436,14 @@ def department_view_request(request):
     return render(request, 'Trequest/department_view_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['DepartmentHead'])
+@allowed_users(allowed_roles=['DepartmentHead','Admin'])
 def department_view_approved_request(request):
     transport = TransportRequest.objects.filter(status2='Approved').order_by('-created_at')
     context = {'transport': transport}
     return render(request, 'Trequest/department_view_approved_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['SchoolDean'])
+@allowed_users(allowed_roles=['SchoolDean','Admin'])
 def school_view_request(request):
     # std=TransportRequest.objects.all()
     # request_expire(pk=id)
@@ -456,7 +458,7 @@ def school_view_request(request):
     return render(request, 'Trequest/school_view_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['SchoolDean'])
+@allowed_users(allowed_roles=['SchoolDean','Admin'])
 def school_view_approved_request(request):
     transport = TransportRequest.objects.filter(
         status3='Approved').order_by('-created_at')
@@ -464,7 +466,7 @@ def school_view_approved_request(request):
     return render(request, 'Trequest/school_view_approved_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO','VicePresident'])
+@allowed_users(allowed_roles=['TSHO','VicePresident','Admin'])
 def tsho_view_approved_request(request):
     transport = TransportRequest.objects.filter(
         status='Approved').order_by('-created_at')
@@ -472,7 +474,7 @@ def tsho_view_approved_request(request):
     return render(request, 'Trequest/tsho_view_approved_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO','VicePresident'])
+@allowed_users(allowed_roles=['TSHO','VicePresident','Admin'])
 def tsho_view_approved_request_detail(request, id):
     trans = TransportRequest.objects.get(id=id)
     
@@ -480,7 +482,7 @@ def tsho_view_approved_request_detail(request, id):
     return render(request, 'Trequest/view_approved_detail.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO','VicePresident'])
+@allowed_users(allowed_roles=['TSHO','VicePresident','Admin'])
 def tsho_view_request(request):
     transport = TransportRequest.objects.filter(status2='Approved', status3='Approved', status='Pending').order_by(
         '-created_at')
@@ -491,7 +493,7 @@ def tsho_view_request(request):
     return render(request, 'Trequest/tsho_view_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['DepartmentHead'])
+@allowed_users(allowed_roles=['DepartmentHead','Admin'])
 def department_approve_request(request, id):
     approve = get_object_or_404(TransportRequest, id=id)
         
@@ -509,7 +511,7 @@ def department_approve_request(request, id):
     return render(request, 'Trequest/department_approve_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def tsho_approve_request(request, id):
     vehicle = Vehicle.objects.filter(currently='Inside', status='Occupied')
     approve = get_object_or_404(TransportRequest, id=id)
@@ -567,7 +569,7 @@ def tsho_approve_request(request, id):
     return render(request, 'Trequest/tsho_approve_request.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['SchoolDean'])
+@allowed_users(allowed_roles=['SchoolDean','Admin'])
 def school_approve_request(request, id):
     approve = get_object_or_404(TransportRequest, id=id)
     if request.method == 'POST':
@@ -641,7 +643,7 @@ def account_detail(request, username):
     return render(request, 'Trequest/user_account_detail.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def create_schedule(request):
     if request.method == 'POST':
         form = CreateScheduleForm(request.POST)
@@ -659,7 +661,7 @@ def create_schedule(request):
     return render(request, 'Trequest/create_schedule.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def update_schedule(request, id):
     schedule = Schedule.objects.get(id=id)
     if request.method == 'POST':
@@ -688,17 +690,10 @@ def scho_notifications_count():
 
 def tsho_notifications_count():
     return Notifications.objects.filter(is_viewed=False, request_id__status="Pending", request_id__status3="Approved").count()
-# def notifications_list():
-#     return Notifications.objects.all()
-#     # not_count=notifications.count()
-    # context={'notifications':notifications,'not_count':not_count}
-    # return render(request, 'Trequest/notifications.html', context)
-
-
-# Driver Evaluation View
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','Passenger'])
 def evaluate(request):
     if request.method == 'POST':
         form = EvaluateDriverForm(request.POST)
@@ -724,9 +719,16 @@ def ActivityLogs(request):
     logs=ActivityLog.objects.all()
     context={'logs':logs}
     return render(request, 'Trequest/activity_log.html',context)
-    
+# view Rate
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','TSHO'])
+def viewRate(request):
+     rates= DriverEvaluation.objects.all()
+     context={'rates':rates}
+     return render(request, 'Trequest/view_rate.html',context)  
 # feedback
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','TSHO'])
 def feedback(request):
     form = FeedBackForm()
     if request.method == 'POST':
@@ -741,7 +743,7 @@ def feedback(request):
     return render(request, 'Trequest/create_feedback.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['TSHO'])
+@allowed_users(allowed_roles=['TSHO','Admin'])
 def view_feedback(request):
     feedbacks = Feedback.objects.all()
     context = {'feedback': feedbacks}

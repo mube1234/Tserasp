@@ -44,7 +44,7 @@ class MyUser(AbstractUser):
    
 
     phone_regex = RegexValidator(
-        regex=r'/^(09|\+2519)\d{8}$/',
+        regex=r'^(09|\+2519)\d{8}$',
         message='Phone number must be entered in the format : 0987654321 or +251987654321 up to 15 digits allowed'
     )
     phone = models.CharField(validators=[phone_regex], max_length=15, blank=True)
@@ -154,7 +154,7 @@ class Vehicle(models.Model):
     adder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='add')
     vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE,null=True)
     
-    plate_number = models.CharField(max_length=20, unique=True)
+    plate_number = models.CharField(max_length=9, unique=True)
     status = models.CharField(
         max_length=200, choices=STATUS, default='Not Occupied')
     driver = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True, blank=True)
@@ -214,7 +214,8 @@ class DriverEvaluation(models.Model):
                               on_delete=models.CASCADE, related_name='evaluator')
     trip = models.ForeignKey(
         TransportRequest, on_delete=models.CASCADE, related_name='trip_name', null=True)
-
+    def __str__(self):
+        return self.duser.first_name + "  " + self.duser.last_name
 
 # feedback
 class Feedback(models.Model):
